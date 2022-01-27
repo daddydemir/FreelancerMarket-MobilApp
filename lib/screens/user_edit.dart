@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 
 class UserEdit extends StatefulWidget {
+  const UserEdit({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _userEditState();
   }
 }
 
+// ignore: camel_case_types
 class _userEditState extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfff4f5f7),body: Padding(
-        padding: EdgeInsets.all(16),
+      backgroundColor: const Color(0xfff4f5f7),body: Padding(
+        padding: const EdgeInsets.all(16),
         child: Expanded(
             child: Padding(
-          padding: EdgeInsets.only(left: 7, top: 7, right: 7),
+          padding: const EdgeInsets.only(left: 7, top: 7, right: 7),
           child: Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
@@ -54,16 +57,16 @@ class _userEditState extends State {
                               ),
                             )),
                         Padding(
-                          padding: EdgeInsets.only(left: 10, right: 10),
+                          padding: const EdgeInsets.only(left: 10, right: 10),
                           child: TextField(
                             decoration: InputDecoration(
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Color(0xfffefefe), width: 2),
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Color(0xfffefefe), width: 2),
                                 borderRadius: BorderRadius.circular(25),
                               ),
@@ -83,16 +86,16 @@ class _userEditState extends State {
                               ),
                             )),
                         Padding(
-                          padding: EdgeInsets.only(left: 10, right: 10),
+                          padding: const EdgeInsets.only(left: 10, right: 10),
                           child: TextField(
                             decoration: InputDecoration(
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Color(0xfffefefe), width: 2),
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Color(0xfffefefe), width: 2),
                                 borderRadius: BorderRadius.circular(25),
                               ),
@@ -112,16 +115,16 @@ class _userEditState extends State {
                               ),
                             )),
                         Padding(
-                          padding: EdgeInsets.only(left: 10, right: 10),
+                          padding: const EdgeInsets.only(left: 10, right: 10),
                           child: TextField(
                             decoration: InputDecoration(
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Color(0xfffefefe), width: 2),
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Color(0xfffefefe), width: 2),
                                 borderRadius: BorderRadius.circular(25),
                               ),
@@ -142,18 +145,18 @@ class _userEditState extends State {
                             )),
                         Padding(
                           padding:
-                              EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                              const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                           child: TextField(
                             maxLines: null,
                             minLines: 5,
                             decoration: InputDecoration(
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Color(0xfffefefe), width: 2),
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Color(0xfffefefe), width: 2),
                                 borderRadius: BorderRadius.circular(25),
                               ),
@@ -165,7 +168,7 @@ class _userEditState extends State {
                         ),
                         Center(
                           child: Padding(
-                            padding: EdgeInsets.only(top: 10, bottom: 10),
+                            padding: const EdgeInsets.only(top: 10, bottom: 10),
                             child: TextButton(
                               style: ButtonStyle(
                                 foregroundColor:
@@ -173,7 +176,7 @@ class _userEditState extends State {
                                         Colors.white),
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
-                                        Color(0xff3a65aa)),
+                                        const Color(0xff3a65aa)),
                               ),
                               onPressed: () {
                                 print("saygıya saygı");
