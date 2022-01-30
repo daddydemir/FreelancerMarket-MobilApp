@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:freelancer_market/data/dbHelper.dart';
 import 'package:freelancer_market/models/sql_user.dart';
 
@@ -13,7 +12,7 @@ class Userman extends StatefulWidget {
 class _testState extends State {
   DbHelper dbHelper = new DbHelper();
   List<SqlUser> users = [];
-  SqlUser amk_ya = SqlUser(1, "boss", "boss");
+  SqlUser amk_ya = SqlUser(1, "boss", "boss","isim","soyisim","mail");
   int userCount = 0;
   @override
   void initState() {

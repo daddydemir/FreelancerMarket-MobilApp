@@ -2,18 +2,24 @@ class SqlUser{
   int? id;
   late String username;
   late String password;
+  late String name;
+  late String surname;
+  late String mail;
   late String token;
 
   SqlUser.empty();
-  SqlUser(this.id ,this.username, this.password);
+  SqlUser(this.id ,this.username, this.password, this.name , this.surname, this.mail);
   SqlUser.withId(this.id, this.username, this.password, this.token);
 
   Map<String, dynamic> toMap(){
 
-    var map = Map<String, dynamic>();
+    var map = <String, dynamic>{};
     map["id"]=id;
     map["username"] = username;
     map["password"] = password;
+    map["name"] = name;
+    map["surname"] = surname;
+    map["mail"] = mail;
     map["token"] = token;
     /*
     var map = <String , dynamic>{
@@ -28,10 +34,13 @@ class SqlUser{
 
   SqlUser.fromObject(dynamic o){
     //print("amk : "+o["id"].toString());
-    this.id = int.tryParse(o["id"].toString());
-    this.username = o["username"];
-    this.password = o["password"];
-    this.token = o["token"];
+    id = int.tryParse(o["id"].toString());
+    username = o["username"];
+    password = o["password"];
+    name = o["name"];
+    surname = o["surname"];
+    mail = o["mail"];
+    token = o["token"];
     // bu kısımlaer çalışıyor . . .
   }
 
@@ -39,9 +48,13 @@ class SqlUser{
     id = int.tryParse(map["id"].toString());
     username = map["username"].toString();
     password = map["password"].toString();
+    name = map["name"].toString();
+    surname = map["surname"].toString();
+    mail = map["mail"].toString();
     token = map["token"].toString();
   }
+  // ignore: non_constant_identifier_names
   String get_username(){
-    return this.username;
+    return username;
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:freelancer_market/data/dbHelper.dart';
 import 'package:freelancer_market/screens/Components/TopBar.dart';
-import 'package:freelancer_market/screens/user_edit.dart';
-import 'package:freelancer_market/screens/wallet_page.dart';
+import 'package:freelancer_market/screens/user/user_edit.dart';
+import 'package:freelancer_market/screens/user/wallet_page.dart';
 
 // ignore: use_key_in_widget_constructors
 class UserPage extends StatefulWidget {
@@ -13,6 +14,11 @@ class UserPage extends StatefulWidget {
 
 // ignore: camel_case_types
 class _userPageState extends State {
+  var username = "kullanıcı_adı";
+  var mail = "mail_adresi";
+  var db = DbHelper();
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,11 +56,15 @@ class _userPageState extends State {
                           padding: const EdgeInsets.all(7),
                           child: Center(
                             child: Row(children: [
-                              Image.network(
-                                "https://res.cloudinary.com/metcloud/image/upload/v1636485499/user_el1kyd.png",
-                                width: 70,
+                              ClipOval(
+                                child:SizedBox.fromSize(
+                                  size:const Size.fromRadius(40),
+                                  child:Image.network(
+                                    "https://avatars.githubusercontent.com/u/42716195?v=4",
+                                  ),
+                                ),
                               ),
-                              userInfo(),
+                              userInfo(username , mail),
                             ]),
                           ),
                         ),
@@ -74,7 +84,8 @@ class _userPageState extends State {
     );
   }
 
-  Padding userInfo() {
+  Padding userInfo(var u, var e) {
+    doldur();
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Column(
@@ -82,8 +93,8 @@ class _userPageState extends State {
           crossAxisAlignment: CrossAxisAlignment.start,
           // ignore: prefer_const_literals_to_create_immutables
           children: [
-            const Text("Metehan ÖZALP",style:TextStyle(fontSize:20,fontWeight:FontWeight.bold)),
-            const Text("metehanozalp@hotmail.com",style:TextStyle(fontStyle:FontStyle.italic))
+            Text( u,style:const TextStyle(fontSize:20,fontWeight:FontWeight.bold)),
+            Text(e,style:const TextStyle(fontStyle:FontStyle.italic))
           ]),
     );
   }
@@ -148,7 +159,7 @@ class _userPageState extends State {
     return InkWell(
         onTap: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => UserEdit()));
+              context, MaterialPageRoute(builder: (context) => const UserEdit()));
         },
         child: Padding(
           padding: const EdgeInsets.all(10),
@@ -212,5 +223,19 @@ class _userPageState extends State {
     return const Padding(
       padding: EdgeInsets.all(0),
     );
+  }
+
+  void doldur() async{
+    var getir = db.getUser();
+    getir.then((value) async {
+      var name = value[0].name;
+      var surname = value[0].surname;
+      
+      setState(() {
+        username = name+ " " + surname;
+        mail =value[0].mail;
+      });
+      
+    });
   }
 }

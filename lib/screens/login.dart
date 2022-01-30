@@ -6,6 +6,8 @@ import 'package:freelancer_market/data/dbHelper.dart';
 import 'package:freelancer_market/models/sql_user.dart';
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _loginState();
@@ -15,7 +17,6 @@ class LoginPage extends StatefulWidget {
 class _loginState extends State {
   var login_api = LoginApi();
   var database = DbHelper();
-  var sql_user = SqlUser.empty();
 
   var username = TextEditingController();
   var password = TextEditingController();
@@ -116,7 +117,7 @@ class _loginState extends State {
           var token = gelen["jwtToken"];
           var u1 = gelen["user"];
           //print(u1.toString());
-          var kullanici = SqlUser(int.tryParse(u1["id"].toString()), u1["userName"],password.text);
+          var kullanici = SqlUser(int.tryParse(u1["id"].toString()), u1["userName"],password.text, u1["name"],u1["surName"],u1["email"]);
           kullanici.token = token;
           //kullanici.id = 1;
           // gelen veri ile kullanıcı oluşturuldu 
@@ -144,6 +145,7 @@ class _loginState extends State {
     g.then((data){
       if(data == null){
         print("veri yok , eklenecek");
+        print(user.name);
         var fk = database.insert(user);
         fk.then((gelen){
           print("eklendi mi acaba "+gelen.toString());

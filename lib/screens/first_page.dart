@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:freelancer_market/data/dbHelper.dart';
 import 'package:freelancer_market/models/sql_user.dart';
 import 'package:freelancer_market/screens/login.dart';
-import 'package:freelancer_market/screens/test.dart';
 
 class FisrtPage extends StatefulWidget {
   @override
@@ -21,12 +20,12 @@ class _firstState extends State {
                   foregroundColor:
                       MaterialStateProperty.all<Color>(Colors.white),
                   backgroundColor:
-                      MaterialStateProperty.all<Color>(Color(0xff3a65aa)),
+                      MaterialStateProperty.all<Color>(const Color(0xff3a65aa)),
                 ),
                 onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) =>LoginPage()));
                 },
-                child: Text('Giriş Yap',
+                child: const Text('Giriş Yap',
                 style: TextStyle(
                   fontSize:20,
                 )),
@@ -39,7 +38,7 @@ class _firstState extends State {
 
     n.then((data) {
       setState(() {
-        this.liste = data;
+        liste = data;
       });
       print("Uzunluk : " + liste.length.toString());
     });

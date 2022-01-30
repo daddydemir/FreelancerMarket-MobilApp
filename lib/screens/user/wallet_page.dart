@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'Components/TopBar.dart';
+import '../Components/TopBar.dart';
 
 class WalletPage extends StatefulWidget {
   @override
