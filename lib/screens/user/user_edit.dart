@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:freelancer_market/data/dbHelper.dart';
 
 class UserEdit extends StatefulWidget {
@@ -15,14 +16,37 @@ class _userEditState extends State {
   var db = DbHelper();
   var isim = "isim";
   var soyisim = "soyisim";
+  // ignore: non_constant_identifier_names
   var kullanici_isim = "username";
   var parola = "parola";
   var hakkimda = "hakkimda";
-  
-  
+  // ignore: non_constant_identifier_names
+  String profil_resmi = "Profil_resmi";
+  var url =
+      "https://im.haberturk.com/2014/06/27/ver1578211859/962619_414x414.jpg";
+
+  @override
+  // ignore: must_call_super
+  initState() {
+    var getir = db.getUser();
+    getir.then((value) {
+      isim = value[0].name;
+      soyisim = value[0].surname;
+      parola = value[0].password;
+      kullanici_isim = value[0].username;
+      setState(() {
+        profil_resmi = value[0].image;
+      });
+      /* Fluttertoast.showToast(
+            msg: profil_resmi,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1); */
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       backgroundColor: const Color(0xfff4f5f7),
       body: Padding(
@@ -44,7 +68,7 @@ class _userEditState extends State {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        resim(),
+                        resim(profil_resmi),
                         kullaniciIsmi(kullanici_isim),
                         Isim(),
                         _isim(isim),
@@ -72,7 +96,7 @@ class _userEditState extends State {
           style: ButtonStyle(
             foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
             backgroundColor:
-                MaterialStateProperty.all<Color>(const Color(0xff3a65aa)),
+                MaterialStateProperty.all<Color>(const Color(0xff201a3d)),
           ),
           onPressed: () {},
           child: const Text('KAYDET',
@@ -223,7 +247,7 @@ class _userEditState extends State {
   }
 
   Center kullaniciIsmi(var k) {
-    doldur();
+    //doldur();
     return Center(
       child: Text(
         k,
@@ -235,28 +259,34 @@ class _userEditState extends State {
     );
   }
 
-  Center resim() {
+  Center resim(String pr) {
     return Center(
       child: ClipOval(
         child: SizedBox.fromSize(
           size: const Size.fromRadius(70),
           child: Image.network(
-            "https://avatars.githubusercontent.com/u/42716195?v=4",
+            pr,
           ),
         ),
       ),
     );
   }
 
-  void doldur() async{
+  void doldur() async {
     var getir = db.getUser();
-    getir.then((value) async{
+    getir.then((value) async {
       setState(() {
         isim = value[0].name;
         soyisim = value[0].surname;
         parola = value[0].password;
         kullanici_isim = value[0].username;
+        profil_resmi = value[0].image;
         print("oldu : " + value[0].name);
+        Fluttertoast.showToast(
+            msg: profil_resmi,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
       });
     });
   }

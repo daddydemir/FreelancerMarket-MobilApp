@@ -3,6 +3,8 @@ import 'package:freelancer_market/data/dbHelper.dart';
 import 'package:freelancer_market/models/sql_user.dart';
 
 class Userman extends StatefulWidget {
+  const Userman({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _testState();
@@ -12,7 +14,7 @@ class Userman extends StatefulWidget {
 class _testState extends State {
   DbHelper dbHelper = new DbHelper();
   List<SqlUser> users = [];
-  SqlUser amk_ya = SqlUser(1, "boss", "boss","isim","soyisim","mail");
+  SqlUser amk_ya = SqlUser(1, "boss", "boss","isim","soyisim","mail","resim");
   int userCount = 0;
   @override
   void initState() {

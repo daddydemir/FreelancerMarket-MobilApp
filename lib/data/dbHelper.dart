@@ -25,7 +25,7 @@ class DbHelper{
   }
 
   void createDb(Database db, int version) async{
-    await db.execute("Create table Users(id integer , username text , password text , name text, surname text, mail text, token text)");
+    await db.execute("Create table Users(id integer , username text , password text , name text, surname text, mail text, image text ,token text)");
     //await db.rawInsert('insert into Users (id,username,password,token) values(1,"demir","mehmet12345","henuzTokenYok")');
     // veri tababında tablo oluşturuluyor 
     // ilk kayıt yapılıyor
@@ -59,7 +59,7 @@ class DbHelper{
   Future insert(SqlUser user) async{
     Database? db = await this.db;
     //var result = await db?.insert("Users" , user.toMap());
-    var result = await db?.rawInsert('insert into Users (id,username,password, name, surname, mail, token) values(?,?,?,?,?,?,?)' , [user.id , user.username , user.password , user.name, user.surname, user.mail, user.token]);
+    var result = await db?.rawInsert('insert into Users (id,username,password, name, surname, mail, image, token) values(?,?,?,?,?,?,?,?)' , [user.id , user.username , user.password , user.name, user.surname, user.mail, user.image, user.token]);
     return result;
   }
 

@@ -5,10 +5,11 @@ class SqlUser{
   late String name;
   late String surname;
   late String mail;
+  late String image;
   late String token;
 
   SqlUser.empty();
-  SqlUser(this.id ,this.username, this.password, this.name , this.surname, this.mail);
+  SqlUser(this.id ,this.username, this.password, this.name , this.surname, this.mail, this.image);
   SqlUser.withId(this.id, this.username, this.password, this.token);
 
   Map<String, dynamic> toMap(){
@@ -20,6 +21,7 @@ class SqlUser{
     map["name"] = name;
     map["surname"] = surname;
     map["mail"] = mail;
+    map["image"] = image;
     map["token"] = token;
     /*
     var map = <String , dynamic>{
@@ -40,6 +42,7 @@ class SqlUser{
     name = o["name"];
     surname = o["surname"];
     mail = o["mail"];
+    image = o["image"];
     token = o["token"];
     // bu kısımlaer çalışıyor . . .
   }
@@ -51,6 +54,7 @@ class SqlUser{
     name = map["name"].toString();
     surname = map["surname"].toString();
     mail = map["mail"].toString();
+    image = map["image"].toString();
     token = map["token"].toString();
   }
   // ignore: non_constant_identifier_names

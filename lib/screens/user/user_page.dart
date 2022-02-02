@@ -16,8 +16,23 @@ class UserPage extends StatefulWidget {
 class _userPageState extends State {
   var username = "kullanıcı_adı";
   var mail = "mail_adresi";
+  String image = "profil_resmi";
   var db = DbHelper();
-  
+
+  @override
+  // ignore: must_call_super
+  initState(){
+    var getir = db.getUser();
+    getir.then((value) {
+      var name = value[0].name;
+      var surname = value[0].surname;
+      setState(() {
+        username = name + " " + surname;
+        mail = value[0].mail;
+        image = value[0].image;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,14 +72,14 @@ class _userPageState extends State {
                           child: Center(
                             child: Row(children: [
                               ClipOval(
-                                child:SizedBox.fromSize(
-                                  size:const Size.fromRadius(40),
-                                  child:Image.network(
-                                    "https://avatars.githubusercontent.com/u/42716195?v=4",
+                                child: SizedBox.fromSize(
+                                  size: const Size.fromRadius(40),
+                                  child: Image.network(
+                                    image,
                                   ),
                                 ),
                               ),
-                              userInfo(username , mail),
+                              userInfo(username, mail),
                             ]),
                           ),
                         ),
@@ -85,7 +100,6 @@ class _userPageState extends State {
   }
 
   Padding userInfo(var u, var e) {
-    doldur();
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Column(
@@ -93,8 +107,10 @@ class _userPageState extends State {
           crossAxisAlignment: CrossAxisAlignment.start,
           // ignore: prefer_const_literals_to_create_immutables
           children: [
-            Text( u,style:const TextStyle(fontSize:20,fontWeight:FontWeight.bold)),
-            Text(e,style:const TextStyle(fontStyle:FontStyle.italic))
+            Text(u,
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            Text(e, style: const TextStyle(fontStyle: FontStyle.italic))
           ]),
     );
   }
@@ -158,8 +174,8 @@ class _userPageState extends State {
   InkWell pro(BuildContext context) {
     return InkWell(
         onTap: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => const UserEdit()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const UserEdit()));
         },
         child: Padding(
           padding: const EdgeInsets.all(10),
@@ -225,17 +241,16 @@ class _userPageState extends State {
     );
   }
 
-  void doldur() async{
-    var getir = db.getUser();
+  void doldur() async {
+    /* var getir = db.getUser();
     getir.then((value) async {
       var name = value[0].name;
       var surname = value[0].surname;
-      
+
       setState(() {
-        username = name+ " " + surname;
-        mail =value[0].mail;
+        username = name + " " + surname;
+        mail = value[0].mail;
       });
-      
-    });
+    }); */
   }
 }

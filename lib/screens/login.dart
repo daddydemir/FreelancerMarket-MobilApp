@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:freelancer_market/api/login_api.dart';
 import 'package:freelancer_market/data/dbHelper.dart';
 import 'package:freelancer_market/models/sql_user.dart';
@@ -14,7 +15,9 @@ class LoginPage extends StatefulWidget {
   }
 }
 
+// ignore: camel_case_types
 class _loginState extends State {
+  // ignore: non_constant_identifier_names
   var login_api = LoginApi();
   var database = DbHelper();
 
@@ -24,87 +27,86 @@ class _loginState extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfaf4f5f7),
-      body: Container(
-        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-          Padding(
-            padding: EdgeInsets.all(16.0),
+      backgroundColor: const Color(0xfaf4f5f7),
+      body: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+        const Padding(
+          padding: EdgeInsets.all(16.0),
+        ),
+        Center(
+          child: Image.network(
+            "https://raw.githubusercontent.com/daddydemir/images/main/freelancer-market/PNG-4x/icon.png",
+            width: 200,
+            height: 200,
+            fit: BoxFit.fitWidth,
           ),
-          Center(
-            child: Image.network(
-              "https://raw.githubusercontent.com/daddydemir/images/main/freelancer-market/PNG-4x/icon.png",
-              width: 200,
-              height: 200,
-              fit: BoxFit.fitWidth,
+        ),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            child: TextField(
+              controller: username,
+              decoration: const InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xfffefefe), width: 2),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xfffefefe), width: 2),
+                ),
+                hintText: 'Kullanıcı Adı',
+                fillColor: Color(0xfffefefe),
+                filled: true,
+              ),
             ),
           ),
-          Center(
+        ),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            child: TextField(
+              controller:password,
+              decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Color(0xfffefefe), width: 2),
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xfffefefe), width: 2),
+                ),
+                hintText: 'Parola',
+                fillColor: const Color(0xfffefefe),
+                filled: true,
+              ),
+            ),
+          ),
+        ),
+        Center(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              child: TextField(
-                controller: username,
-                decoration: InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xfffefefe), width: 2),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xfffefefe), width: 2),
-                  ),
-                  hintText: 'Kullanıcı Adı',
-                  fillColor: Color(0xfffefefe),
-                  filled: true,
-                ),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          child: SizedBox(
+            height: 45,
+            width: 150,
+            child: TextButton(
+              style: ButtonStyle(
+                foregroundColor:
+                    MaterialStateProperty.all<Color>(Colors.white),
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(const Color(0xff3a65aa)),
               ),
+              onPressed: (){
+                f_login();
+              },
+              child: const Text('Giriş Yap',
+              style: TextStyle(
+                fontSize:20,
+              )),
             ),
           ),
-          Center(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              child: TextField(
-                controller:password,
-                decoration: InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xfffefefe), width: 2),
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xfffefefe), width: 2),
-                  ),
-                  hintText: 'Parola',
-                  fillColor: Color(0xfffefefe),
-                  filled: true,
-                ),
-              ),
-            ),
-          ),
-          Center(
-              child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            child: SizedBox(
-              height: 45,
-              width: 150,
-              child: TextButton(
-                style: ButtonStyle(
-                  foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Color(0xff3a65aa)),
-                ),
-                onPressed: (){
-                  f_login();
-                },
-                child: Text('Giriş Yap',
-                style: TextStyle(
-                  fontSize:20,
-                )),
-              ),
-            ),
-          )),
-        ]),
-      ),
+        )),
+      ]),
     );
   }
 
+  // ignore: non_constant_identifier_names
   f_login() {
     getJwtToken();
   }
@@ -117,15 +119,15 @@ class _loginState extends State {
           var token = gelen["jwtToken"];
           var u1 = gelen["user"];
           //print(u1.toString());
-          var kullanici = SqlUser(int.tryParse(u1["id"].toString()), u1["userName"],password.text, u1["name"],u1["surName"],u1["email"]);
+          var kullanici = SqlUser(int.tryParse(u1["id"].toString()), u1["userName"],password.text, u1["name"],u1["surName"],u1["email"],u1["imagePath"]);
           kullanici.token = token;
           //kullanici.id = 1;
           // gelen veri ile kullanıcı oluşturuldu 
           // veri tabanına eklenecek 
           //var sql_response = database.insert(kullanici);
           dbOperations(kullanici);
-          var sql_response = database.getUser();
-          sql_response.then((data){
+          var sqlResponse = database.getUser();
+          sqlResponse.then((data){
             var ni = data[1];
             print("kAdı : " + ni.id.toString());
           });
@@ -149,6 +151,11 @@ class _loginState extends State {
         var fk = database.insert(user);
         fk.then((gelen){
           print("eklendi mi acaba "+gelen.toString());
+          Fluttertoast.showToast(
+            msg: "Eklendi : " + user.username,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
         });
       }else{
         print("zaten kullanıcı var");
