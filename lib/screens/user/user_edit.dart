@@ -15,6 +15,7 @@ class UserEdit extends StatefulWidget {
 // ignore: camel_case_types
 class _userEditState extends State {
   var db = DbHelper();
+  var kontrol = [];
   var isim = "isim";
   var soyisim = "soyisim";
   // ignore: non_constant_identifier_names
@@ -23,39 +24,35 @@ class _userEditState extends State {
   var hakkimda = "hakkimda";
   // ignore: non_constant_identifier_names
   String profil_resmi = "Profil_resmi";
-  var url =
-      "https://im.haberturk.com/2014/06/27/ver1578211859/962619_414x414.jpg";
+  var url = "";
 
-  @override
-  // ignore: must_call_super
-  /* initState() {
+  Future<void> _veriGetir() async {
     var getir = db.getUser();
-    getir.then((value) {
-      isim = value[0].name;
-      soyisim = value[0].surname;
-      parola = value[0].password;
-      kullanici_isim = value[0].username;
+    getir.then((value) async {
       setState(() {
+        kontrol = value;
+        isim = value[0].name;
+        soyisim = value[0].surname;
+        parola = value[0].password;
+        kullanici_isim = value[0].username;
         profil_resmi = value[0].image;
+        
       });
     });
-  } */
+  }
+  @override
+  // ignore: must_call_super
+  initState() {
+    _veriGetir();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    var getir = db.getUser();
-    getir.then((value) {
-      setState(() {
-      isim = value[0].name;
-      soyisim = value[0].surname;
-      parola = value[0].password;
-      kullanici_isim = value[0].username;
-      profil_resmi = value[0].image;
-      });
-    });
+    
     return Scaffold(
       backgroundColor: const Color(0xfff4f5f7),
-      body: Padding(
+      body: kontrol.isEmpty ? const Center(child:Text("Ne Oldu")) : Padding(
         padding: const EdgeInsets.all(16),
         child: Expanded(
             child: Padding(

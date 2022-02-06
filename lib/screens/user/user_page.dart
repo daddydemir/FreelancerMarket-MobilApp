@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freelancer_market/data/dbHelper.dart';
+import 'package:freelancer_market/models/sql_user.dart';
 import 'package:freelancer_market/screens/Components/TopBar.dart';
 import 'package:freelancer_market/screens/user/user_edit.dart';
 import 'package:freelancer_market/screens/user/wallet_page.dart';
@@ -14,39 +15,45 @@ class UserPage extends StatefulWidget {
 
 // ignore: camel_case_types
 class _userPageState extends State {
-  var username = "kullanıcı_adı";
-  var mail = "mail_adresi";
+  var username = "kullanıcı";
+  String? mail;
   String image = "profil_resmi";
+  var kontrol = [];
   var db = DbHelper();
+
+  Future<void> _veriGetir() async {
+    var getir = db.getUser();
+    getir.then((value) {
+      kontrol = value;
+      var name = value[0].name;
+      var surname = value[0].surname;
+      username = name + " " + surname;
+      mail = value[0].mail;
+      image = value[0].image;
+      setState(() {});
+    });
+  }
 
   @override
   // ignore: must_call_super
-  initState(){
-    var getir = db.getUser();
-    getir.then((value) {
-      var name = value[0].name;
-      var surname = value[0].surname;
-      setState(() {
-        username = name + " " + surname;
-        mail = value[0].mail;
-        image = value[0].image;
-      });
-    });
+  initState() {
+    _veriGetir();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xfff4f5f7),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TopBar(),
-            kolonIn(),
-            Card(
+      body: kontrol.isEmpty ? const Center(child:Text("Olacak O Kadar")) : Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TopBar(),
+          kolonIn(),
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
@@ -54,7 +61,7 @@ class _userPageState extends State {
               shadowColor: Colors.black,
               elevation: 20,
               child: SizedBox(
-                height: MediaQuery.of(context).size.height - 167,
+                height: MediaQuery.of(context).size.height - 190,
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -93,8 +100,8 @@ class _userPageState extends State {
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -237,7 +244,7 @@ class _userPageState extends State {
 
   Padding kolonIn() {
     return const Padding(
-      padding: EdgeInsets.all(0),
+      padding: EdgeInsets.all(10),
     );
   }
 

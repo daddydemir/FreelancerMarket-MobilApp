@@ -15,25 +15,40 @@ class MainPage extends StatefulWidget {
 // ignore: camel_case_types
 class _mainPageState extends State {
   var api = TopCategoryApi();
-  var categoryList = [
-    "Yazılım & Teknoloji",
-    "Grafik & Tasarım",
-    "Ses & Müzik",
-    "Yazı & Çeviri",
-    "Video & Animasyon"
-  ];
+  var categoryList = [];
+  List<Map> kategoriler = [];
   var colorL = [
-    0xffffbf00,0xff67c1d6,0xffff5159,0xff4b4f52,0xff3faa40,0xff4260e9
+    0xffffbf00,
+    0xff67c1d6,
+    0xffff5159,
+    0xff4b4f52,
+    0xff3faa40,
+    0xff4260e9
   ];
-  int get li => categoryList.length;
+  int li = 0;
   @override
   void initState() {
-    getCategories();
+    //getCategories();
+    _veriGetir();
     super.initState();
+  }
+
+  Future<void> _veriGetir() async {
+    var gelen = await TopCategoryApi.getAllCategories();
+    if (gelen.statusCode == 200) {
+      var cevap = json.decode(utf8.decode(gelen.bodyBytes));
+      var data = cevap["data"];
+      for (var i in data) {
+        categoryList.add(i["name"]);
+      }
+      li = categoryList.length;
+      setState(() {});
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    var st = false;
     return Scaffold(
       backgroundColor: const Color(0xfff4f5f7),
       body: Column(children: [
@@ -41,12 +56,27 @@ class _mainPageState extends State {
         searchBar(),
         Expanded(
           child: SizedBox(
-            child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                itemCount: li,
-                itemBuilder: (context, index) {
-                  return satir(colorL[index],categoryList[index]);
-                }),
+            child: categoryList.isEmpty
+                ? const Center(
+                  child:CircularProgressIndicator(),
+                )
+                : ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: li,
+                    itemBuilder: (context, index) {
+                      if(st){
+                        st = false;
+                        return const Text("");
+                      }
+                      if (li - 1 == index) {
+                        return tekSatir(colorL[index], categoryList[index]);
+                      } else if(st == false) {
+                        st = true;
+                        return satir(colorL[index], categoryList[index] , colorL[index+1],categoryList[index+1]);
+                      }else{
+                        return const Text("Hata");
+                      }
+                    }),
           ),
         ),
       ]),
@@ -92,12 +122,20 @@ class _mainPageState extends State {
     );
   }
 
-  Row satir(var c,var a) {
+  Row satir(var c, var a , var c2 , var a2) {
     return Row(
       children: [
         kutu(c, a),
-        kutu(c, a),
+        kutu(c2, a2),
         // ff5159
+      ],
+    );
+  }
+
+  Row tekSatir(var c, var a) {
+    return Row(
+      children: [
+        kutu(c, a),
       ],
     );
   }
@@ -116,7 +154,8 @@ class _mainPageState extends State {
         child: InkWell(
           splashColor: Colors.blue,
           onTap: () {
-            getCategories();
+            //getCategories();
+            print(categoryList.toString());
           },
           child: SizedBox(
             height: 200,
