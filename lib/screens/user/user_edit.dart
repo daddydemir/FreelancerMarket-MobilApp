@@ -6,9 +6,10 @@ class UserEdit extends StatefulWidget {
   const UserEdit({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
+  State<StatefulWidget> createState() => _userEditState();
+  /*  {
     return _userEditState();
-  }
+  } */
 }
 
 // ignore: camel_case_types
@@ -27,7 +28,7 @@ class _userEditState extends State {
 
   @override
   // ignore: must_call_super
-  initState() {
+  /* initState() {
     var getir = db.getUser();
     getir.then((value) {
       isim = value[0].name;
@@ -37,16 +38,21 @@ class _userEditState extends State {
       setState(() {
         profil_resmi = value[0].image;
       });
-      /* Fluttertoast.showToast(
-            msg: profil_resmi,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1); */
     });
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
+    var getir = db.getUser();
+    getir.then((value) {
+      setState(() {
+      isim = value[0].name;
+      soyisim = value[0].surname;
+      parola = value[0].password;
+      kullanici_isim = value[0].username;
+      profil_resmi = value[0].image;
+      });
+    });
     return Scaffold(
       backgroundColor: const Color(0xfff4f5f7),
       body: Padding(
@@ -148,6 +154,7 @@ class _userEditState extends State {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: TextField(
+        textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: Color(0xfffefefe), width: 2),
@@ -182,6 +189,7 @@ class _userEditState extends State {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: TextField(
+        textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: Color(0xfffefefe), width: 2),
