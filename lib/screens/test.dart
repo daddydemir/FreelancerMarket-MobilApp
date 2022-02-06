@@ -41,7 +41,7 @@ class TestScreenState extends State{
 
   void getSubCategoryAll(){
     var TC1 = TopCategory(5,"Fake");
-    SubCategoryApi.getByTopCategoryId(TC1).then((response){
+    SubCategoryApi.getByTopCategoryId(3).then((response){
       setState((){
         String gelen = utf8.decode(response.bodyBytes);
         print(gelen);

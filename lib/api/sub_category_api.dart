@@ -1,4 +1,3 @@
-import 'package:freelancer_market/models/top_category.dart';
 import 'package:http/http.dart' as http;
 class SubCategoryApi{
 
@@ -7,8 +6,8 @@ class SubCategoryApi{
     return await http.get(url);
   }
 
-  static Future getByTopCategoryId(TopCategory top_category) async {
-    var url = Uri.parse("http://freelancermarket-backend.herokuapp.com/api/subCategories/getByTopCategoryId?id="+top_category.id.toString());
+  static Future getByTopCategoryId(int topCategory) async {
+    var url = Uri.parse("http://freelancermarket-backend.herokuapp.com/api/subCategories/getByTopCategoryId?id="+topCategory.toString());
     return await http.get(url);
   }
 }

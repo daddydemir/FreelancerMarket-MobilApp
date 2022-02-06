@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:freelancer_market/api/top_category_api.dart';
+import 'package:freelancer_market/screens/home/sub_category.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class MainPage extends StatefulWidget {
 class _mainPageState extends State {
   var api = TopCategoryApi();
   var categoryList = [];
-  List<Map> kategoriler = [];
+  var idList = [];
   var colorL = [
     0xffffbf00,
     0xff67c1d6,
@@ -40,6 +41,7 @@ class _mainPageState extends State {
       var data = cevap["data"];
       for (var i in data) {
         categoryList.add(i["name"]);
+        idList.add(i["id"]);
       }
       li = categoryList.length;
       setState(() {});
@@ -69,10 +71,10 @@ class _mainPageState extends State {
                         return const Text("");
                       }
                       if (li - 1 == index) {
-                        return tekSatir(colorL[index], categoryList[index]);
+                        return tekSatir(colorL[index], categoryList[index], idList[index]);
                       } else if(st == false) {
                         st = true;
-                        return satir(colorL[index], categoryList[index] , colorL[index+1],categoryList[index+1]);
+                        return satir(colorL[index], categoryList[index], idList[index], colorL[index+1],categoryList[index+1], idList[index+1]);
                       }else{
                         return const Text("Hata");
                       }
@@ -122,25 +124,25 @@ class _mainPageState extends State {
     );
   }
 
-  Row satir(var c, var a , var c2 , var a2) {
+  Row satir(var c, var a , var index1, var c2 , var a2, var index2) {
     return Row(
       children: [
-        kutu(c, a),
-        kutu(c2, a2),
+        kutu(c, a , index1),
+        kutu(c2, a2, index2),
         // ff5159
       ],
     );
   }
 
-  Row tekSatir(var c, var a) {
+  Row tekSatir(var c, var a , var index) {
     return Row(
       children: [
-        kutu(c, a),
+        kutu(c, a, index),
       ],
     );
   }
 
-  Expanded kutu(var a, String x) {
+  Expanded kutu(var a, String x , var index) {
     return Expanded(
         child: Padding(
       padding: const EdgeInsets.only(left: 7, top: 7, right: 7),
@@ -154,8 +156,13 @@ class _mainPageState extends State {
         child: InkWell(
           splashColor: Colors.blue,
           onTap: () {
-            //getCategories();
-            print(categoryList.toString());
+            print("id'si : " + index.toString());
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SubCategoryPage(index: index),
+                ),
+              );
           },
           child: SizedBox(
             height: 200,

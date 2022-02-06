@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:freelancer_market/data/dbHelper.dart';
-import 'package:freelancer_market/models/sql_user.dart';
 import 'package:freelancer_market/screens/Components/TopBar.dart';
 import 'package:freelancer_market/screens/user/user_edit.dart';
 import 'package:freelancer_market/screens/user/wallet_page.dart';
