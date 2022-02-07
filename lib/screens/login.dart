@@ -116,8 +116,10 @@ class _loginState extends State {
       setState((){
         if(response.statusCode == 200){
           var gelen = json.decode(utf8.decode(response.bodyBytes));
-          var token = gelen["jwtToken"];
-          var u1 = gelen["user"];
+          
+          var data = gelen["data"];
+          var token = data["jwtToken"];
+          var u1 = data["user"];
           //print(u1.toString());
           var kullanici = SqlUser(int.tryParse(u1["id"].toString()), u1["userName"],password.text, u1["name"],u1["surName"],u1["email"],u1["imagePath"]);
           kullanici.token = token;
