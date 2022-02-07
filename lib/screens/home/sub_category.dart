@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:freelancer_market/api/sub_category_api.dart';
 import 'package:freelancer_market/models/sub_category.dart';
-import 'package:freelancer_market/screens/StatusPage/not_found_page.dart';
+import 'package:freelancer_market/screens/AdvertPages/sub_category_id_for_advert.dart';
 
 class SubCategoryPage extends StatefulWidget {
   const SubCategoryPage({Key? key, required this.index}) : super(key: key);
@@ -73,6 +73,12 @@ class _subCategoryPageState extends State {
         child: InkWell(
           onTap: () {
             print("id.toString() : " + id.toString());
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SubCategoryIdForAdvertPage(index: index),
+                ),
+              );
           },
           child: Column(
             children: [
