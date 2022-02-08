@@ -26,6 +26,7 @@ class _subCategoryIdForAdvertPageState extends State {
   final int index;
   List<Advert> ilanlar = [];
   List<Freelancer> calisanlar = [];
+  Color fav = Colors.white;//Color(0xffe83c5f);
 
   Future<void> _veriGetir() async {
     var gelen = await AdvertApi.getBySubCategoryId(index);
@@ -47,8 +48,8 @@ class _subCategoryIdForAdvertPageState extends State {
         if (calisanDetay.statusCode == 200) {
           var resp = json.decode(utf8.decode(calisanDetay.bodyBytes));
           var veri = resp["data"];
-          calisanlar.add(Freelancer.forAdvert(
-              veri["id"], veri["userName"], veri["imagePath"]));
+          calisanlar.add(Freelancer.forAdvert(veri["id"], veri["userName"],
+              veri["appellation"], veri["imagePath"]));
         }
         setState(() {});
       }
@@ -76,7 +77,7 @@ class _subCategoryIdForAdvertPageState extends State {
 
   Card item() {
     return Card(
-      color: const Color(0xffe83c5f),
+      color: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -87,7 +88,7 @@ class _subCategoryIdForAdvertPageState extends State {
           Stack(
             children: [
               Container(
-                height: 200,
+                height: 180,
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(20),
@@ -100,7 +101,10 @@ class _subCategoryIdForAdvertPageState extends State {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 10,top: 10,),
+                padding: const EdgeInsets.only(
+                  left: 10,
+                  top: 10,
+                ),
                 child: Row(children: [
                   ClipOval(
                     child: SizedBox.fromSize(
@@ -110,15 +114,117 @@ class _subCategoryIdForAdvertPageState extends State {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(calisanlar[0].username, style: const TextStyle(fontSize:30,color:Color(0xff201a3d),backgroundColor:Color(0xffe83c5f),)),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: Text(calisanlar[0].username,
+                            style: const TextStyle(
+                              fontSize: 30,
+                              color: Color(0xff201a3d),
+                              backgroundColor: Color(0xffe83c5f),
+                            )),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: Text(calisanlar[0].appellation,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Color(0xff201a3d),
+                              backgroundColor: Color(0xffe83c5f),
+                            )),
+                      ),
+                    ],
                   ),
                 ]),
               ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(
+                    alignment: Alignment.topRight,
+                    child:IconButton(
+                      icon:const Icon(Icons.favorite),
+                      iconSize:32,
+                      color:fav,
+                      onPressed: () {
+                        setState((){
+                          if(fav != const Color(0xffe83c5f)){
+                            fav =  const Color(0xffe83c5f);
+                          }else{
+                            fav = Colors.white;
+                          }
+                          
+                        });
+                      }
+                    ),),
+              ),
             ],
           ),
-          Text(ilanlar[0].price.toString() + "₺", style: GoogleFonts.lato()),
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 10,
+              top: 1,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+              Expanded(
+                flex:1,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: ClipOval(
+                    child: SizedBox.fromSize(
+                      size: const Size.fromRadius(30),
+                      child: Image.network(
+                        calisanlar[0].imagePath,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex:3,
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: Text(calisanlar[0].username,
+                            style: const TextStyle(
+                                fontSize: 30, color: Color(0xff201a3d))),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: Text(calisanlar[0].appellation,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Color(0xff201a3d),
+                            )),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                flex:3,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(ilanlar[0].price.toString() + " TL",
+                        style: const TextStyle(
+                          fontSize: 30,
+                          fontWeight:FontWeight.bold,
+                          color: Colors.green,
+                        )),
+                  ),
+                ),
+              ),
+            ]),
+          ),
+          //Text(ilanlar[0].price.toString() + " TL", style: const TextStyle(fontSize:30,color:Color(0xff201a3d),)),
         ],
       ),
     );
