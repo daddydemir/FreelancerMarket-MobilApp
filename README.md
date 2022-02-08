@@ -10,4 +10,4 @@ Bu proje Bilgisayar Mühendisliği bölümü bitirme projesinin mobil uygulamas�
 
 ## Proje Detayları
 
-Bu proje [Dart](https://github.com/topics/dart) diline ait [Flutter](https://github.com/topics/flutter) framework kullanılarak geliştirilmiştir. Proje çapraz platform olup android ve ios'ta çalışmaktadır. Geliştirilme aşamasında sadece andrid işletim sistemi üzerinde test edeilmiştir.
+Bu proje [Dart](https://github.com/topics/dart) diline ait [Flutter](https://github.com/topics/flutter) framework kullanılarak geliştirilmiştir. Proje çapraz platform olup android ve ios'ta çalışmaktadır. Geliştirilme aşamasında sadece android işletim sistemi üzerinde test edeilmiştir.
