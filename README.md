@@ -1,16 +1,13 @@
-# freelancer_market
+# Freelancer Market Mobil App
 
-A new Flutter project.
+Bu proje Bilgisayar Mühendisliği bölümü bitirme projesinin mobil uygulaması olarak oluşturulmuştur.
 
-## Getting Started
+> * [Backend](https://github.com/MetehanOzalp/FreelancerMarket-Backend) :  [@MetehanOzalp](https://github.com/MetehanOzalp)
+> * [Frontend](https://github.com/MetehanOzalp/FreelancerMarket-Frontend) : [@MetehanOzalp](https://github.com/MetehanOzalp)
+> * [Mobil](https://github.com/daddydemir/FreelancerMarket-MobilApp) : [@daddydemir](https://github.com/daddydemir)
 
-This project is a starting point for a Flutter application.
+şeklinde 3 kategoriden oluşmaktadır .
 
-A few resources to get you started if this is your first Flutter project:
+## Proje Detayları
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Bu proje [Dart](https://github.com/topics/dart) diline ait [Flutter](https://github.com/topics/flutter) framework kullanılarak geliştirilmiştir. Proje çapraz platform olup android ve ios'ta çalışmaktadır. Geliştirilme aşamasında sadece andrid işletim sistemi üzerinde test edeilmiştir.

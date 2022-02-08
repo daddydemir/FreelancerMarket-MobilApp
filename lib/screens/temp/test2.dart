@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:freelancer_market/data/dbHelper.dart';
 import 'package:freelancer_market/screens/login.dart';
+import 'package:freelancer_market/screens/user/freelancer_detail.dart';
+import 'package:freelancer_market/screens/user/user_detail.dart';
 
 class Test13 extends StatefulWidget {
   const Test13({Key? key}) : super(key: key);
@@ -43,7 +45,13 @@ class _test13 extends State {
                 onPressed: () {
                   _dbDelete();
                 },
-                child: const Text("Sil"))
+                child: const Text("Sil")),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const FreelancerDetailPage()));
+                },
+                child: const Text("Sayfaya Git"))
           ],
         ),
       ),
