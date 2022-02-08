@@ -1,7 +1,10 @@
-import 'package:freelancer_market/models/user.dart';
 
-mixin Freelancer implements User {
-  late int user_id;
-  late String about;
-  late String image_path;
+
+class Freelancer {
+  late int userId;
+  late String username;
+  late String imagePath;
+
+  // ilanlar'da görüntülenecek bilgileri tutacak
+  Freelancer.forAdvert(this.userId, this.username, this.imagePath);
 }

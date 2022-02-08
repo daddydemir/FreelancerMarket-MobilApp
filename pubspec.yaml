@@ -33,6 +33,7 @@ dependencies:
   sqflite:
   path:
   fluttertoast:
+  google_fonts: 2.2.0
 
 
   # The following adds the Cupertino Icons font to your application.

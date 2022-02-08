@@ -246,17 +246,4 @@ class _userPageState extends State {
       padding: EdgeInsets.all(10),
     );
   }
-
-  void doldur() async {
-    /* var getir = db.getUser();
-    getir.then((value) async {
-      var name = value[0].name;
-      var surname = value[0].surname;
-
-      setState(() {
-        username = name + " " + surname;
-        mail = value[0].mail;
-      });
-    }); */
-  }
 }
