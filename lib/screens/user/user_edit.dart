@@ -276,23 +276,4 @@ class _userEditState extends State {
       ),
     );
   }
-
-  void doldur() async {
-    var getir = db.getUser();
-    getir.then((value) async {
-      setState(() {
-        isim = value[0].name;
-        soyisim = value[0].surname;
-        parola = value[0].password;
-        kullanici_isim = value[0].username;
-        profil_resmi = value[0].image;
-        print("oldu : " + value[0].name);
-        Fluttertoast.showToast(
-            msg: profil_resmi,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
-      });
-    });
-  }
 }

@@ -5,7 +5,6 @@ import 'package:freelancer_market/api/advert_api.dart';
 import 'package:freelancer_market/api/freelancer_api.dart';
 import 'package:freelancer_market/models/advert.dart';
 import 'package:freelancer_market/models/freelancer.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class SubCategoryIdForAdvertPage extends StatefulWidget {
   const SubCategoryIdForAdvertPage({Key? key, required this.index})
@@ -70,18 +69,38 @@ class _subCategoryIdForAdvertPageState extends State {
     return Scaffold(
       body: ilanlar.isEmpty
           ? const Center(child: Text("loading"))
-          : Column(children: [
+          : ListView.builder(
+            itemCount:ilanlar.length,
+            itemBuilder: (BuildContext context, int index){
+              return InkWell(
+                onTap: () {
+                  print(index.toString() + ". ilan");
+                },
+                child:item(ilanlar[index].image_path,calisanlar[index].imagePath,calisanlar[index].username,calisanlar[index].appellation,ilanlar[index].info,ilanlar[index].price),
+              );
+            },),
+           /* Column(children: [
+          ListView.builder(
+            itemCount:ilanlar.length,
+            itemBuilder: (BuildContext context, int index){
+              return InkWell(
+                onTap: () {
+                  print(index.toString() + ". ilan");
+                },
+                child:item(ilanlar[index].image_path,calisanlar[index].imagePath,calisanlar[index].username,calisanlar[index].appellation,ilanlar[index].info,ilanlar[index].price),
+              );
+            },),
               const Padding(padding: EdgeInsets.all(15)),
               InkWell(
                 onTap:(){
                   print("ilan detay sayfası");
                 },
-                child: item()),
-            ]),
+                child: item(ilanlar[1].image_path,calisanlar[0].imagePath,calisanlar[0].username,calisanlar[0].appellation,ilanlar[0].info,ilanlar[0].price)),
+            ]), */
     );
   }
 
-  Card kart() {
+  Card kart(var profil_resmi, var _username , var _appellation) {
     return Card(
       color: const Color(0xffe83c5f),
       shape: RoundedRectangleBorder(
@@ -91,12 +110,12 @@ class _subCategoryIdForAdvertPageState extends State {
       elevation: 20,
       child: SizedBox(
         width: MediaQuery.of(context).size.width / 2,
-        child: satir(),
+        child: satir(profil_resmi,_username,_appellation),
       ),
     );
   }
 
-  Card item() {
+  Card item(var image, var profil_resmi, var _username, var _appellation, var info, var fiyat) {
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(
@@ -116,7 +135,7 @@ class _subCategoryIdForAdvertPageState extends State {
                     topRight: Radius.circular(20),
                   ),
                   image: DecorationImage(
-                    image: NetworkImage(ilanlar[0].image_path),
+                    image: NetworkImage(image),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -130,7 +149,7 @@ class _subCategoryIdForAdvertPageState extends State {
                   onTap: () {
                     print("user detail page");
                   },
-                  child: kart()),
+                  child: kart(profil_resmi , _username , _appellation)),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -153,31 +172,31 @@ class _subCategoryIdForAdvertPageState extends State {
               ),
             ],
           ),
-          altBar(),
+          altBar(info , fiyat),
         ],
       ),
     );
   }
   
-  Padding altBar(){
+  Padding altBar(var info, var fiyat){
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Row(
         children:[
           Expanded(
             flex:4,
-            child:Text(ilanlar[0].info),
+            child:Text(info),
           ),
           Expanded(
             flex:1,
-            child:Text(ilanlar[0].price.toString()+ " TL" ,style: const TextStyle(color:Colors.green,fontSize:18)),
+            child:Text(fiyat.toString()+ " TL" ,style: const TextStyle(color:Colors.green,fontSize:18)),
           ),
         ],
       ),
     );
   }
 
-  Padding satir() {
+  Padding satir(var image , var _username , var _appellation) {
     return Padding(
       padding: const EdgeInsets.only(
         left: 0,
@@ -192,7 +211,7 @@ class _subCategoryIdForAdvertPageState extends State {
               child: SizedBox.fromSize(
                 size: const Size.fromRadius(30),
                 child: Image.network(
-                  calisanlar[0].imagePath,
+                  image,
                 ),
               ),
             ),
@@ -207,13 +226,13 @@ class _subCategoryIdForAdvertPageState extends State {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 8),
-                  child: Text(calisanlar[0].username,
+                  child: Text(_username,
                       style: const TextStyle(
                           fontSize: 20, color: Color(0xff201a3d))),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 8),
-                  child: Text(calisanlar[0].appellation,
+                  child: Text(_appellation,
                       style: const TextStyle(
                         fontSize: 15,
                         color: Color(0xff201a3d),
@@ -228,14 +247,14 @@ class _subCategoryIdForAdvertPageState extends State {
     );
   }
 
-  Expanded fiyat() {
+  Expanded fiyat(var fiyat) {
     return Expanded(
       flex: 3,
       child: Padding(
         padding: const EdgeInsets.only(right: 8),
         child: Align(
           alignment: Alignment.centerRight,
-          child: Text(ilanlar[0].price.toString() + " TL",
+          child: Text(fiyat.toString() + " TL",
               style: const TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
