@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:freelancer_market/data/dbHelper.dart';
+import 'package:freelancer_market/screens/AdvertPages/all_adverts.dart';
 import 'package:freelancer_market/screens/login.dart';
 import 'package:freelancer_market/screens/user/freelancer_detail.dart';
 import 'package:freelancer_market/screens/user/user_detail.dart';
@@ -49,7 +50,7 @@ class _test13 extends State {
             ElevatedButton(
                 onPressed: () {
                   Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const FreelancerDetailPage()));
+                    MaterialPageRoute(builder: (context) => AllAdverts()));
                 },
                 child: const Text("Sayfaya Git"))
           ],

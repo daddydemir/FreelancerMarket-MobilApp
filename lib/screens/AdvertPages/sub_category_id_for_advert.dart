@@ -79,24 +79,6 @@ class _subCategoryIdForAdvertPageState extends State {
                 child:item(ilanlar[index].image_path,calisanlar[index].imagePath,calisanlar[index].username,calisanlar[index].appellation,ilanlar[index].info,ilanlar[index].price),
               );
             },),
-           /* Column(children: [
-          ListView.builder(
-            itemCount:ilanlar.length,
-            itemBuilder: (BuildContext context, int index){
-              return InkWell(
-                onTap: () {
-                  print(index.toString() + ". ilan");
-                },
-                child:item(ilanlar[index].image_path,calisanlar[index].imagePath,calisanlar[index].username,calisanlar[index].appellation,ilanlar[index].info,ilanlar[index].price),
-              );
-            },),
-              const Padding(padding: EdgeInsets.all(15)),
-              InkWell(
-                onTap:(){
-                  print("ilan detay sayfası");
-                },
-                child: item(ilanlar[1].image_path,calisanlar[0].imagePath,calisanlar[0].username,calisanlar[0].appellation,ilanlar[0].info,ilanlar[0].price)),
-            ]), */
     );
   }
 
