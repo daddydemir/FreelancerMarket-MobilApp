@@ -10,6 +10,7 @@ class HttpApp extends StatelessWidget{
   Widget build(BuildContext context) {
     return MaterialApp(
       theme:ThemeData(
+        scaffoldBackgroundColor: const Color(0xfff4f5f7),
         textTheme:GoogleFonts.ubuntuTextTheme(
           Theme.of(context).textTheme,
         ),
