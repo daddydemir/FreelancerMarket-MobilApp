@@ -4,9 +4,12 @@ Bu proje Bilgisayar Mühendisliği bölümü bitirme projesinin mobil uygulamas�
 
 > * [Backend](https://github.com/MetehanOzalp/FreelancerMarket-Backend) :  [@MetehanOzalp](https://github.com/MetehanOzalp)
 > * [Frontend](https://github.com/MetehanOzalp/FreelancerMarket-Frontend) : [@MetehanOzalp](https://github.com/MetehanOzalp)
-> * [Mobil](https://github.com/daddydemir/FreelancerMarket-MobilApp) : [@daddydemir](https://github.com/daddydemir)
+> * [Mobil App](https://github.com/daddydemir/FreelancerMarket-MobilApp) : [@daddydemir](https://github.com/daddydemir)
 
 şeklinde 3 kategoriden oluşmaktadır .
+> [Backend Canlı](http://freelancermarket-backend.herokuapp.com/swagger-ui.html#/)
+
+> [Frontend Canlı](https://freelancer-market.netlify.app/)
 
 ## Proje Detayları
 
