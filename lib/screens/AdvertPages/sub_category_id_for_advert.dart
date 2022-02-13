@@ -194,6 +194,7 @@ class _subCategoryIdForAdvertPageState extends State {
                 size: const Size.fromRadius(30),
                 child: Image.network(
                   image,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),

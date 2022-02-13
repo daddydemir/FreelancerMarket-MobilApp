@@ -82,6 +82,7 @@ class _userPageState extends State {
                                   size: const Size.fromRadius(40),
                                   child: Image.network(
                                     image,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
                               ),

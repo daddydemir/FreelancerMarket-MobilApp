@@ -176,6 +176,7 @@ class _allAdvertsState extends State {
                                       size: const Size.fromRadius(30),
                                       child: Image.network(
                                         user.imagePath,
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),

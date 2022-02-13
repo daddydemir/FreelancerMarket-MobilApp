@@ -271,6 +271,7 @@ class _userEditState extends State {
           size: const Size.fromRadius(70),
           child: Image.network(
             pr,
+            fit: BoxFit.cover,
           ),
         ),
       ),

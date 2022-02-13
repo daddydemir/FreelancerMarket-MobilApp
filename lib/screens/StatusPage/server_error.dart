@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
-class NotFoundPage extends StatelessWidget {
-  const NotFoundPage({Key? key}) : super(key: key);
+class ServerErrorPage extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState() => _serverErrorPageState();
 
+}
+
+class _serverErrorPageState extends State{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +19,7 @@ class NotFoundPage extends StatelessWidget {
             child: SizedBox(
               height: MediaQuery.of(context).size.height / 3,
               child: Image.network(
-                  "https://raw.githubusercontent.com/daddydemir/images/main/Status/error-404.png"),
+                  "https://raw.githubusercontent.com/daddydemir/images/main/Status/vagueness.png"),
             ),
           ),
           Padding(
@@ -25,7 +29,7 @@ class NotFoundPage extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
-                    "Bazen insanları anlamak çok zor ...",
+                    "Sunucuda bazı sıkıntılar var ...\nBelkide daha sonra denemelisin .",
                     style: TextStyle(fontSize: 20, color: Colors.white,),
                     
                   ),
