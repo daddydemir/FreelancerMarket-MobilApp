@@ -7,13 +7,14 @@ import 'package:freelancer_market/api/sub_category_api.dart';
 import 'package:freelancer_market/models/advert.dart';
 import 'package:freelancer_market/models/freelancer.dart';
 import 'package:freelancer_market/models/sub_category.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class AllAdverts extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _allAdvertsState();
 }
 
-class _allAdvertsState extends State {
+class _allAdvertsState extends State with TickerProviderStateMixin {
   final List<Advert> ilanlar = [];
   List<Advert> customIlan = [];
   List<Freelancer> userlar = [];
@@ -76,7 +77,11 @@ class _allAdvertsState extends State {
             SizedBox(
               height: 50,
               child: kategoriler.isEmpty
-                  ? const Center(child: Text("Wait Fuck"))
+                  ? SpinKitFadingCircle(itemBuilder: (context, int index) {
+                      return DecoratedBox(
+                          decoration: BoxDecoration(
+                              color: index.isEven ? Colors.red : Colors.green));
+                    })
                   : ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: kategoriler.length,
@@ -85,13 +90,14 @@ class _allAdvertsState extends State {
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: ElevatedButton(
                             onPressed: () {
-                              print(ilanlar[0].sub_category_id.toString()+". kategori");
+                              print(ilanlar[0].sub_category_id.toString() +
+                                  ". kategori");
                               customIlan = [];
                               setState(() {
                                 for (int i = 0; i < ilanlar.length; i++) {
                                   if (kategoriler[index].id ==
                                       ilanlar[i].sub_category_id) {
-                                        print(kategoriler[index].name);
+                                    print(kategoriler[index].name);
                                     customIlan.add(ilanlar[i]);
                                   }
                                 }
@@ -108,7 +114,15 @@ class _allAdvertsState extends State {
                       }),
             ),
             customIlan.isEmpty
-                ? const Text("Loading . . .")
+                ? Center(
+                  child: SpinKitFadingCube(
+                      color: Colors.black87,
+                      size: 50,
+                      controller: AnimationController(
+                          duration: const Duration(milliseconds: 1200),
+                          vsync: this),
+                    ),
+                )
                 : Flexible(
                     child: ListView.builder(
                         itemCount: customIlan.length,
