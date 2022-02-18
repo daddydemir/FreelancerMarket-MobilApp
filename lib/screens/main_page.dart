@@ -35,7 +35,7 @@ class _mainPageState extends State {
   }
 
   Future<void> _veriGetir() async {
-    var gelen = await TopCategoryApi.getAllCategories();
+    var gelen = await TopCategoryApi.getAll();
     if (gelen.statusCode == 200) {
       var cevap = json.decode(utf8.decode(gelen.bodyBytes));
       var data = cevap["data"];
@@ -203,22 +203,5 @@ class _mainPageState extends State {
         ),
       ]),
     );
-  }
-
-  void getCategories() {
-    TopCategoryApi.getAllCategories().then((response) {
-      print("hayat ");
-      if (response.statusCode == 200) {
-        print("çalışoyor");
-        var gelen = json.decode(utf8.decode(response.bodyBytes));
-        var data = gelen['data'];
-        for (var i in data) {
-          categoryList.add(i['name']);
-          print(i["name"]);
-        }
-      } else {
-        print("hata kodu : " + response.statusCode.toString());
-      }
-    });
   }
 }

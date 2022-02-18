@@ -43,7 +43,7 @@ class _subCategoryIdForAdvertPageState extends State {
             i["imagePath"],
             DateTime.parse(i["date"])));
         var calisanDetay =
-            await FreelancerApi.getFreelancerById(i["freelancerId"]);
+            await FreelancerApi.getById(i["freelancerId"]);
         if (calisanDetay.statusCode == 200) {
           var resp = json.decode(utf8.decode(calisanDetay.bodyBytes));
           var veri = resp["data"];

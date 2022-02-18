@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:freelancer_market/api/login_api.dart';
+import 'package:freelancer_market/api/auth_api.dart';
 import 'package:freelancer_market/api/sub_category_api.dart';
 import 'package:freelancer_market/api/top_category_api.dart';
 import 'package:freelancer_market/data/dbHelper.dart';
@@ -31,7 +31,7 @@ class TestScreenState extends State{
   }
 
   void getAllFromApi(){
-    TopCategoryApi.getAllCategories().then((response){
+    TopCategoryApi.getAll().then((response){
       setState((){
         String gelen = utf8.decode(response.bodyBytes);
         print(gelen);
@@ -51,7 +51,7 @@ class TestScreenState extends State{
 
   void getJwtToken(){
     var login1 = Login("demir","mehmet12345");
-    LoginApi.getJwtToken("demir","mehmet12345").then((response){
+    AuthApi.login("demir","mehmet12345").then((response){
       setState((){
         var gelen = json.decode(utf8.decode(response.bodyBytes));
         gelen = gelen["jwtToken"];

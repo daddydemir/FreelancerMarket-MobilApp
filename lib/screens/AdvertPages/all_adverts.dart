@@ -37,7 +37,7 @@ class _allAdvertsState extends State with TickerProviderStateMixin {
             i["imagePath"],
             DateTime.parse(i["date"])));
         var calisanDetay =
-            await FreelancerApi.getFreelancerById(i["freelancerId"]);
+            await FreelancerApi.getById(i["freelancerId"]);
         if (calisanDetay.statusCode == 200) {
           var resp = json.decode(utf8.decode(calisanDetay.bodyBytes));
           var veri = resp["data"];
@@ -47,7 +47,7 @@ class _allAdvertsState extends State with TickerProviderStateMixin {
         setState(() {});
       }
     }
-    var resp = await SubCategoryApi.getAllCategories();
+    var resp = await SubCategoryApi.getAll();
     if (resp.statusCode == 200) {
       var gelen = json.decode(utf8.decode(resp.bodyBytes));
       var data = gelen["data"];

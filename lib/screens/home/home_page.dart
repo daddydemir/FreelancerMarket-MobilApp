@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:freelancer_market/api/best_freelancers_api.dart';
 import 'package:freelancer_market/screens/Components/SearchBar.dart';
 import 'package:freelancer_market/screens/Components/TopBar.dart';
 
@@ -14,8 +13,6 @@ class HomePage extends StatefulWidget {
 
 // ignore: camel_case_types
 class _homePageState extends State {
-
-  var api = BestFreelancersApi();
 
   @override
   // ignore: must_call_super

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:freelancer_market/api/login_api.dart';
+import 'package:freelancer_market/api/auth_api.dart';
 import 'package:freelancer_market/data/dbHelper.dart';
 import 'package:freelancer_market/models/sql_user.dart';
 
@@ -18,7 +18,7 @@ class LoginPage extends StatefulWidget {
 // ignore: camel_case_types
 class _loginState extends State {
   // ignore: non_constant_identifier_names
-  var login_api = LoginApi();
+  var login_api = AuthApi();
   var database = DbHelper();
 
   var username = TextEditingController();
@@ -112,7 +112,7 @@ class _loginState extends State {
   }
 
   void getJwtToken() {
-    LoginApi.getJwtToken(username.text , password.text).then((response){
+    AuthApi.login(username.text , password.text).then((response){
       setState((){
         if(response.statusCode == 200){
           var gelen = json.decode(utf8.decode(response.bodyBytes));
