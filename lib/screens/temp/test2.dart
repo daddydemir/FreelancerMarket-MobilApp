@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:freelancer_market/data/dbHelper.dart';
 import 'package:freelancer_market/screens/AdvertPages/all_adverts.dart';
-import 'package:freelancer_market/screens/StatusPage/not_found_page.dart';
 import 'package:freelancer_market/screens/StatusPage/server_error.dart';
 import 'package:freelancer_market/screens/login.dart';
+
+import 'advert_test.dart';
 
 class Test13 extends StatefulWidget {
   const Test13({Key? key}) : super(key: key);
@@ -50,15 +51,25 @@ class _test13 extends State {
             ElevatedButton(
                 onPressed: () {
                   Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AllAdverts()));
+                      MaterialPageRoute(builder: (context) => AllAdverts()));
                 },
                 child: const Text("Sayfaya Git")),
-                 ElevatedButton(
+            ElevatedButton(
                 onPressed: () {
-                  Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ServerErrorPage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ServerErrorPage()));
                 },
-                child: const Text("Error Page"))
+                child: const Text("Error Page")),
+                ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>const AdvertTest()));
+                },
+                child: const Text("Advert Controller"))
           ],
         ),
       ),

@@ -11,7 +11,6 @@ class DbHelper{
 
   Future<Database?> get db async{
     if(_db==null){
-      print("Db yok");
       _db = await initializeDb();
     }
     return _db;
@@ -20,7 +19,7 @@ class DbHelper{
   Future<Database> initializeDb() async{
     String dbPath = join(await getDatabasesPath(),"fm.db");
     var fmDb = await openDatabase(dbPath,version:1, onCreate:createDb);
-    print("Db created");
+    
     return fmDb;
   }
 
