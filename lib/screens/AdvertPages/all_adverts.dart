@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors, camel_case_types
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -42,7 +44,7 @@ class _allAdvertsState extends State with TickerProviderStateMixin {
           var resp = json.decode(utf8.decode(calisanDetay.bodyBytes));
           var veri = resp["data"];
           userlar.add(Freelancer.forAdvert(veri["id"], veri["userName"],
-              veri["appellation"], veri["imagePath"]));
+              veri["appellation"]="hacker", veri["imagePath"]));
         }
         setState(() {});
       }

@@ -10,6 +10,7 @@ class AuthApi{
       url,
       headers:{
         HttpHeaders.authorizationHeader:"Bearer "+user.token,
+        "Content-Type": "application/json; charset=UTF-8",
       },
       body: jsonEncode(<String, String>{
         "newPassword":n1,
@@ -24,6 +25,9 @@ class AuthApi{
     var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/auth/login");
     return await http.post(
       url,
+      headers:{
+        "Content-Type": "application/json; charset=UTF-8"
+      },
       body: jsonEncode(<String,String>{
         "password":password,
         "userName":username,

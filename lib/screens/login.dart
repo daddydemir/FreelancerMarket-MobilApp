@@ -108,6 +108,8 @@ class _loginState extends State {
 
   // ignore: non_constant_identifier_names
   f_login() {
+    print("bu amk ");
+
     getJwtToken();
   }
 
@@ -123,20 +125,16 @@ class _loginState extends State {
           //print(u1.toString());
           var kullanici = SqlUser(int.tryParse(u1["id"].toString()), u1["userName"],password.text, u1["name"],u1["surName"],u1["email"],u1["imagePath"]);
           kullanici.token = token;
-          //kullanici.id = 1;
-          // gelen veri ile kullanıcı oluşturuldu 
-          // veri tabanına eklenecek 
-          //var sql_response = database.insert(kullanici);
           dbOperations(kullanici);
           var sqlResponse = database.getUser();
           sqlResponse.then((data){
             var ni = data[1];
             print("kAdı : " + ni.id.toString());
           });
-          
-          
         }else if(response.statusCode == 400){
           print("Parola yanlıs");
+        }else{
+          print(json.decode(utf8.decode(response.bodyBytes)));
         }
         
       });

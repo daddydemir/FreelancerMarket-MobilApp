@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:freelancer_market/data/dbHelper.dart';
 import 'package:freelancer_market/screens/user/password_change.dart';
 
@@ -127,15 +126,15 @@ class _userEditState extends State {
         minLines: 5,
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Color(0xffE3E1E2), width: 2),
+            borderSide: const BorderSide(color: Color(0xfff4f5f7), width: 2),
             borderRadius: BorderRadius.circular(25),
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Color(0xffE3E1E2), width: 2),
+            borderSide: const BorderSide(color: Color(0xfff4f5f7), width: 2),
             borderRadius: BorderRadius.circular(25),
           ),
           hintText: "Bu alan boş",
-          fillColor: const Color(0xffE3E1E2),
+          fillColor: const Color(0xfff4f5f7),
           filled: true,
         ),
       ),
@@ -144,7 +143,7 @@ class _userEditState extends State {
 
   // ignore: non_constant_identifier_names
   Padding Yazi(var name) {
-    return  Padding(
+    return Padding(
         padding: const EdgeInsets.only(left: 20, top: 15),
         child: Text(
           name,
@@ -159,10 +158,12 @@ class _userEditState extends State {
   Padding Parola() {
     return Padding(
         padding: const EdgeInsets.only(left: 10, top: 10),
-        child:  InkWell(
-          onTap:(){
-            Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const PasswordChangePage()));
+        child: InkWell(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const PasswordChangePage()));
           },
           child: Row(
             children: const [
@@ -171,8 +172,8 @@ class _userEditState extends State {
                 size: 20,
                 color: Colors.green,
               ),
-               Padding(
-                padding: EdgeInsets.only(left:8),
+              Padding(
+                padding: EdgeInsets.only(left: 8),
                 child: Text(
                   "Parola'yı Güncelle",
                   style: TextStyle(
@@ -193,15 +194,15 @@ class _userEditState extends State {
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Color(0xffE3E1E2), width: 2),
+            borderSide: const BorderSide(color: Color(0xfff4f5f7), width: 2),
             borderRadius: BorderRadius.circular(25),
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Color(0xffE3E1E2), width: 2),
+            borderSide: const BorderSide(color: Color(0xfff4f5f7), width: 2),
             borderRadius: BorderRadius.circular(25),
           ),
           hintText: s,
-          fillColor: const Color(0xffE3E1E2),
+          fillColor: const Color(0xfff4f5f7), // 8b95a1
           filled: true,
         ),
       ),
@@ -215,15 +216,15 @@ class _userEditState extends State {
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Color(0xffE3E1E2), width: 2),
+            borderSide: const BorderSide(color: Color(0xfff4f5f7), width: 2),
             borderRadius: BorderRadius.circular(25),
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Color(0xffE3E1E2), width: 2),
+            borderSide: const BorderSide(color: Color(0xfff4f5f7), width: 2),
             borderRadius: BorderRadius.circular(25),
           ),
           hintText: s,
-          fillColor: const Color(0xffE3E1E2),
+          fillColor: const Color(0xfff4f5f7),
           filled: true,
         ),
       ),
@@ -237,15 +238,15 @@ class _userEditState extends State {
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Color(0xffE3E1E2), width: 2),
+            borderSide: const BorderSide(color: Color(0xfff4f5f7), width: 2),
             borderRadius: BorderRadius.circular(25),
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Color(0xffE3E1E2), width: 2),
+            borderSide: const BorderSide(color: Color(0xfff4f5f7), width: 2),
             borderRadius: BorderRadius.circular(25),
           ),
           hintText: s,
-          fillColor: const Color(0xffE3E1E2),
+          fillColor: const Color(0xfff4f5f7),
           filled: true,
         ),
       ),
@@ -259,15 +260,15 @@ class _userEditState extends State {
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Color(0xffE3E1E2), width: 2),
+            borderSide: const BorderSide(color: Color(0xfff4f5f7), width: 2),
             borderRadius: BorderRadius.circular(25),
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Color(0xffE3E1E2), width: 2),
+            borderSide: const BorderSide(color: Color(0xfff4f5f7), width: 2),
             borderRadius: BorderRadius.circular(25),
           ),
           hintText: i,
-          fillColor: const Color(0xffE3E1E2),
+          fillColor: const Color(0xfff4f5f7),
           filled: true,
         ),
       ),
@@ -275,7 +276,6 @@ class _userEditState extends State {
   }
 
   Center kullaniciIsmi(var k) {
-    //doldur();
     return Center(
       child: Text(
         k,
@@ -289,15 +289,32 @@ class _userEditState extends State {
 
   Center resim(String pr) {
     return Center(
-      child: ClipOval(
-        child: SizedBox.fromSize(
-          size: const Size.fromRadius(70),
-          child: Image.network(
-            pr,
-            fit: BoxFit.cover,
+      child: Stack(children: [
+        
+        Align(
+          child: ClipOval(
+            child: SizedBox.fromSize(
+              size: const Size.fromRadius(70),
+              child: Image.network(
+                pr,
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
         ),
-      ),
+        Padding(
+          padding: const EdgeInsets.only(left:110),
+          child:Align(
+            alignment:Alignment.topCenter,
+            child:IconButton(
+              icon:const Icon(Icons.add_a_photo_outlined),
+              iconSize:40,
+              color: const Color(0xffe83c5f),
+              onPressed:(){}
+            ),
+          ),
+        ),
+      ]),
     );
   }
 }

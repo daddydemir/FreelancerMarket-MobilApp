@@ -6,7 +6,7 @@ class FreelancerCommentApi{
 
   // eksik
   static Future add(SqlUser user) async{
-    var url = Uri.parse("");
+    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/freelancerComments/add");
     return await http.post(
       url,
       headers:{

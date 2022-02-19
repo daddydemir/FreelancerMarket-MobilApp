@@ -50,9 +50,9 @@ class OrderApi{
     );
   }
 
-  // eksik  neyin id'sini istiyor emin değilim
+  // 
   static Future getByUserId(SqlUser user) async{
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/orders/getByUserId?id=");
+    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/orders/getByUserId?id="+user.id.toString());
     return await http.get(
       url,
       headers:{
