@@ -10,6 +10,7 @@ class DbHelper{
   Database? _db;
 
   Future<Database?> get db async{
+    // ignore: prefer_conditional_assignment
     if(_db==null){
       _db = await initializeDb();
     }
@@ -43,17 +44,10 @@ class DbHelper{
   Future<List<SqlUser>> getUser() async{
     Database? db = await this.db;
     var result = await db?.query("Users");
-    //print("gelen" + result.toString());
-    //var result = await db?.query("Users");
     return List.generate(result!.length,(i){
-      return SqlUser.fromObject(result[i]);
+      return SqlUser.forDbfromObject(result[i]);
     });
   }
-
-  // sil
-  
-  // sil
-
 
   Future insert(SqlUser user) async{
     Database? db = await this.db;

@@ -56,4 +56,9 @@ class AdvertApi{
     var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/adverts/getBySubCategoryId?subCategoryId="+ index.toString());
     return await http.get(url);
   }
+
+  static Future getMostPopularAdverts() async{
+    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/adverts/getMostPopularJobAdverts");
+    return await http.get(url);
+  }
 }

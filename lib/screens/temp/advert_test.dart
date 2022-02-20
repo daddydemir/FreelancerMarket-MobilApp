@@ -22,11 +22,13 @@ class _advertTestState extends State {
   Future<void> _ilanSil(Advert advert) async {
     print("sil running");
     var db = DbHelper();
-    var userlist = db.getUser();
-    userlist.then((value) {
+    var userlist = await db.getUser();
+    users = userlist;
+    setState((){});
+    /* userlist.then((value) {
       users = value;
       setState((){});
-    });
+    }); */
     var resp = await AdvertApi.Delete(advert, users[0]);
     print("Response Status Code : " + resp.statusCode.toString());
     var gelen = json.decode(utf8.decode(resp.bodyBytes));

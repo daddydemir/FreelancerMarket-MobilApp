@@ -22,7 +22,7 @@ class SqlUser{
     map["surname"] = surname;
     map["mail"] = mail;
     map["image"] = image;
-    map["token"] = token;
+    //map["token"] = token;
     /*
     var map = <String , dynamic>{
       "id":id,
@@ -34,8 +34,7 @@ class SqlUser{
     return map;
   }
 
-  SqlUser.fromObject(dynamic o){
-    //print("amk : "+o["id"].toString());
+  SqlUser.forDbfromObject(dynamic o){
     id = int.tryParse(o["id"].toString());
     username = o["username"];
     password = o["password"];
@@ -44,6 +43,18 @@ class SqlUser{
     mail = o["mail"];
     image = o["image"];
     token = o["token"];
+  }
+
+  SqlUser.fromObject(dynamic o){
+    //print("amk : "+o["id"].toString());
+    id = int.tryParse(o["id"].toString());
+    username = o["userName"];
+    password = o["password"];
+    name = o["name"];
+    surname = o["surName"];
+    mail = o["email"];
+    image = o["imagePath"];
+    token = o["token"]==null ? "Empty" : o["token"];
     // bu kısımlaer çalışıyor . . .
   }
 

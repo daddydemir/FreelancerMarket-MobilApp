@@ -26,7 +26,7 @@ class Advert{
     title = json["title"];
     info = json["info"];
     image_path = json["imagePath"];
-    date = json["date"];
+    date = DateTime.parse(json["date"]);
   }
 
   // sanırım json veri upload edilirken kullanılacak olabilir ? 
