@@ -16,7 +16,7 @@ class SubCategory{
     id = json["id"];
     top_category_id = json["topCategoryId"];
     name = json["name"];
-    image = json["image"];
+    image = json["imagePath"];
   }
 
 // post 
