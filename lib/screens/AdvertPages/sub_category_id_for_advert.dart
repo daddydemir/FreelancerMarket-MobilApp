@@ -5,6 +5,7 @@ import 'package:freelancer_market/api/advert_api.dart';
 import 'package:freelancer_market/api/freelancer_api.dart';
 import 'package:freelancer_market/models/advert.dart';
 import 'package:freelancer_market/models/freelancer.dart';
+import 'package:freelancer_market/screens/AdvertPages/advert_detail.dart';
 
 class SubCategoryIdForAdvertPage extends StatefulWidget {
   const SubCategoryIdForAdvertPage({Key? key, required this.index})
@@ -33,7 +34,8 @@ class _subCategoryIdForAdvertPageState extends State {
       var cevap = json.decode(utf8.decode(gelen.bodyBytes));
       var data = cevap["data"];
       for (var i in data) {
-        ilanlar.add(Advert(
+        ilanlar.add(Advert.fromJson(i));
+        /* ilanlar.add(Advert(
             i["id"],
             i["freelancerId"],
             i["subCategoryId"],
@@ -41,14 +43,14 @@ class _subCategoryIdForAdvertPageState extends State {
             i["price"],
             i["info"],
             i["imagePath"],
-            DateTime.parse(i["date"])));
+            DateTime.parse(i["date"]))); */
         var calisanDetay =
             await FreelancerApi.getById(i["freelancerId"]);
         if (calisanDetay.statusCode == 200) {
           var resp = json.decode(utf8.decode(calisanDetay.bodyBytes));
           var veri = resp["data"];
           calisanlar.add(Freelancer.forAdvert(veri["id"], veri["userName"],
-              veri["appellation"], veri["imagePath"]));
+              veri["appellation"]="empty", veri["imagePath"]));
         }
         setState(() {});
       }
@@ -74,7 +76,14 @@ class _subCategoryIdForAdvertPageState extends State {
             itemBuilder: (BuildContext context, int index){
               return InkWell(
                 onTap: () {
-                  print(index.toString() + ". ilan");
+                  print("Detay : " + ilanlar[index].id.toString());
+                  Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AdvertDetailPage(advert: ilanlar[index]),
+                ),
+              );
+                  // bu kısımda detay sayfasına gidecek . . .
                 },
                 child:item(ilanlar[index].image_path,calisanlar[index].imagePath,calisanlar[index].username,calisanlar[index].appellation,ilanlar[index].info,ilanlar[index].price),
               );

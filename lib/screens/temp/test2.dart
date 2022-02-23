@@ -4,6 +4,7 @@ import 'package:freelancer_market/data/dbHelper.dart';
 import 'package:freelancer_market/screens/AdvertPages/all_adverts.dart';
 import 'package:freelancer_market/screens/StatusPage/server_error.dart';
 import 'package:freelancer_market/screens/login.dart';
+import 'package:freelancer_market/screens/temp/yorum_test.dart';
 
 import 'advert_test.dart';
 
@@ -62,14 +63,22 @@ class _test13 extends State {
                           builder: (context) => ServerErrorPage()));
                 },
                 child: const Text("Error Page")),
-                ElevatedButton(
+            ElevatedButton(
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>const AdvertTest()));
+                          builder: (context) => const AdvertTest()));
                 },
-                child: const Text("Advert Controller"))
+                child: const Text("Advert Controller")),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Yorum()));
+                },
+                child: const Text("Yorumlar kısmı"))
           ],
         ),
       ),

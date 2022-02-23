@@ -1,43 +1,31 @@
 
 class User{
-  late int id;
+  late int? id;
   late String name;
   late String surname;
   late String username;
   late String email;
-  late String password;
+  late String image;
+  late String appellation;
 
   
 
-  User.forLocalDb(this.name, this.surname, this.username, this.email, this.password);
-  User.forLocalDbWithId(this.id, this.name, this.surname, this.username, this.email, this.password);
-  /*
-  * Local db ye  kaydederken kullanılacak const
-  */
-  User.login(this.username , this.password);
+  User.forComments(this.id,this.username,this.image);
 
-  Map toLogin(){
-    return{
-      "userName":username,
-      "password":password
-    };
-  }
+  User.forLocalDb(this.name, this.surname, this.username, this.email,);
+  User.forLocalDbWithId(this.id, this.name, this.surname, this.username, this.email);
+ 
+ User.forCommentsFromJson(Map jsn){
+   id = int.tryParse(jsn["id"].toString());
+   username = jsn["userName"];
+   image = jsn["imagePath"];
+ }
 
-  Map<String,dynamic> toMap(){
-    return{
-      "id":id,
-      "name":name,
-      "surname":surname,
-      "username":username,
-      "email":email,
-      "password":password
-    };
-  }
-
-  Map<String,dynamic> toSqlMap(){
-    var m1;
-    m1["username"]=username;
-    m1["password"]=password;
-    return m1;
-  }
+ User.forFreelancerFromJson(Map jsn){
+   id = jsn["id"];
+   username = jsn["userName"];
+   image = jsn["imagePath"];
+   appellation = jsn["appellation"];
+ }
+  
 }

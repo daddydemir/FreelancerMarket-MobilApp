@@ -53,14 +53,13 @@ class _subCategoryPageState extends State {
             child: ListView.builder(
                 itemCount: kategoriler.length,
                 itemBuilder: (context, index) {
-                  return item(kategoriler[index].id, kategoriler[index].name,
-                      kategoriler[index].image);
+                  return item(kategoriler[index]);
                 }),
           ),
         ));
   }
 
-  Padding item(int id, String name, String image) {
+  Padding item(var data) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
@@ -72,11 +71,11 @@ class _subCategoryPageState extends State {
         elevation: 20,
         child: InkWell(
           onTap: () {
-            print("id.toString() : " + id.toString());
+            print("Sub Category : " + data.name);
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => SubCategoryIdForAdvertPage(index: index),
+                  builder: (context) => SubCategoryIdForAdvertPage(index: data.id),
                 ),
               );
           },
@@ -90,14 +89,14 @@ class _subCategoryPageState extends State {
                     topRight: Radius.circular(20),
                   ),
                   image: DecorationImage(
-                    image: NetworkImage(image),
+                    image: NetworkImage(data.image),
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(name,
+                child: Text(data.name,
                     style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,

@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:freelancer_market/models/advert.dart';
 import 'package:freelancer_market/models/sql_user.dart';
+import 'package:freelancer_market/models/user.dart';
 import 'package:http/http.dart' as http;
 class AdvertApi{
 
@@ -21,6 +22,11 @@ class AdvertApi{
         HttpHeaders.authorizationHeader:"Bearer "+user.token,
       },
     );
+  }
+
+  static Future getByFreelancerId(User user) async{
+    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/adverts/getByFreelancerId?freelancerId="+user.id.toString());
+    return await http.get(url);
   }
 
   static  Future getById(Advert advert) async{

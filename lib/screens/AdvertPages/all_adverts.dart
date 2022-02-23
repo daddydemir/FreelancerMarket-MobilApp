@@ -165,7 +165,9 @@ class _allAdvertsState extends State with TickerProviderStateMixin {
             Padding(
               padding: const EdgeInsets.only(left: 5, top: 5),
               child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    print("github.com/daddydemir");
+                  },
                   child: Card(
                     color: const Color(0xffe83c5f),
                     shape: RoundedRectangleBorder(

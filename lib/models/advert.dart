@@ -1,11 +1,5 @@
 // ignore_for_file: non_constant_identifier_names
 
-/*
-* Advert list
-* Advert create 
-* Advert delete
-*/
-
 class Advert{
   late int id;
   late int freelancer_id;
@@ -24,6 +18,7 @@ class Advert{
     freelancer_id = json["freelancerId"];
     sub_category_id = json["subCategoryId"];
     title = json["title"];
+    price = json["price"];
     info = json["info"];
     image_path = json["imagePath"];
     date = DateTime.parse(json["date"]);

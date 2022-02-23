@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:freelancer_market/models/advert.dart';
+import 'package:freelancer_market/models/comments.dart';
 import 'package:freelancer_market/models/sql_user.dart';
 import 'package:http/http.dart' as http;
 
@@ -27,10 +29,10 @@ class AdvertCommentApi {
     return await http.delete(url);
   }
 
-  static Future getById(int id) async {
+  static Future getByAdvertId(Advert advert) async {
     var url = Uri.parse(
         "https://freelancermarket-backend.herokuapp.com/api/advertComments/getByAdvertId?advertCommentId=" +
-            id.toString());
+            advert.id.toString());
     return await http.get(url);
   }
 }
