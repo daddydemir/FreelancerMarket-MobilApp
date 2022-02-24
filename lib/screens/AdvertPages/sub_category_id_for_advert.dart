@@ -23,7 +23,9 @@ class SubCategoryIdForAdvertPage extends StatefulWidget {
 // ignore: camel_case_types
 class _subCategoryIdForAdvertPageState extends State {
   _subCategoryIdForAdvertPageState(this.index);
+
   final int index;
+  
   List<Advert> ilanlar = [];
   List<Freelancer> calisanlar = [];
   Color fav = Colors.white; //Color(0xffe83c5f);
@@ -35,33 +37,19 @@ class _subCategoryIdForAdvertPageState extends State {
       var data = cevap["data"];
       for (var i in data) {
         ilanlar.add(Advert.fromJson(i));
-        /* ilanlar.add(Advert(
-            i["id"],
-            i["freelancerId"],
-            i["subCategoryId"],
-            i["title"],
-            i["price"],
-            i["info"],
-            i["imagePath"],
-            DateTime.parse(i["date"]))); */
-        var calisanDetay =
-            await FreelancerApi.getById(i["freelancerId"]);
+
+        var calisanDetay = await FreelancerApi.getById(i["freelancerId"]);
         if (calisanDetay.statusCode == 200) {
           var resp = json.decode(utf8.decode(calisanDetay.bodyBytes));
           var veri = resp["data"];
-          calisanlar.add(Freelancer.forAdvert(veri["id"], veri["userName"],
-              veri["appellation"]="empty", veri["imagePath"]));
+          calisanlar.add(Freelancer.forAdvert(veri));
         }
-        setState(() {});
       }
-    } else {
-      print("veri çekme başarısız");
-    }
+    } setState(() {});
   }
 
   @override
   void initState() {
-    //getCategories();
     _veriGetir();
     super.initState();
   }
@@ -69,29 +57,31 @@ class _subCategoryIdForAdvertPageState extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ilanlar.isEmpty
+      body: calisanlar.isEmpty
           ? const Center(child: Text("loading"))
           : ListView.builder(
-            itemCount:ilanlar.length,
-            itemBuilder: (BuildContext context, int index){
-              return InkWell(
-                onTap: () {
-                  print("Detay : " + ilanlar[index].id.toString());
-                  Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AdvertDetailPage(advert: ilanlar[index]),
-                ),
-              );
-                  // bu kısımda detay sayfasına gidecek . . .
-                },
-                child:item(ilanlar[index].image_path,calisanlar[index].imagePath,calisanlar[index].username,calisanlar[index].appellation,ilanlar[index].info,ilanlar[index].price),
-              );
-            },),
+              itemCount: ilanlar.length,
+              itemBuilder: (BuildContext context, int index) {
+                return InkWell(
+                  onTap: () {
+                    print("Detay : " + ilanlar[index].id.toString());
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            AdvertDetailPage(advert: ilanlar[index]),
+                      ),
+                    );
+                    // bu kısımda detay sayfasına gidecek . . .
+                  },
+                  child: item(calisanlar[index], ilanlar[index]),
+                );
+              },
+            ),
     );
   }
 
-  Card kart(var profil_resmi, var _username , var _appellation) {
+  Card kart(Freelancer user) {
     return Card(
       color: const Color(0xffe83c5f),
       shape: RoundedRectangleBorder(
@@ -101,12 +91,12 @@ class _subCategoryIdForAdvertPageState extends State {
       elevation: 20,
       child: SizedBox(
         width: MediaQuery.of(context).size.width / 2,
-        child: satir(profil_resmi,_username,_appellation),
+        child: satir(user),
       ),
     );
   }
 
-  Card item(var image, var profil_resmi, var _username, var _appellation, var info, var fiyat) {
+  Card item(Freelancer user, Advert advert) {
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(
@@ -126,7 +116,7 @@ class _subCategoryIdForAdvertPageState extends State {
                     topRight: Radius.circular(20),
                   ),
                   image: DecorationImage(
-                    image: NetworkImage(image),
+                    image: NetworkImage(advert.image_path),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -137,10 +127,10 @@ class _subCategoryIdForAdvertPageState extends State {
                   top: 5,
                 ),
                 child: InkWell(
-                  onTap: () {
-                    print("user detail page");
-                  },
-                  child: kart(profil_resmi , _username , _appellation)),
+                    onTap: () {
+                      print("user detail page");
+                    },
+                    child: kart(user)),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -163,31 +153,32 @@ class _subCategoryIdForAdvertPageState extends State {
               ),
             ],
           ),
-          altBar(info , fiyat),
+          altBar(advert),
         ],
       ),
     );
   }
-  
-  Padding altBar(var info, var fiyat){
+
+  Padding altBar(Advert advert) {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Row(
-        children:[
+        children: [
           Expanded(
-            flex:4,
-            child:Text(info),
+            flex: 4,
+            child: Text(advert.info),
           ),
           Expanded(
-            flex:1,
-            child:Text(fiyat.toString()+ " TL" ,style: const TextStyle(color:Colors.green,fontSize:18)),
+            flex: 1,
+            child: Text(advert.price.toString() + " TL",
+                style: const TextStyle(color: Colors.green, fontSize: 18)),
           ),
         ],
       ),
     );
   }
 
-  Padding satir(var image , var _username , var _appellation) {
+  Padding satir(Freelancer user) {
     return Padding(
       padding: const EdgeInsets.only(
         left: 0,
@@ -202,7 +193,7 @@ class _subCategoryIdForAdvertPageState extends State {
               child: SizedBox.fromSize(
                 size: const Size.fromRadius(30),
                 child: Image.network(
-                  image,
+                  user.imagePath,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -218,13 +209,13 @@ class _subCategoryIdForAdvertPageState extends State {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 8),
-                  child: Text(_username,
+                  child: Text(user.username,
                       style: const TextStyle(
                           fontSize: 20, color: Color(0xff201a3d))),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 8),
-                  child: Text(_appellation,
+                  child: Text(user.appellation,
                       style: const TextStyle(
                         fontSize: 15,
                         color: Color(0xff201a3d),
@@ -236,24 +227,6 @@ class _subCategoryIdForAdvertPageState extends State {
         ),
         //fiyat(),
       ]),
-    );
-  }
-
-  Expanded fiyat(var fiyat) {
-    return Expanded(
-      flex: 3,
-      child: Padding(
-        padding: const EdgeInsets.only(right: 8),
-        child: Align(
-          alignment: Alignment.centerRight,
-          child: Text(fiyat.toString() + " TL",
-              style: const TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                color: Colors.green,
-              )),
-        ),
-      ),
     );
   }
 }

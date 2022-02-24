@@ -5,6 +5,8 @@ import 'package:freelancer_market/screens/AdvertPages/all_adverts.dart';
 import 'package:freelancer_market/screens/StatusPage/server_error.dart';
 import 'package:freelancer_market/screens/login.dart';
 import 'package:freelancer_market/screens/temp/yorum_test.dart';
+import 'package:freelancer_market/screens/user/freelancer_detail.dart';
+import 'package:freelancer_market/screens/user/user_detail.dart';
 
 import 'advert_test.dart';
 
@@ -78,7 +80,15 @@ class _test13 extends State {
                       MaterialPageRoute(
                           builder: (context) => const Yorum()));
                 },
-                child: const Text("Yorumlar kısmı"))
+                child: const Text("Yorumlar kısmı")),
+             ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const FreelancerDetailPage()));
+                },
+                child: const Text("Kullanıcı Detay"))
           ],
         ),
       ),

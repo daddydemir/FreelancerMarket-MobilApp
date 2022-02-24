@@ -43,8 +43,7 @@ class _allAdvertsState extends State with TickerProviderStateMixin {
         if (calisanDetay.statusCode == 200) {
           var resp = json.decode(utf8.decode(calisanDetay.bodyBytes));
           var veri = resp["data"];
-          userlar.add(Freelancer.forAdvert(veri["id"], veri["userName"],
-              veri["appellation"]="hacker", veri["imagePath"]));
+          userlar.add(Freelancer.forAdvert(veri));
         }
         setState(() {});
       }

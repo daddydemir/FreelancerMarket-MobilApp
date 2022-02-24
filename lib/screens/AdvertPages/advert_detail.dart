@@ -114,10 +114,9 @@ class _advertDetailPageState extends State {
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
               ),
               Padding(
-                padding: const EdgeInsets.all(0),
+                padding: const EdgeInsets.only(bottom:10),
                 child: SizedBox(
-                  height: 300,
-                  width: MediaQuery.of(context).size.width ,
+                  height:500,
                   child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       itemCount: yorumlar.length,
@@ -302,11 +301,11 @@ class _advertDetailPageState extends State {
 
   Padding yorumAlani(Comments comment) {
     return Padding(
-      padding: const EdgeInsets.all(0),
+      padding: const EdgeInsets.only(bottom:10),
       child: SizedBox(
-        height:160,
+        height:250,
         child: Card(
-          color: Colors.white,
+          color: Colors.amber[50],
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           shadowColor: Colors.black,
           elevation: 20,
@@ -315,27 +314,38 @@ class _advertDetailPageState extends State {
             children: [
               Row(
                 children: [
-                const Padding(
-                  padding:  EdgeInsets.all(8.0),
-                  child: Text("Metehan Özalp"),
+                const Expanded(
+                  child: Padding(
+                    padding:  EdgeInsets.all(8.0),
+                    child: Text("Metehan Özalp", style:TextStyle(fontSize:20)),
+                  ),
                 ),
-                Container(
-                  height:50,
-                  width: MediaQuery.of(context).size.width/1.6,
-                  child: Align(
-                    alignment: Alignment.topRight,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        comment.date.toString(),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      height:50,
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: Card(
+                          color:Colors.yellow,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top:8,left:8,bottom:8,right:8),
+                            child: Text(
+                              comment.date.toString(),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ]),
-              Padding(
+               Padding(
                 padding: const EdgeInsets.all(10),
-                child: Text(comment.content),
+                child: Text(comment.content,
+                //overflow: TextOverflow.ellipsis,
+                ),
               ),
             ],
           ),

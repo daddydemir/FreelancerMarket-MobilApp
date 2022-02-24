@@ -1,16 +1,35 @@
 
 
 class Freelancer {
-  late int userId;
+  late int id;
+  late String name;
+  late String surname;
   late String username;
+  late String email;
   late String appellation;
   late String imagePath;
   // şimdiye kadarkiler ilanlar ile birlikte gösterilecek verilerdi.
-  late String name;
-  late String surname;
+  late double average;
   late int tamamlananSiparis;
-  late DateTime createdDate;
+  late String createdDate;
 
-  // ilanlar'da görüntülenecek bilgileri tutacak
-  Freelancer.forAdvert(this.userId, this.username, this.appellation, this.imagePath);
+  Freelancer.forAdvert(Map map){
+    id = map["id"];
+    username = map["userName"];
+    appellation = map["appellation"];
+    imagePath = map["imagePath"];
+  }
+
+  Freelancer.fromJson(Map map){
+    id= map["id"];
+    name= map["name"];
+    surname= map["surName"];
+    username= map["userName"];
+    email= map["email"];
+    appellation= map["appellation"];
+    imagePath= map["imagePath"];
+    average= map["averageScore"];
+    //tamamlananSiparis= map["tamamamlan"] ? 0 : 0;
+    //createdDate = map["createdDate"]? "boş" : "boş";
+  }
 } 

@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types, use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 
 class UserDetailPage extends StatefulWidget {
@@ -8,6 +10,11 @@ class UserDetailPage extends StatefulWidget {
 }
 
 class _userDetailWidget extends State {
+
+  Future<void> _veriGetir() async {
+    //var userResp = await 
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +25,7 @@ class _userDetailWidget extends State {
             Container(
               width: MediaQuery.of(context).size.width,
               height: 200,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: NetworkImage(
@@ -27,7 +34,7 @@ class _userDetailWidget extends State {
               ),
             ),
             Row(children: [
-              Expanded(
+              const Expanded(
                   child: Padding(
                 padding: EdgeInsets.all(20),
                 child: Text("Mehmet \nÇakmaktaşı",
@@ -48,14 +55,12 @@ class _userDetailWidget extends State {
             ListView.builder(
               shrinkWrap: true,
               itemCount: 10,
-              itemBuilder: (context,index){
+              itemBuilder: (context, index) {
                 return ListTile(
-                  title:Text("DemirX"+index.toString()),
+                  title: Text("DemirX" + index.toString()),
                 );
               },
             ),
-            
-
           ],
         ),
       ),
