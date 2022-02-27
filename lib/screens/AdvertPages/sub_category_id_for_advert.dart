@@ -6,10 +6,10 @@ import 'package:freelancer_market/api/freelancer_api.dart';
 import 'package:freelancer_market/models/advert.dart';
 import 'package:freelancer_market/models/freelancer.dart';
 import 'package:freelancer_market/screens/AdvertPages/advert_detail.dart';
+import 'package:freelancer_market/screens/Components/loading.dart';
 
 class SubCategoryIdForAdvertPage extends StatefulWidget {
-  const SubCategoryIdForAdvertPage({Key? key, required this.index})
-      : super(key: key);
+  const SubCategoryIdForAdvertPage({Key? key, required this.index}): super(key: key);
 
   final int index;
 
@@ -58,7 +58,7 @@ class _subCategoryIdForAdvertPageState extends State {
   Widget build(BuildContext context) {
     return Scaffold(
       body: calisanlar.isEmpty
-          ? const Center(child: Text("loading"))
+          ? Center(child: LoadAnim())
           : ListView.builder(
               itemCount: ilanlar.length,
               itemBuilder: (BuildContext context, int index) {

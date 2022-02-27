@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:freelancer_market/api/Advert-comment.dart';
 import 'package:freelancer_market/api/advert_api.dart';
 import 'package:freelancer_market/api/freelancer_api.dart';
@@ -10,6 +11,7 @@ import 'package:freelancer_market/models/advert.dart';
 import 'package:freelancer_market/models/comments.dart';
 import 'package:freelancer_market/models/user.dart';
 import 'package:freelancer_market/screens/Components/TopBar.dart';
+import 'package:freelancer_market/screens/Components/loading.dart';
 
 class AdvertDetailPage extends StatefulWidget {
   const AdvertDetailPage({Key? key, required this.advert}) : super(key: key);
@@ -49,12 +51,6 @@ class _advertDetailPageState extends State {
         yorumlar.add(Comments.fromJson(i));
         setState(() {});
       }
-      //print("USER : "+ data["user"]);
-      /*   var user = data["user"];
-      for (var i in user) {
-        yorumYapanlar.add(User.forCommentsFromJson(i));
-        setState(() {});
-      } */
     }
 
     var freelancerResp = await FreelancerApi.getById(advert.freelancer_id);
@@ -88,43 +84,51 @@ class _advertDetailPageState extends State {
               TopBar(),
               kutu(advert),
               information(advert),
-              owner == null ? const Center() : userInfo(owner),
+              owner == null ? Center(child: LoadAnim()) : userInfo(owner),
               const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text("Freelancer'ın diğer ilanları",
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
               ),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: SizedBox(
-                  height: 260,
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: ilanlar.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ilanItem(ilanlar[index]);
-                      }),
-                ),
-              ),
+              ilanlar.isEmpty
+                  ? Center(
+                      child: Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: LoadAnim(),
+                    ))
+                  : Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: SizedBox(
+                        height: 260,
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: ilanlar.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return ilanItem(ilanlar[index]);
+                            }),
+                      ),
+                    ),
               const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text("Yorumlar",
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom:10),
-                child: SizedBox(
-                  height:500,
-                  child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: yorumlar.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return yorumAlani(yorumlar[index]);
-                      }),
-                ),
-              ),
+              yorumlar.isEmpty
+                  ? Center(child: LoadAnim())
+                  : Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: SizedBox(
+                        height: 500,
+                        child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            itemCount: yorumlar.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return yorumAlani(yorumlar[index]);
+                            }),
+                      ),
+                    ),
             ],
           ),
         ),
@@ -301,36 +305,38 @@ class _advertDetailPageState extends State {
 
   Padding yorumAlani(Comments comment) {
     return Padding(
-      padding: const EdgeInsets.only(bottom:10),
+      padding: const EdgeInsets.only(bottom: 10),
       child: SizedBox(
-        height:250,
+        height: 250,
         child: Card(
           color: Colors.amber[50],
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           shadowColor: Colors.black,
           elevation: 20,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
+              Row(children: [
                 const Expanded(
                   child: Padding(
-                    padding:  EdgeInsets.all(8.0),
-                    child: Text("Metehan Özalp", style:TextStyle(fontSize:20)),
+                    padding: EdgeInsets.all(8.0),
+                    child:
+                        Text("Metehan Özalp", style: TextStyle(fontSize: 20)),
                   ),
                 ),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
-                      height:50,
+                      height: 50,
                       child: Align(
                         alignment: Alignment.topRight,
                         child: Card(
-                          color:Colors.yellow,
+                          color: Colors.yellow,
                           child: Padding(
-                            padding: const EdgeInsets.only(top:8,left:8,bottom:8,right:8),
+                            padding: const EdgeInsets.only(
+                                top: 8, left: 8, bottom: 8, right: 8),
                             child: Text(
                               comment.date.toString(),
                             ),
@@ -341,10 +347,11 @@ class _advertDetailPageState extends State {
                   ),
                 ),
               ]),
-               Padding(
+              Padding(
                 padding: const EdgeInsets.all(10),
-                child: Text(comment.content,
-                //overflow: TextOverflow.ellipsis,
+                child: Text(
+                  comment.content,
+                  //overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],

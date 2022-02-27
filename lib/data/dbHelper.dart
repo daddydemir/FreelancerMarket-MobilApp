@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_is_empty
+
 import 'dart:async';
 
 import 'package:freelancer_market/models/sql_user.dart';

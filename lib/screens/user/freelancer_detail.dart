@@ -1,3 +1,5 @@
+// ignore_for_file: empty_constructor_bodies
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -6,28 +8,30 @@ import 'package:freelancer_market/models/freelancer.dart';
 import 'package:freelancer_market/screens/Components/TopBar.dart';
 
 class FreelancerDetailPage extends StatefulWidget {
-  const FreelancerDetailPage({Key? key}) : super(key: key);
+  const FreelancerDetailPage({Key? key, required this.user}): super(key: key);
+  final Freelancer user;
 
   @override
   // ignore: no_logic_in_create_state
-  State<StatefulWidget> createState() => _freelancerDetailPageState();
+  State<StatefulWidget> createState() => _freelancerDetailPageState(user);
 }
 
 // ignore: camel_case_types
 class _freelancerDetailPageState extends State {
-  var user;
+  _freelancerDetailPageState(this.user);
+  final Freelancer user;
 
   @override
   initState() {
-    _veriGetir();
+    //_veriGetir();
   }
 
   Future<void> _veriGetir() async {
-    var userResp = await FreelancerApi.getById(23);
+    var userResp = await FreelancerApi.getById(user.id);
     if (userResp.statusCode == 200) {
       var gelen = json.decode(utf8.decode(userResp.bodyBytes));
       var data = gelen["data"];
-      user = Freelancer.fromJson(data);
+      //user = Freelancer.fromJson(data);
       setState(() {});
     }
   }

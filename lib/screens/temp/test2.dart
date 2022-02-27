@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:freelancer_market/data/dbHelper.dart';
+import 'package:freelancer_market/models/freelancer.dart';
 import 'package:freelancer_market/screens/AdvertPages/all_adverts.dart';
 import 'package:freelancer_market/screens/StatusPage/server_error.dart';
 import 'package:freelancer_market/screens/login.dart';
@@ -83,10 +84,7 @@ class _test13 extends State {
                 child: const Text("Yorumlar kısmı")),
              ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const FreelancerDetailPage()));
+                  //getCategoriesNavigator.push(context, MaterialPageRoute(builder: (context) => FreelancerDetailPage()));
                 },
                 child: const Text("Kullanıcı Detay"))
           ],
@@ -99,7 +97,7 @@ class _test13 extends State {
     var all = db.getUser();
     all.then((data) {
       Fluttertoast.showToast(
-          msg: data[0].username,
+          msg: data[0].id.toString(),
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1);
@@ -109,6 +107,7 @@ class _test13 extends State {
   void _dbDelete() {
     var sil1 = db.delete(23);
     var sil2 = db.delete(21);
+    var sil3 = db.delete(29);
     sil1.then((data) {
       Fluttertoast.showToast(
           msg: "23 " + data.toString(),

@@ -18,7 +18,6 @@ class LoginPage extends StatefulWidget {
 // ignore: camel_case_types
 class _loginState extends State {
   // ignore: non_constant_identifier_names
-  var login_api = AuthApi();
   var database = DbHelper();
 
   var username = TextEditingController();
@@ -108,8 +107,6 @@ class _loginState extends State {
 
   // ignore: non_constant_identifier_names
   f_login() {
-    print("bu amk ");
-
     getJwtToken();
   }
 
@@ -121,16 +118,11 @@ class _loginState extends State {
           
           var data = gelen["data"];
           var token = data["jwtToken"];
+          
           var u1 = data["user"];
-          //print(u1.toString());
-          var kullanici = SqlUser(int.tryParse(u1["id"].toString()), u1["userName"],password.text, u1["name"],u1["surName"],u1["email"],u1["imagePath"]);
-          kullanici.token = token;
+          print("Lan mete : " + u1.toString());
+          var kullanici = SqlUser.corbaOlduAmk(data);
           dbOperations(kullanici);
-          var sqlResponse = database.getUser();
-          sqlResponse.then((data){
-            var ni = data[1];
-            print("kAdı : " + ni.id.toString());
-          });
         }else if(response.statusCode == 400){
           print("Parola yanlıs");
         }else{

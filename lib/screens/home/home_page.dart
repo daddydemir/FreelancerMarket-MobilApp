@@ -5,11 +5,15 @@ import 'package:freelancer_market/api/advert_api.dart';
 import 'package:freelancer_market/api/freelancer_api.dart';
 import 'package:freelancer_market/api/sub_category_api.dart';
 import 'package:freelancer_market/models/advert.dart';
+import 'package:freelancer_market/models/freelancer.dart';
 import 'package:freelancer_market/models/sql_user.dart';
 import 'package:freelancer_market/models/sub_category.dart';
+import 'package:freelancer_market/screens/AdvertPages/advert_detail.dart';
+import 'package:freelancer_market/screens/AdvertPages/sub_category_id_for_advert.dart';
 import 'package:freelancer_market/screens/Components/SearchBar.dart';
 import 'package:freelancer_market/screens/Components/TopBar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:freelancer_market/screens/user/freelancer_detail.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -38,7 +42,7 @@ class _homePageState extends State with TickerProviderStateMixin {
       var gelen = json.decode(utf8.decode(resp.bodyBytes));
       var data = gelen["data"];
       for (var i in data) {
-        users.add(SqlUser.fromObject(i));
+        users.add(Freelancer.fromJson(i));
         setState(() {});
       }
     }
@@ -146,7 +150,7 @@ class _homePageState extends State with TickerProviderStateMixin {
     );
   }
 
-  Widget userComponent(SqlUser user) {
+  Widget userComponent(Freelancer user) {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Card(
@@ -158,7 +162,14 @@ class _homePageState extends State with TickerProviderStateMixin {
         shadowColor: Colors.black,
         child: InkWell(
           splashColor: const Color(0xffe83c5f),
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FreelancerDetailPage(user: user),
+                      ),
+                    );
+          },
           child: SizedBox(
             width: 180,
             height: 200,
@@ -171,7 +182,7 @@ class _homePageState extends State with TickerProviderStateMixin {
                     child: SizedBox.fromSize(
                       size: const Size.fromRadius(55),
                       child: Image.network(
-                        user.image,
+                        user.imagePath,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -198,7 +209,14 @@ class _homePageState extends State with TickerProviderStateMixin {
         shadowColor: Colors.black,
         child: InkWell(
           splashColor: const Color(0xffe83c5f),
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AdvertDetailPage(advert: advert),
+                      ),
+                    );
+          },
           child: SizedBox(
             width: 180,
             height: 200,
@@ -238,7 +256,14 @@ class _homePageState extends State with TickerProviderStateMixin {
         shadowColor: Colors.black,
         child: InkWell(
           splashColor: const Color(0xffe83c5f),
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SubCategoryIdForAdvertPage(index: category.id),
+                      ),
+                    );
+          },
           child: SizedBox(
             width: 180,
             height: 200,

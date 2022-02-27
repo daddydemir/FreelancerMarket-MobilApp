@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:freelancer_market/api/top_category_api.dart';
+import 'package:freelancer_market/screens/Components/loading.dart';
 import 'package:freelancer_market/screens/home/sub_category.dart';
 
 class MainPage extends StatefulWidget {
@@ -59,8 +60,8 @@ class _mainPageState extends State {
         Expanded(
           child: SizedBox(
             child: categoryList.isEmpty
-                ? const Center(
-                  child:CircularProgressIndicator(),
+                ? Center(
+                  child:LoadAnim(),
                 )
                 : ListView.builder(
                     scrollDirection: Axis.vertical,

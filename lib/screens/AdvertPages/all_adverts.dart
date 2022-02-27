@@ -29,7 +29,8 @@ class _allAdvertsState extends State with TickerProviderStateMixin {
       var gelen = json.decode(utf8.decode(response.bodyBytes));
       var data = gelen["data"];
       for (var i in data) {
-        ilanlar.add(Advert(
+        ilanlar.add(Advert.fromJson(i));
+        /* ilanlar.add(Advert(
             i["id"],
             i["freelancerId"],
             i["subCategoryId"],
@@ -37,9 +38,8 @@ class _allAdvertsState extends State with TickerProviderStateMixin {
             i["price"],
             i["info"],
             i["imagePath"],
-            DateTime.parse(i["date"])));
-        var calisanDetay =
-            await FreelancerApi.getById(i["freelancerId"]);
+            DateTime.parse(i["date"]))); */
+        var calisanDetay = await FreelancerApi.getById(i["freelancerId"]);
         if (calisanDetay.statusCode == 200) {
           var resp = json.decode(utf8.decode(calisanDetay.bodyBytes));
           var veri = resp["data"];
@@ -63,9 +63,7 @@ class _allAdvertsState extends State with TickerProviderStateMixin {
 
   @override
   void initState() {
-    //getCategories();
     _veriGetir();
-    super.initState();
   }
 
   @override

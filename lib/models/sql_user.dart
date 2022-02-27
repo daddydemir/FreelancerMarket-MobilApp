@@ -34,6 +34,19 @@ class SqlUser{
     return map;
   }
 
+  SqlUser.corbaOlduAmk(Map m){
+    token = m["jwtToken"];
+    m = m["user"];
+    id = m["id"];
+    username = m["userName"];
+    password = m["password"];
+    name = m["name"];
+    surname = m["surName"];
+    image = m["imagePath"];
+    mail = m["email"];
+    
+  }
+
   SqlUser.forDbfromObject(dynamic o){
     id = int.tryParse(o["id"].toString());
     username = o["username"];

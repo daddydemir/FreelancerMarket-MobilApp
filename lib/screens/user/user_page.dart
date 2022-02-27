@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:freelancer_market/data/dbHelper.dart';
+import 'package:freelancer_market/models/sql_user.dart';
 import 'package:freelancer_market/screens/Components/TopBar.dart';
+import 'package:freelancer_market/screens/Components/loading.dart';
 import 'package:freelancer_market/screens/user/user_edit.dart';
 import 'package:freelancer_market/screens/user/wallet_page.dart';
 
@@ -14,23 +16,14 @@ class UserPage extends StatefulWidget {
 
 // ignore: camel_case_types
 class _userPageState extends State {
-  var username = "kullanıcı";
-  String? mail;
-  String image = "profil_resmi";
-  var kontrol = [];
+  List<SqlUser> users = [];
   var db = DbHelper();
 
   Future<void> _veriGetir() async {
-    var getir = db.getUser();
-    getir.then((value) {
-      kontrol = value;
-      var name = value[0].name;
-      var surname = value[0].surname;
-      username = name + " " + surname;
-      mail = value[0].mail;
-      image = value[0].image;
-      setState(() {});
-    });
+
+    var getir = await db.getUser();    
+    users = getir;
+    setState((){});
   }
 
   @override
@@ -44,7 +37,7 @@ class _userPageState extends State {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xfff4f5f7),
-      body: kontrol.isEmpty ? const Center(child:Text("Olacak O Kadar")) : Column(
+      body: users.isEmpty ? Center(child:LoadAnim()) : Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -81,19 +74,20 @@ class _userPageState extends State {
                                 child: SizedBox.fromSize(
                                   size: const Size.fromRadius(40),
                                   child: Image.network(
-                                    image,
+                                    users[0].image,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
-                              userInfo(username, mail),
+                              userInfo(users[0]),
                             ]),
                           ),
                         ),
                       ),
-                      pro(context),
+                      pro(),
+                      ilanlarim(),
                       sepetim(),
-                      cuz(context),
+                      cuz(),
                       cikis(),
                     ],
                   ),
@@ -106,7 +100,35 @@ class _userPageState extends State {
     );
   }
 
-  Padding userInfo(var u, var e) {
+Padding ilanlarim() {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Row(
+        children: [
+          Expanded(
+            child: IconButton(
+              icon: const Icon(Icons.task_sharp),
+              iconSize: 35,
+              tooltip: "Text(" "),",
+              onPressed: () {},
+            ),
+          ),
+          const Expanded(
+            child: Text("İlanlarım",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          ),
+          Expanded(
+              child: IconButton(
+            icon: const Icon(Icons.arrow_forward_ios),
+            iconSize: 35,
+            onPressed: () {},
+          )),
+        ],
+      ),
+    );
+  }
+
+  Padding userInfo(SqlUser user) {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Column(
@@ -114,10 +136,10 @@ class _userPageState extends State {
           crossAxisAlignment: CrossAxisAlignment.start,
           // ignore: prefer_const_literals_to_create_immutables
           children: [
-            Text(u,
+            Text(user.username,
                 style:
                     const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            Text(e, style: const TextStyle(fontStyle: FontStyle.italic))
+            Text(user.mail, style: const TextStyle(fontStyle: FontStyle.italic))
           ]),
     );
   }
@@ -178,7 +200,7 @@ class _userPageState extends State {
     );
   }
 
-  InkWell pro(BuildContext context) {
+  InkWell pro() {
     return InkWell(
         onTap: () {
           Navigator.push(context,
@@ -210,7 +232,7 @@ class _userPageState extends State {
         ));
   }
 
-  InkWell cuz(BuildContext context) {
+  InkWell cuz() {
     return InkWell(
         onTap: () {
           Navigator.push(

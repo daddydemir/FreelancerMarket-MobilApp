@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freelancer_market/data/dbHelper.dart';
+import 'package:freelancer_market/models/sql_user.dart';
+import 'package:freelancer_market/screens/Components/loading.dart';
 import 'package:freelancer_market/screens/user/password_change.dart';
 
 class UserEdit extends StatefulWidget {
@@ -15,29 +17,12 @@ class UserEdit extends StatefulWidget {
 // ignore: camel_case_types
 class _userEditState extends State {
   var db = DbHelper();
-  var kontrol = [];
-  var isim = "isim";
-  var soyisim = "soyisim";
-  // ignore: non_constant_identifier_names
-  var kullanici_isim = "username";
-  var parola = "parola";
-  var hakkimda = "hakkimda";
-  // ignore: non_constant_identifier_names
-  String profil_resmi = "Profil_resmi";
-  var url = "";
+  List<SqlUser> users = [];
 
   Future<void> _veriGetir() async {
-    var getir = db.getUser();
-    getir.then((value) async {
-      setState(() {
-        kontrol = value;
-        isim = value[0].name;
-        soyisim = value[0].surname;
-        parola = value[0].password;
-        kullanici_isim = value[0].username;
-        profil_resmi = value[0].image;
-      });
-    });
+    var getir = await db.getUser();
+    users = getir;
+    setState(() {});
   }
 
   @override
@@ -51,8 +36,8 @@ class _userEditState extends State {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xfff4f5f7),
-      body: kontrol.isEmpty
-          ? const Center(child: Text("Ne Oldu"))
+      body: users.isEmpty
+          ? Center(child: LoadAnim())
           : Padding(
               padding: const EdgeInsets.all(16),
               child: Expanded(
@@ -72,20 +57,20 @@ class _userEditState extends State {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              resim(profil_resmi),
-                              kullaniciIsmi(kullanici_isim),
+                              resim(users[0].image),
+                              kullaniciIsmi(users[0].username),
                               Yazi("Ad"),
-                              _isim(isim),
+                              _isim(users[0].name),
                               Yazi("Soyad"),
-                              _soyisim(soyisim),
+                              _soyisim(users[0].surname),
                               Yazi("Mail"),
-                              _mail("mehmetcakmaktasi42@gmail.com"),
+                              _mail(users[0].mail),
                               Yazi("Unvan"),
-                              _unvan("Mobil Geliştirici"),
+                              _unvan("Eployer'ın unvanı yok"),
                               //Parola(),
                               //_parola(parola),
                               Yazi("Hakkımda"),
-                              _hakkimda(hakkimda),
+                              _hakkimda("hakkimda kısmı nasıl olacak "),
                               Parola(),
                               Kaydet(),
                             ]),
