@@ -9,7 +9,7 @@ class FreelancerApi {
     return await http.get(url);
   }
 
-  static Future getById(int index) async{
+  Future getById(int index) async{
     var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/freelancers/getById?id="+ index.toString());
     return await http.get(url);
   }

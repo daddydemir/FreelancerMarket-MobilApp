@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:freelancer_market/data/dbHelper.dart';
-import 'package:freelancer_market/models/sql_user.dart';
 import 'package:freelancer_market/screens/Components/TopBar.dart';
 import 'package:freelancer_market/screens/Components/loading.dart';
 import 'package:freelancer_market/screens/user/user_edit.dart';
 import 'package:freelancer_market/screens/user/wallet_page.dart';
+
+import '../../models/_User.dart';
+import '../../service/user/userService.dart';
 
 // ignore: use_key_in_widget_constructors
 class UserPage extends StatefulWidget {
@@ -16,13 +17,12 @@ class UserPage extends StatefulWidget {
 
 // ignore: camel_case_types
 class _userPageState extends State {
-  List<SqlUser> users = [];
-  var db = DbHelper();
+
+  var service = UserService();
+  var u;
 
   Future<void> _veriGetir() async {
-
-    var getir = await db.getUser();    
-    users = getir;
+    u = await service.getUser();
     setState((){});
   }
 
@@ -37,7 +37,7 @@ class _userPageState extends State {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xfff4f5f7),
-      body: users.isEmpty ? Center(child:LoadAnim()) : Column(
+      body: u == null ? Center(child:LoadAnim()) : Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -74,12 +74,12 @@ class _userPageState extends State {
                                 child: SizedBox.fromSize(
                                   size: const Size.fromRadius(40),
                                   child: Image.network(
-                                    users[0].image,
+                                    u.image,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
-                              userInfo(users[0]),
+                              userInfo(u),
                             ]),
                           ),
                         ),
@@ -128,7 +128,7 @@ Padding ilanlarim() {
     );
   }
 
-  Padding userInfo(SqlUser user) {
+  Padding userInfo(Users user) {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Column(

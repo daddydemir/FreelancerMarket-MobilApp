@@ -6,6 +6,8 @@ import 'package:freelancer_market/api/auth_api.dart';
 import 'package:freelancer_market/data/dbHelper.dart';
 import 'package:freelancer_market/models/sql_user.dart';
 
+import '../service/login/loginService.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -107,7 +109,9 @@ class _loginState extends State {
 
   // ignore: non_constant_identifier_names
   f_login() {
-    getJwtToken();
+    var service = LoginService();
+    service.login(username.text , password.text);
+    //getJwtToken();
   }
 
   void getJwtToken() {

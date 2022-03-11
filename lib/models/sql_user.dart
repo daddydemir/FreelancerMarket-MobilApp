@@ -7,6 +7,7 @@ class SqlUser{
   late String mail;
   late String image;
   late String token;
+  late String role;
 
   SqlUser.empty();
   SqlUser(this.id ,this.username, this.password, this.name , this.surname, this.mail, this.image);
@@ -22,20 +23,14 @@ class SqlUser{
     map["surname"] = surname;
     map["mail"] = mail;
     map["image"] = image;
-    //map["token"] = token;
-    /*
-    var map = <String , dynamic>{
-      "id":id,
-      "username":username,
-      "password":password,
-      "token":token
-    };
-    */
+  
     return map;
   }
 
   SqlUser.corbaOlduAmk(Map m){
     token = m["jwtToken"];
+    var mmap = m['operationClaims'];
+    role = mmap['claimName'];
     m = m["user"];
     id = m["id"];
     username = m["userName"];

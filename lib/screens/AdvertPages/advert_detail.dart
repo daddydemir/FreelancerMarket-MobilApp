@@ -3,7 +3,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:freelancer_market/api/Advert-comment.dart';
 import 'package:freelancer_market/api/advert_api.dart';
 import 'package:freelancer_market/api/freelancer_api.dart';
@@ -52,8 +51,9 @@ class _advertDetailPageState extends State {
         setState(() {});
       }
     }
+    var api = FreelancerApi();
 
-    var freelancerResp = await FreelancerApi.getById(advert.freelancer_id);
+    var freelancerResp = await api.getById(advert.freelancer_id);
     if (freelancerResp.statusCode == 200) {
       var cevap = json.decode(utf8.decode(freelancerResp.bodyBytes));
       var veri = cevap["data"];

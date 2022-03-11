@@ -30,16 +30,8 @@ class _allAdvertsState extends State with TickerProviderStateMixin {
       var data = gelen["data"];
       for (var i in data) {
         ilanlar.add(Advert.fromJson(i));
-        /* ilanlar.add(Advert(
-            i["id"],
-            i["freelancerId"],
-            i["subCategoryId"],
-            i["title"],
-            i["price"],
-            i["info"],
-            i["imagePath"],
-            DateTime.parse(i["date"]))); */
-        var calisanDetay = await FreelancerApi.getById(i["freelancerId"]);
+        var api = FreelancerApi();
+        var calisanDetay = await api.getById(i["freelancerId"]);
         if (calisanDetay.statusCode == 200) {
           var resp = json.decode(utf8.decode(calisanDetay.bodyBytes));
           var veri = resp["data"];

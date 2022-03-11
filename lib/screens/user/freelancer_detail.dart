@@ -26,7 +26,7 @@ class _freelancerDetailPageState extends State {
     //_veriGetir();
   }
 
-  Future<void> _veriGetir() async {
+/*   Future _veriGetir() async {
     var userResp = await FreelancerApi.getById(user.id);
     if (userResp.statusCode == 200) {
       var gelen = json.decode(utf8.decode(userResp.bodyBytes));
@@ -34,7 +34,7 @@ class _freelancerDetailPageState extends State {
       //user = Freelancer.fromJson(data);
       setState(() {});
     }
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {

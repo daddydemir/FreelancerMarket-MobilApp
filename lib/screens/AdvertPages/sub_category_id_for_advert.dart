@@ -37,8 +37,9 @@ class _subCategoryIdForAdvertPageState extends State {
       var data = cevap["data"];
       for (var i in data) {
         ilanlar.add(Advert.fromJson(i));
+        var api = FreelancerApi();
 
-        var calisanDetay = await FreelancerApi.getById(i["freelancerId"]);
+        var calisanDetay = await api.getById(i["freelancerId"]);
         if (calisanDetay.statusCode == 200) {
           var resp = json.decode(utf8.decode(calisanDetay.bodyBytes));
           var veri = resp["data"];

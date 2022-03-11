@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:freelancer_market/data/dbHelper.dart';
-import 'package:freelancer_market/models/sql_user.dart';
 import 'package:freelancer_market/screens/Components/loading.dart';
 import 'package:freelancer_market/screens/user/password_change.dart';
+
+import '../../service/user/freelancerService.dart';
+
 
 class UserEdit extends StatefulWidget {
   const UserEdit({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _userEditState();
-  /*  {
-    return _userEditState();
-  } */
 }
 
 // ignore: camel_case_types
 class _userEditState extends State {
-  var db = DbHelper();
-  List<SqlUser> users = [];
+
+  var service = FreelancerService();
+  var user;
 
   Future<void> _veriGetir() async {
-    var getir = await db.getUser();
-    users = getir;
+    user = await service.getUser(23);
     setState(() {});
   }
 
@@ -36,7 +34,7 @@ class _userEditState extends State {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xfff4f5f7),
-      body: users.isEmpty
+      body: user == null 
           ? Center(child: LoadAnim())
           : Padding(
               padding: const EdgeInsets.all(16),
@@ -57,20 +55,20 @@ class _userEditState extends State {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              resim(users[0].image),
-                              kullaniciIsmi(users[0].username),
+                              resim(user.imagePath),
+                              kullaniciIsmi(user.username),
                               Yazi("Ad"),
-                              _isim(users[0].name),
+                              _isim(user.name),
                               Yazi("Soyad"),
-                              _soyisim(users[0].surname),
+                              _soyisim(user.surname),
                               Yazi("Mail"),
-                              _mail(users[0].mail),
+                              _mail(user.email),
                               Yazi("Unvan"),
-                              _unvan("Eployer'ın unvanı yok"),
+                              _unvan(user.appellation),
                               //Parola(),
                               //_parola(parola),
                               Yazi("Hakkımda"),
-                              _hakkimda("hakkimda kısmı nasıl olacak "),
+                              _hakkimda(user.about),
                               Parola(),
                               Kaydet(),
                             ]),
@@ -118,7 +116,7 @@ class _userEditState extends State {
             borderSide: const BorderSide(color: Color(0xfff4f5f7), width: 2),
             borderRadius: BorderRadius.circular(25),
           ),
-          hintText: "Bu alan boş",
+          hintText: h,
           fillColor: const Color(0xfff4f5f7),
           filled: true,
         ),
