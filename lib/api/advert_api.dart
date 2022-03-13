@@ -58,12 +58,12 @@ class AdvertApi{
     return await http.get(url);
   }
 
-  static Future getBySubCategoryId(int index) async {
+  Future getBySubCategoryId(int index) async {
     var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/adverts/getBySubCategoryId?subCategoryId="+ index.toString());
     return await http.get(url);
   }
 
-  static Future getMostPopularAdverts() async{
+  Future getMostPopularAdverts() async{
     var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/adverts/getMostPopularJobAdverts");
     return await http.get(url);
   }

@@ -8,6 +8,9 @@ import 'package:freelancer_market/models/freelancer.dart';
 import 'package:freelancer_market/screens/AdvertPages/advert_detail.dart';
 import 'package:freelancer_market/screens/Components/loading.dart';
 
+import '../../service/advert/advertService.dart';
+import '../../service/user/freelancerService.dart';
+
 class SubCategoryIdForAdvertPage extends StatefulWidget {
   const SubCategoryIdForAdvertPage({Key? key, required this.index}): super(key: key);
 
@@ -25,28 +28,19 @@ class _subCategoryIdForAdvertPageState extends State {
   _subCategoryIdForAdvertPageState(this.index);
 
   final int index;
+
+  var advertService = AdvertService();
+  var freelancerService = FreelancerService();
+  var adverts = <Advert>[];
+  var freelancers = <Freelancer>[];
   
-  List<Advert> ilanlar = [];
-  List<Freelancer> calisanlar = [];
+
   Color fav = Colors.white; //Color(0xffe83c5f);
 
   Future<void> _veriGetir() async {
-    var gelen = await AdvertApi.getBySubCategoryId(index);
-    if (gelen.statusCode == 200) {
-      var cevap = json.decode(utf8.decode(gelen.bodyBytes));
-      var data = cevap["data"];
-      for (var i in data) {
-        ilanlar.add(Advert.fromJson(i));
-        var api = FreelancerApi();
-
-        var calisanDetay = await api.getById(i["freelancerId"]);
-        if (calisanDetay.statusCode == 200) {
-          var resp = json.decode(utf8.decode(calisanDetay.bodyBytes));
-          var veri = resp["data"];
-          calisanlar.add(Freelancer.forAdvert(veri));
-        }
-      }
-    } setState(() {});
+    adverts = await advertService.getBySubCategoryId(index);
+    freelancers = await freelancerService.getAllFreelancers();
+    setState(() {});
   }
 
   @override
@@ -58,24 +52,24 @@ class _subCategoryIdForAdvertPageState extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: calisanlar.isEmpty
+      body: freelancers.isEmpty
           ? Center(child: LoadAnim())
           : ListView.builder(
-              itemCount: ilanlar.length,
+              itemCount: adverts.length,
               itemBuilder: (BuildContext context, int index) {
                 return InkWell(
                   onTap: () {
-                    print("Detay : " + ilanlar[index].id.toString());
+                    print("Detay : " + adverts[index].id.toString());
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            AdvertDetailPage(advert: ilanlar[index]),
+                            AdvertDetailPage(advert: adverts[index]),
                       ),
                     );
                     // bu kısımda detay sayfasına gidecek . . .
                   },
-                  child: item(calisanlar[index], ilanlar[index]),
+                  child: item(freelancers[index], adverts[index]),
                 );
               },
             ),

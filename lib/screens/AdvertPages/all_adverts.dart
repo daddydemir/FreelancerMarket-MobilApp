@@ -40,7 +40,8 @@ class _allAdvertsState extends State with TickerProviderStateMixin {
         setState(() {});
       }
     }
-    var resp = await SubCategoryApi.getAll();
+    var api = SubCategoryApi();
+    var resp = await api.getAll();
     if (resp.statusCode == 200) {
       var gelen = json.decode(utf8.decode(resp.bodyBytes));
       var data = gelen["data"];

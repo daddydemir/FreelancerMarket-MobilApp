@@ -5,7 +5,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:freelancer_market/api/auth_api.dart';
 import 'package:freelancer_market/data/dbHelper.dart';
-import 'package:freelancer_market/models/sql_user.dart';
+
+import '../../service/auth/loginService.dart';
 
 class PasswordChangePage extends StatefulWidget {
   const PasswordChangePage({Key? key}) : super(key: key);
@@ -15,6 +16,8 @@ class PasswordChangePage extends StatefulWidget {
 }
 
 class _passwordChangePageState extends State {
+
+  var service = LoginService();
 
   var lastpass = TextEditingController();
   var newpass = TextEditingController();
@@ -113,20 +116,12 @@ class _passwordChangePageState extends State {
   }
 
   void changePass() async{
-    var db = DbHelper();
-    var user;
-    var getir = await db.getUser();
-    user = getir[0];
-    print(user.name+ " : " + newpass.text );
-    var resp = await AuthApi.changePassword(user, lastpass.text, newpass.text, reptpass.text);
-    var cevap = json.decode(utf8.decode(resp.bodyBytes));
-    print(cevap);
-    if(resp.statusCode == 200){
-      var mesaj = cevap["message"];
-      alertKutu(context,mesaj,true);
+    
+    var list = await service.changePassword(lastpass.text, newpass.text, reptpass.text);
+    if(list[0] == 200){
+      alertKutu(context,list[1],true);
     }else{
-      var mesaj = cevap["message"];
-      alertKutu(context,mesaj,false);
+      alertKutu(context,list[1],false);
     }
 
   }
@@ -135,7 +130,6 @@ class _passwordChangePageState extends State {
     Widget okButton = FlatButton(
         child: const Text("Tamam"),
         onPressed: () {
-          //Navigator.of(context).pop();
           Navigator.pop(context);
           Navigator.pop(context);
         });

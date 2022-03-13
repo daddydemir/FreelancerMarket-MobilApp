@@ -10,6 +10,8 @@ class Users {
   late String token;
   late String role;
 
+  Users.empty();
+
   Users(
       {required this.id,
       required this.username,

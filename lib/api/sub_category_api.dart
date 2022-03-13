@@ -31,17 +31,17 @@ class SubCategoryApi{
     );
   }
 
-  static Future getAll() async {
+  Future getAll() async {
     var url = Uri.parse("http://freelancermarket-backend.herokuapp.com/api/subCategories/getAll");
     return await http.get(url);
   }
 
-  static Future getByTopCategoryId(int topCategory) async {
+  Future getByTopCategoryId(int topCategory) async {
     var url = Uri.parse("http://freelancermarket-backend.herokuapp.com/api/subCategories/getByTopCategoryId?id="+topCategory.toString());
     return await http.get(url);
   }
 
-  static Future getMostPopularSubCategories() async {
+  Future getMostPopularSubCategories() async {
     var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/subCategories/getMostPopularSubCategories");
     return await http.get(url);
   }

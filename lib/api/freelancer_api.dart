@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:freelancer_market/models/_User.dart';
 import 'package:freelancer_market/models/sql_user.dart';
 import 'package:http/http.dart' as http;
 class FreelancerApi {
 
-  static Future getAll() async {
+  Future getAll() async {
     var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/freelancers/getAll");
     return await http.get(url);
   }
@@ -14,13 +15,13 @@ class FreelancerApi {
     return await http.get(url);
   }
 
-  static Future getMostPopularFreelancers() async {
+  Future getMostPopularFreelancers() async {
     var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/freelancers/getMostPopularFreelancers");
     return await http.get(url);
   }
   
   // eksik
-  static Future imageUpdate(SqlUser user) async{
+  static Future imageUpdate(Users user) async{
     var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/freelancers/imageUpdate?id="+user.id.toString());
     return await http.post(
       url,

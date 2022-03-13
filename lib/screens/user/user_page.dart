@@ -85,7 +85,7 @@ class _userPageState extends State {
                         ),
                       ),
                       pro(),
-                      ilanlarim(),
+                      u.role != "ROLE_FREELANCER" ? const Center() : ilanlarim(),
                       sepetim(),
                       cuz(),
                       cikis(),
@@ -236,7 +236,7 @@ Padding ilanlarim() {
     return InkWell(
         onTap: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => WalletPage()));
+              context, MaterialPageRoute(builder: (context) => WalletPage(user:u)));
         },
         child: Padding(
           padding: const EdgeInsets.all(10),

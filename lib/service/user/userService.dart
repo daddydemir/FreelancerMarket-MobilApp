@@ -6,7 +6,7 @@ class UserService{
 
   Future<Users> getUser() async{
     var db = DatabaseHelper();
-    List<Users> liste = await db.getUsers();
-    return liste[0];
+    var list =  await db.getUsers();
+    return list[0];
   }
 }

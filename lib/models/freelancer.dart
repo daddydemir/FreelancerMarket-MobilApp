@@ -35,7 +35,7 @@ class Freelancer {
     surname = map["surName"];
     username = map["userName"];
     email = map["email"];
-    appellation = map["appellation"];
+    appellation = map["appellation"] ?? "nobody";
     imagePath = map["imagePath"];
     about = map["about"] ?? " null ";
     average = map["averageScore"];

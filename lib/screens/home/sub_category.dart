@@ -5,6 +5,8 @@ import 'package:freelancer_market/api/sub_category_api.dart';
 import 'package:freelancer_market/models/sub_category.dart';
 import 'package:freelancer_market/screens/AdvertPages/sub_category_id_for_advert.dart';
 
+import '../../service/category/subCategoryService.dart';
+
 class SubCategoryPage extends StatefulWidget {
   const SubCategoryPage({Key? key, required this.index}) : super(key: key);
   final int index;
@@ -18,22 +20,12 @@ class SubCategoryPage extends StatefulWidget {
 class _subCategoryPageState extends State {
   _subCategoryPageState(this.index);
   final int index;
-  int durum = 0;
-  List<SubCategory> kategoriler = [];
+  var service = SubCategoryService();
+  var categories = <SubCategory>[];
 
   Future<void> _veriGetir() async {
-    var gelen = await SubCategoryApi.getByTopCategoryId(index);
-    if (gelen.statusCode == 200) {
-      var cevap = json.decode(utf8.decode(gelen.bodyBytes));
-      var data = cevap["data"];
-      for (var i in data) {
-        kategoriler.add(SubCategory(
-            i["id"], i["topCategoryId"], i["name"], i["imagePath"]));
-        setState(() {});
-      }
-    } else {
-      durum = gelen.statusCode;
-    }
+    categories = await service.getAll(index);
+    setState(() {});
   }
 
   @override
@@ -51,9 +43,9 @@ class _subCategoryPageState extends State {
           padding: const EdgeInsets.all(15),
           child: Center(
             child: ListView.builder(
-                itemCount: kategoriler.length,
+                itemCount: categories.length,
                 itemBuilder: (context, index) {
-                  return item(kategoriler[index]);
+                  return item(categories[index]);
                 }),
           ),
         ));
@@ -73,11 +65,12 @@ class _subCategoryPageState extends State {
           onTap: () {
             print("Sub Category : " + data.name);
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SubCategoryIdForAdvertPage(index: data.id),
-                ),
-              );
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    SubCategoryIdForAdvertPage(index: data.id),
+              ),
+            );
           },
           child: Column(
             children: [

@@ -1,12 +1,7 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:freelancer_market/api/advert_api.dart';
-import 'package:freelancer_market/api/freelancer_api.dart';
-import 'package:freelancer_market/api/sub_category_api.dart';
 import 'package:freelancer_market/models/advert.dart';
 import 'package:freelancer_market/models/freelancer.dart';
-import 'package:freelancer_market/models/sql_user.dart';
 import 'package:freelancer_market/models/sub_category.dart';
 import 'package:freelancer_market/screens/AdvertPages/advert_detail.dart';
 import 'package:freelancer_market/screens/AdvertPages/sub_category_id_for_advert.dart';
@@ -14,6 +9,10 @@ import 'package:freelancer_market/screens/Components/SearchBar.dart';
 import 'package:freelancer_market/screens/Components/TopBar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:freelancer_market/screens/user/freelancer_detail.dart';
+
+import '../../service/advert/advertService.dart';
+import '../../service/category/subCategoryService.dart';
+import '../../service/user/freelancerService.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -26,9 +25,13 @@ class HomePage extends StatefulWidget {
 
 // ignore: camel_case_types
 class _homePageState extends State with TickerProviderStateMixin {
-  var users = [];
-  var adverts = [];
-  var categories = [];
+
+  var freelancerService = FreelancerService();
+  var advertService = AdvertService();
+  var categoryService = SubCategoryService();
+  var freelancers = <Freelancer>[];
+  var adverts = <Advert>[];
+  var categories = <SubCategory>[];
 
   @override
   // ignore: must_call_super
@@ -37,36 +40,10 @@ class _homePageState extends State with TickerProviderStateMixin {
   }
 
   Future<void> _veriGetir() async {
-    var resp = await FreelancerApi.getMostPopularFreelancers();
-    if (resp.statusCode == 200) {
-      var gelen = json.decode(utf8.decode(resp.bodyBytes));
-      var data = gelen["data"];
-      for (var i in data) {
-        users.add(Freelancer.fromJson(i));
-        setState(() {});
-      }
-    }
-    var advertResp = await AdvertApi.getMostPopularAdverts();
-    if (advertResp.statusCode == 200) {
-      var advertGelen = json.decode(utf8.decode(advertResp.bodyBytes));
-      var veri = advertGelen["data"];
-      for (var i in veri) {
-        adverts.add(Advert.fromJson(i));
-        setState(() {});
-      }
-    }
-    var categoryResp = await SubCategoryApi.getMostPopularSubCategories();
-    if(categoryResp.statusCode == 200) {
-      var categoryGelen = json.decode(utf8.decode(categoryResp.bodyBytes));
-      var info = categoryGelen["data"];
-      for(var i in info){
-        categories.add(SubCategory.fromJson(i));
-        setState(() {});
-      }
-    }
-    else{
-      print("Durum : " + categoryResp.statusCode.toString());
-    }
+    freelancers = await freelancerService.getMostPopular();
+    adverts = await advertService.getMostPopular();
+    categories = await categoryService.getMostPopular();
+    setState(() {});
   }
 
   @override
@@ -78,7 +55,7 @@ class _homePageState extends State with TickerProviderStateMixin {
         children: [
           TopBar(),
           SearchBar(),
-          users.isEmpty && adverts.isEmpty && categories.isEmpty
+          freelancers.isEmpty && adverts.isEmpty && categories.isEmpty
               ? Padding(
                   padding: const EdgeInsets.only(
                     top: 200,
@@ -105,9 +82,9 @@ class _homePageState extends State with TickerProviderStateMixin {
                         height: MediaQuery.of(context).size.height / 3.3,
                         child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: users.length,
+                            itemCount: freelancers.length,
                             itemBuilder: (context, index) {
-                              return userComponent(users[index]);
+                              return userComponent(freelancers[index]);
                             }),
                       ),
                       const Text(

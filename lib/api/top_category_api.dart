@@ -28,7 +28,7 @@ class TopCategoryApi{
     );
   }
 
-  static Future getAll() async {
+  Future getAll() async {
     var url = Uri.parse("http://freelancermarket-backend.herokuapp.com/api/topCategories/getAll");
     return await http.get(url);
   }

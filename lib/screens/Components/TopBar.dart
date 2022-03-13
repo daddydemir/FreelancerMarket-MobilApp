@@ -17,9 +17,9 @@ class _topBarState extends State{
         top: 20,
       ),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Image.network(
-          "https://raw.githubusercontent.com/daddydemir/images/main/freelancer-market/PNG-4x/acik-zemin%404x.png",
-          width: 200,
+        Image(
+          image:AssetImage('lib/assets/logo.png'),
+          width:200,
         ),
         IconButton(
           iconSize: 35,

@@ -5,6 +5,8 @@ import 'package:freelancer_market/api/top_category_api.dart';
 import 'package:freelancer_market/screens/Components/loading.dart';
 import 'package:freelancer_market/screens/home/sub_category.dart';
 
+import '../service/category/topCategoryService.dart';
+
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
 
@@ -16,7 +18,9 @@ class MainPage extends StatefulWidget {
 
 // ignore: camel_case_types
 class _mainPageState extends State {
+  var service = TopCategoryService();
   var api = TopCategoryApi();
+  var categories = [];
   var categoryList = [];
   var idList = [];
   var colorL = [
@@ -36,17 +40,12 @@ class _mainPageState extends State {
   }
 
   Future<void> _veriGetir() async {
-    var gelen = await TopCategoryApi.getAll();
-    if (gelen.statusCode == 200) {
-      var cevap = json.decode(utf8.decode(gelen.bodyBytes));
-      var data = cevap["data"];
-      for (var i in data) {
-        categoryList.add(i["name"]);
-        idList.add(i["id"]);
-      }
-      li = categoryList.length;
-      setState(() {});
+    categories = await service.getAll();
+    li = categories.length;
+    for(var i in categories) {
+      idList.add(i.id);
     }
+    setState((){});
   }
 
   @override
@@ -59,7 +58,7 @@ class _mainPageState extends State {
         searchBar(),
         Expanded(
           child: SizedBox(
-            child: categoryList.isEmpty
+            child: categories.isEmpty
                 ? Center(
                   child:LoadAnim(),
                 )
@@ -72,10 +71,10 @@ class _mainPageState extends State {
                         return const Text("");
                       }
                       if (li - 1 == index) {
-                        return tekSatir(colorL[index], categoryList[index], idList[index]);
+                        return tekSatir(colorL[index], categories[index], idList[index]);
                       } else if(st == false) {
                         st = true;
-                        return satir(colorL[index], categoryList[index], idList[index], colorL[index+1],categoryList[index+1], idList[index+1]);
+                        return satir(colorL[index], categories[index], idList[index], colorL[index+1],categories[index+1], idList[index+1]);
                       }else{
                         return const Text("Hata");
                       }
@@ -143,7 +142,7 @@ class _mainPageState extends State {
     );
   }
 
-  Expanded kutu(var a, String x , var index) {
+  Expanded kutu(var a, var x , var index) {
     return Expanded(
         child: Padding(
       padding: const EdgeInsets.only(left: 7, top: 7, right: 7),
@@ -169,7 +168,7 @@ class _mainPageState extends State {
             height: 200,
             child: Center(
               child: Text(
-                x,
+                x.name,
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,

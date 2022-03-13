@@ -1,50 +1,32 @@
-// ignore_for_file: camel_case_types, use_key_in_widget_constructors
+// ignore_for_file: camel_case_types, no_logic_in_create_state, unused_import
 
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:freelancer_market/api/wallet_api.dart';
-import 'package:freelancer_market/data/dbHelper.dart';
-import 'package:freelancer_market/models/sql_user.dart';
 import 'package:freelancer_market/models/wallet_trans.dart';
 import 'package:freelancer_market/screens/Components/loading.dart';
 
+import '../../models/_User.dart';
+import '../../service/user/walletService.dart';
 import '../Components/TopBar.dart';
 
 class WalletPage extends StatefulWidget {
+  const WalletPage({Key? key, required this.user}) : super(key:key);
+  final Users user;
   @override
-  State<StatefulWidget> createState() {
-    return _walletPageState();
-  }
+  State<StatefulWidget> createState() => _walletPageState(user);
 }
 
 class _walletPageState extends State {
-  List<SqlUser> users = [];
-  List<WalletTrans> trans = [];
+  _walletPageState(this.user);
+  Users user;
   var money;
-  var db = DbHelper();
+  var trans = <WalletTrans>[];
+  var service = WalletService();
 
   Future<void> _veriGetir() async {
-    var user = await db.getUser();
-    users = user;
-
-    var respMoney = await WalletApi.getByUserId(users[0]);
-    if (respMoney.statusCode == 200) {
-      var cvp = json.decode(utf8.decode(respMoney.bodyBytes));
-      var veri = cvp["data"];
-      money = veri["balance"];
-      setState(() {});
-    }
-
-    var resp = await WalletApi.walletTransactionsGetByUserId(users[0]);
-    if (resp.statusCode == 200) {
-      var cevap = json.decode(utf8.decode(resp.bodyBytes));
-      var data = cevap["data"];
-      trans.clear();
-      for (var i in data) {
-        trans.add(WalletTrans.fromJson(i));
-      }
-    }
+    trans = await service.getTransaction(user);
+    money = await service.getMoney(user);
     setState(() {});
   }
 

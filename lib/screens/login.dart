@@ -6,7 +6,7 @@ import 'package:freelancer_market/api/auth_api.dart';
 import 'package:freelancer_market/data/dbHelper.dart';
 import 'package:freelancer_market/models/sql_user.dart';
 
-import '../service/login/loginService.dart';
+import '../service/auth/loginService.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -111,51 +111,5 @@ class _loginState extends State {
   f_login() {
     var service = LoginService();
     service.login(username.text , password.text);
-    //getJwtToken();
-  }
-
-  void getJwtToken() {
-    AuthApi.login(username.text , password.text).then((response){
-      setState((){
-        if(response.statusCode == 200){
-          var gelen = json.decode(utf8.decode(response.bodyBytes));
-          
-          var data = gelen["data"];
-          var token = data["jwtToken"];
-          
-          var u1 = data["user"];
-          print("Lan mete : " + u1.toString());
-          var kullanici = SqlUser.corbaOlduAmk(data);
-          dbOperations(kullanici);
-        }else if(response.statusCode == 400){
-          print("Parola yanlıs");
-        }else{
-          print(json.decode(utf8.decode(response.bodyBytes)));
-        }
-        
-      });
-    });
-  }
-
-  void dbOperations(SqlUser user){
-    print("Kullanıcı kontorl ediliyor");
-    var g = database.checkUser(user);
-    g.then((data){
-      if(data == null){
-        print("veri yok , eklenecek");
-        print(user.name);
-        var fk = database.insert(user);
-        fk.then((gelen){
-          print("eklendi mi acaba "+gelen.toString());
-          Fluttertoast.showToast(
-            msg: "Eklendi : " + user.username,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
-        });
-      }else{
-        print("zaten kullanıcı var");
-      }
-    });
   }
 }
