@@ -21,6 +21,14 @@ dependencies:
   fluttertoast:
   google_fonts: 2.2.0
   flutter_spinkit: ^5.1.0
+  get:
+  get_storage:
+  dio:
+  cached_network_image:
+  image_picker:
+  firebase_core: ^1.13.0
+  cloud_firestore: ^3.1.10
+  intl: 
 
 
   # The following adds the Cupertino Icons font to your application.

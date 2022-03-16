@@ -4,6 +4,8 @@ import 'package:freelancer_market/screens/main_page.dart';
 import 'package:freelancer_market/screens/temp/test2.dart';
 import 'package:freelancer_market/screens/user/user_page.dart';
 
+import '../messages/chatUsers.dart';
+
 class NavBar extends StatefulWidget {
   const NavBar({Key? key}) : super(key: key);
 
@@ -25,7 +27,7 @@ class _navBarState extends State {
       return const MainPage();
     }
     else if(_selectedIndex == 2){
-      return null;
+      return ChatPage();
     }
     else if(_selectedIndex == 3){
       return UserPage();

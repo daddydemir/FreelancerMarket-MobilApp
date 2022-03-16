@@ -10,6 +10,7 @@ import 'package:freelancer_market/screens/user/freelancer_detail.dart';
 import 'package:freelancer_market/screens/user/user_detail.dart';
 
 import 'advert_test.dart';
+import 'image/imageUpload.dart';
 
 class Test13 extends StatefulWidget {
   const Test13({Key? key}) : super(key: key);
@@ -84,9 +85,9 @@ class _test13 extends State {
                 child: const Text("Yorumlar kısmı")),
              ElevatedButton(
                 onPressed: () {
-                  //getCategoriesNavigator.push(context, MaterialPageRoute(builder: (context) => FreelancerDetailPage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ImageUpload()));
                 },
-                child: const Text("Kullanıcı Detay"))
+                child: const Text("Resim Yükle"))
           ],
         ),
       ),

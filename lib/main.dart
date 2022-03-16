@@ -1,8 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:freelancer_market/screens/Test/temp_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() => runApp(HttpApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(HttpApp());
+}
 
 // ignore: use_key_in_widget_constructors
 class HttpApp extends StatelessWidget{
