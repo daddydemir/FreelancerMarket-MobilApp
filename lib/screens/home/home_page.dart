@@ -13,6 +13,7 @@ import 'package:freelancer_market/screens/user/freelancer_detail.dart';
 import '../../service/advert/advertService.dart';
 import '../../service/category/subCategoryService.dart';
 import '../../service/user/freelancerService.dart';
+import '../Components/MyBottomBar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -49,6 +50,7 @@ class _homePageState extends State with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //bottomNavigationBar: MyBottomBar(),
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xfff4f5f7),
       body: Column(

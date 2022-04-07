@@ -1,8 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:freelancer_market/api/advert_api.dart';
-import 'package:freelancer_market/api/freelancer_api.dart';
 import 'package:freelancer_market/models/advert.dart';
 import 'package:freelancer_market/models/freelancer.dart';
 import 'package:freelancer_market/screens/AdvertPages/advert_detail.dart';
@@ -10,6 +6,7 @@ import 'package:freelancer_market/screens/Components/loading.dart';
 
 import '../../service/advert/advertService.dart';
 import '../../service/user/freelancerService.dart';
+import '../Components/TopBar.dart';
 
 class SubCategoryIdForAdvertPage extends StatefulWidget {
   const SubCategoryIdForAdvertPage({Key? key, required this.index}): super(key: key);
@@ -54,25 +51,32 @@ class _subCategoryIdForAdvertPageState extends State {
     return Scaffold(
       body: freelancers.isEmpty
           ? Center(child: LoadAnim())
-          : ListView.builder(
-              itemCount: adverts.length,
-              itemBuilder: (BuildContext context, int index) {
-                return InkWell(
-                  onTap: () {
-                    print("Detay : " + adverts[index].id.toString());
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            AdvertDetailPage(advert: adverts[index]),
-                      ),
-                    );
-                    // bu kısımda detay sayfasına gidecek . . .
-                  },
-                  child: item(freelancers[index], adverts[index]),
-                );
-              },
-            ),
+          : Column(
+            children: [
+              TopBar(),
+              Expanded(
+                child: ListView.builder(
+                    itemCount: adverts.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return InkWell(
+                        onTap: () {
+                          print("Detay : " + adverts[index].id.toString());
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  AdvertDetailPage(advert: adverts[index]),
+                            ),
+                          );
+                          // bu kısımda detay sayfasına gidecek . . .
+                        },
+                        child: item(freelancers[index], adverts[index]),
+                      );
+                    },
+                  ),
+              ),
+            ],
+          ),
     );
   }
 

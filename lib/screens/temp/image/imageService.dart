@@ -16,9 +16,6 @@ class ImageService{
   }
 
   static Future<dynamic> uploadFile(filepath) async{
-
-    
-
     try{
       FormData formData = FormData.fromMap({
         "file": await MultipartFile.fromFile(filepath,filename: "randomname"),

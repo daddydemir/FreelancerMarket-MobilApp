@@ -1,9 +1,6 @@
 // ignore_for_file: empty_constructor_bodies
 
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:freelancer_market/api/freelancer_api.dart';
 import 'package:freelancer_market/models/freelancer.dart';
 import 'package:freelancer_market/screens/Components/TopBar.dart';
 

@@ -1,11 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:freelancer_market/api/sub_category_api.dart';
 import 'package:freelancer_market/models/sub_category.dart';
 import 'package:freelancer_market/screens/AdvertPages/sub_category_id_for_advert.dart';
 
 import '../../service/category/subCategoryService.dart';
+import '../Components/TopBar.dart';
+import 'package:freelancer_market/screens/Components/myBottomBar.dart';
 
 class SubCategoryPage extends StatefulWidget {
   const SubCategoryPage({Key? key, required this.index}) : super(key: key);
@@ -20,6 +19,7 @@ class SubCategoryPage extends StatefulWidget {
 class _subCategoryPageState extends State {
   _subCategoryPageState(this.index);
   final int index;
+
   var service = SubCategoryService();
   var categories = <SubCategory>[];
 
@@ -30,7 +30,6 @@ class _subCategoryPageState extends State {
 
   @override
   void initState() {
-    //getCategories();
     _veriGetir();
     super.initState();
   }
@@ -38,15 +37,23 @@ class _subCategoryPageState extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //  bottomNavigationBar: MyBottomBar(),
         backgroundColor: const Color(0xfff4f5f7),
         body: Padding(
-          padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.only(top: 1, left: 10, right: 10),
           child: Center(
-            child: ListView.builder(
-                itemCount: categories.length,
-                itemBuilder: (context, index) {
-                  return item(categories[index]);
-                }),
+            child: Column(
+              children: [
+                TopBar(),
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: categories.length,
+                      itemBuilder: (context, index) {
+                        return item(categories[index]);
+                      }),
+                ),
+              ],
+            ),
           ),
         ));
   }

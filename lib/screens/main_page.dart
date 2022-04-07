@@ -6,6 +6,7 @@ import 'package:freelancer_market/screens/Components/loading.dart';
 import 'package:freelancer_market/screens/home/sub_category.dart';
 
 import '../service/category/topCategoryService.dart';
+import 'Components/MyBottomBar.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -52,6 +53,7 @@ class _mainPageState extends State {
   Widget build(BuildContext context) {
     var st = false;
     return Scaffold(
+    //  bottomNavigationBar: MyBottomBar(),
       backgroundColor: const Color(0xfff4f5f7),
       body: Column(children: [
         topMenu(),

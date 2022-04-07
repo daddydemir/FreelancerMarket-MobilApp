@@ -17,7 +17,7 @@ class _topBarState extends State{
         top: 20,
       ),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Image(
+        const Image(
           image:AssetImage('lib/assets/logo.png'),
           width:200,
         ),

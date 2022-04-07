@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:freelancer_market/data/dbHelper.dart';
-import 'package:freelancer_market/models/freelancer.dart';
 import 'package:freelancer_market/screens/AdvertPages/all_adverts.dart';
 import 'package:freelancer_market/screens/StatusPage/server_error.dart';
 import 'package:freelancer_market/screens/login.dart';
 import 'package:freelancer_market/screens/temp/yorum_test.dart';
-import 'package:freelancer_market/screens/user/freelancer_detail.dart';
-import 'package:freelancer_market/screens/user/user_detail.dart';
 
+import '../Components/MyBottomBar.dart';
 import 'advert_test.dart';
 import 'image/imageUpload.dart';
 
@@ -37,7 +35,6 @@ class _test13 extends State {
             ),
             ElevatedButton(
                 onPressed: () {
-                  print("Sonunu bildiğim bu yol önüme serdi bilinmez uçurumu");
                   getDb();
                 },
                 child: const Text("Click Me")),
@@ -77,17 +74,22 @@ class _test13 extends State {
                 child: const Text("Advert Controller")),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Yorum()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Yorum()));
                 },
                 child: const Text("Yorumlar kısmı")),
-             ElevatedButton(
+            ElevatedButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => ImageUpload()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ImageUpload()));
                 },
-                child: const Text("Resim Yükle"))
+                child: const Text("Resim Yükle")),
+                ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MyBottomBar()));
+                },
+                child: const Text("My Bottom Bar"))
           ],
         ),
       ),

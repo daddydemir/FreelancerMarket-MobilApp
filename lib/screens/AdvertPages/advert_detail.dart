@@ -13,7 +13,7 @@ import 'package:freelancer_market/screens/Components/TopBar.dart';
 import 'package:freelancer_market/screens/Components/loading.dart';
 
 class AdvertDetailPage extends StatefulWidget {
-  const AdvertDetailPage({Key? key, required this.advert}) : super(key: key);
+  AdvertDetailPage({Key? key, required this.advert}) : super(key: key);
 
   final Advert advert;
 
@@ -34,14 +34,15 @@ class _advertDetailPageState extends State {
   List<Comments> yorumlar = [];
   List<User> yorumYapanlar = [];
   List<Advert> ilanlar = [];
-  var owner;
-
+  User owner = User.empyt();
+  
   @override
   initState() {
     _veriGetir();
   }
 
   Future<void> _veriGetir() async {
+    int idDeger = 0;
     var commentResp = await AdvertCommentApi.getByAdvertId(advert);
     if (commentResp.statusCode == 200) {
       var gelen = json.decode(utf8.decode(commentResp.bodyBytes));
@@ -58,9 +59,11 @@ class _advertDetailPageState extends State {
       var cevap = json.decode(utf8.decode(freelancerResp.bodyBytes));
       var veri = cevap["data"];
       owner = User.forFreelancerFromJson(veri);
+      idDeger = owner.id!;
       setState(() {});
     }
-    var advertResp = await AdvertApi.getByFreelancerId(owner);
+    var napi = AdvertApi();
+    var advertResp = await napi.getByFreelancerId(idDeger);
     if (advertResp.statusCode == 200) {
       var cevap = json.decode(utf8.decode(advertResp.bodyBytes));
 

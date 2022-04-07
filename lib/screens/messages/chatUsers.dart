@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../service/firebaseService.dart';
 import '../../service/user/userService.dart';
+import '../Components/MyBottomBar.dart';
 import 'messagePage.dart';
 
 class ChatPage extends StatefulWidget{
@@ -32,6 +33,7 @@ class _chatPage extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+    //  bottomNavigationBar: MyBottomBar(),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
@@ -57,13 +59,13 @@ class _chatPage extends State {
                         color: Colors.pink[50],
                       ),
                       child: Row(
-                        children: [
-                          const Icon(
+                        children: const [
+                          Icon(
                             Icons.add,
                             color: Colors.pink,
                             size: 20,
                           ),
-                          const SizedBox(
+                          SizedBox(
                             width: 2,
                           ),
                           Text(

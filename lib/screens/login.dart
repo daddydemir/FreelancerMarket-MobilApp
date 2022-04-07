@@ -1,10 +1,6 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:freelancer_market/api/auth_api.dart';
 import 'package:freelancer_market/data/dbHelper.dart';
-import 'package:freelancer_market/models/sql_user.dart';
 
 import '../service/auth/loginService.dart';
 
@@ -65,10 +61,9 @@ class _loginState extends State {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: TextField(
               controller:password,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 focusedBorder: OutlineInputBorder(
                   borderSide: const BorderSide(color: Color(0xfffefefe), width: 2),
-                  borderRadius: BorderRadius.circular(25),
                 ),
                 enabledBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: Color(0xfffefefe), width: 2),

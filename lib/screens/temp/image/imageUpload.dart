@@ -12,6 +12,7 @@ class ImageUpload extends StatefulWidget {
 
 class _imageUpload extends State {
   var controller = Get.put(ImageController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,8 +35,8 @@ class _imageUpload extends State {
             children: [
               Obx(() {
                 if (controller.isLoading.value) {
-                  return CircleAvatar(
-                    backgroundImage: AssetImage('/assets/logo.png'),
+                  return const CircleAvatar(
+                    backgroundColor: Colors.yellow,
                     child: Center(
                         child: CircularProgressIndicator(
                       backgroundColor: Colors.white,
@@ -50,40 +51,35 @@ class _imageUpload extends State {
                         backgroundColor: Colors.white,
                         backgroundImage: imageProvider,
                       ),
-                      placeholder: (context, url) => CircleAvatar(
-                        backgroundImage: AssetImage('/assets/logo.png'),
+                      placeholder: (context, url) => const CircleAvatar(
+                        backgroundColor: Colors.amber,
                         child: Center(
                             child: CircularProgressIndicator(
                           backgroundColor: Colors.white,
                         )),
                       ),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
                     );
                   } else {
-                    return CircleAvatar(
-                      backgroundImage: AssetImage('/assets/logo.png'),
+                    return const CircleAvatar(
+                      backgroundColor: Colors.blue,
                     );
                   }
                 }
               }),
               Positioned(
-                right: -16,
+                right: -15,
                 bottom: 0,
                 child: SizedBox(
                   height: 46,
                   width: 46,
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                      side: BorderSide(color: Colors.white),
-                    ),
-                    color: Colors.grey[200],
+                  child: TextButton(
                     onPressed: () {
                       Get.bottomSheet(
                         Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             color: Colors.white,
-                            borderRadius: const BorderRadius.only(
+                            borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(16.0),
                                 topRight: Radius.circular(16.0)),
                           ),
@@ -92,16 +88,16 @@ class _imageUpload extends State {
                             crossAxisAlignment: WrapCrossAlignment.end,
                             children: [
                               ListTile(
-                                leading: Icon(Icons.camera),
-                                title: Text('Camera'),
+                                leading: const Icon(Icons.camera),
+                                title: const Text('Camera'),
                                 onTap: () {
                                   Get.back();
                                   controller.uploadImage(ImageSource.camera);
                                 },
                               ),
                               ListTile(
-                                leading: Icon(Icons.image),
-                                title: Text('Gallery'),
+                                leading: const Icon(Icons.image),
+                                title: const Text('Gallery'),
                                 onTap: () {
                                   Get.back();
                                   controller.uploadImage(ImageSource.gallery);
@@ -112,8 +108,10 @@ class _imageUpload extends State {
                         ),
                       );
                     },
-                    child: Image(
-                      image: NetworkImage("https://cdn.pixabay.com/photo/2020/12/07/18/24/eagle-5812500_960_720.jpg"),
+                    child: const Icon(
+                      Icons.add,
+                      color: Colors.pink,
+                      size: 35,
                     ),
                   ),
                 ),
