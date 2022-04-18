@@ -35,4 +35,19 @@ class AdvertService {
       return [];
     }
   }
+
+  Future<List<Advert>> getAdvertByUserId(int userId) async {
+    var liste = <Advert>[];
+    var r = await api.getByFreelancerId(userId);
+    if (r.statusCode == 200) {
+      var data = json.decode(utf8.decode(r.bodyBytes));
+      data = data['data'];
+      for (var i in data) {
+        liste.add(Advert.fromJson(i));
+      }
+      return liste;
+    }else{
+      return [];
+    }
+  }
 }

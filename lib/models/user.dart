@@ -9,7 +9,7 @@ class User{
   late String appellation;
 
   
-
+  User.empyt();
   User.forComments(this.id,this.username,this.image);
 
   User.forLocalDb(this.name, this.surname, this.username, this.email,);

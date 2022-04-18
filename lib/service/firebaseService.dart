@@ -24,7 +24,7 @@ class FirebaseService{
     var to = _firestore.collection(message.to).doc(message.from).collection("Mesajlar");
 
     await from.doc(newTime).set({"content" : message.content , "from":message.from , "to":message.to});
-    await to.doc(newTime).set({"content": message.content , "from": message.to , "to": message.from});
+    await to.doc(newTime).set({"content": message.content , "from": message.from , "to": message.to});
   }
 
   Stream<QuerySnapshot> getMessages(var from , var to) {

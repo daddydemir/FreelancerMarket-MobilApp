@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/advert.dart';
 import '../../service/advert/advertService.dart';
+import '../AdvertPages/add_advert.dart';
 import '../AdvertPages/advert_edit.dart';
 import '../Components/TopBar.dart';
 import '../Components/loading.dart';
@@ -75,7 +76,7 @@ class _myOrders extends State {
       shadowColor: Colors.black,
       child: InkWell(
         onTap:(){
-          Navigator.push(context,MaterialPageRoute(builder: (context) => AdvertEdit(UserId: advert.id),),);
+          Navigator.push(context,MaterialPageRoute(builder: (context) => AdvertEdit(advert: advert),),);
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -121,7 +122,9 @@ class _myOrders extends State {
           shadowColor: Colors.black,
           elevation: 20,
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+               Navigator.push(context,MaterialPageRoute(builder: (context) => AddAdvert(),),);
+            },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,

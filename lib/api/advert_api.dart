@@ -24,8 +24,8 @@ class AdvertApi{
     );
   }
 
-  static Future getByFreelancerId(User user) async{
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/adverts/getByFreelancerId?freelancerId="+user.id.toString());
+  Future getByFreelancerId(int user) async{
+    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/adverts/getByFreelancerId?freelancerId="+user.toString());
     return await http.get(url);
   }
 
