@@ -2,6 +2,10 @@
 
 import 'package:flutter/material.dart';
 
+import '../../models/sub_category.dart';
+import '../../models/top_category.dart';
+import '../../service/category/subCategoryService.dart';
+import '../../service/category/topCategoryService.dart';
 import '../Components/TopBar.dart';
 
 class AddAdvert extends StatefulWidget {
@@ -10,13 +14,47 @@ class AddAdvert extends StatefulWidget {
 }
 
 class _addAdvertState extends State {
-  String _value2 = "";
-  List<String> nameList = [];
+
+  var sevriceTopCat = TopCategoryService();
+  var serviceSubCat = SubCategoryService();
+
+  String _topCat = "";
+  String _subCat = "";
+  List<String> topCategories = ["Seçiniz"];
+  List<TopCategory> topCats = [];
+  List<SubCategory> subCats = [];
+  List<String> subCategories = ["Seçiniz"];
+
   @override
   initState() {
-    super.initState();
-    _value2 = "One";
-    nameList = ["Test1", "Test2", "Test3"];
+    _veriGetir();
+    _topCat = "Seçiniz";
+    _subCat = "Seçiniz";
+  }
+
+  _veriGetir() async {
+    topCats = await sevriceTopCat.getAll();
+    for (var i = 0; i < topCats.length; i++){
+      topCategories.add(topCats[i].name);
+    }
+    setState((){});
+  }
+
+  getSubCat() async {
+    int index = -10;
+    for(var i=0;i< topCats.length;i++){
+      if(_topCat == topCats[i].name){
+        index = topCats[i].id;
+      }
+    }
+    subCats = await serviceSubCat.getAll(index);
+    List<String> temp = ["Seçiniz"];
+    for(var i=0;i< subCats.length;i++){
+      temp.add(subCats[i].name);
+      print(subCats[i].name);
+    }
+    subCategories = temp;
+    setState(() {});
   }
 
   @override
@@ -29,6 +67,8 @@ class _addAdvertState extends State {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TopBar(),
+            const SizedBox(height: 10),
+            Image(),
             const SizedBox(height: 10),
             textData("Üst Kategori"),
             Center(
@@ -53,13 +93,14 @@ class _addAdvertState extends State {
                   elevation: 12,
                   style: TextStyle(fontSize: 16, color: Colors.black),
                   borderRadius: BorderRadius.circular(25),
-                  value: _value2,
+                  value: _topCat,
                   onChanged: (String? value) {
                     setState(() {
-                      _value2 = value!;
+                      _topCat = value!;
+                      getSubCat();
                     });
                   },
-                  items: ['One', 'Two', 'Free', 'Four'].map(
+                  items: topCategories.map(
                     (item) {
                       return DropdownMenuItem(
                         value: item,
@@ -94,13 +135,13 @@ class _addAdvertState extends State {
                   elevation: 12,
                   style: TextStyle(fontSize: 16, color: Colors.black),
                   borderRadius: BorderRadius.circular(25),
-                  value: _value2,
+                  value: _subCat,
                   onChanged: (String? value) {
                     setState(() {
-                      _value2 = value!;
+                      _subCat = value!;
                     });
                   },
-                  items: ['One', 'Two', 'Free', 'Four'].map(
+                  items: subCategories.map(
                     (item) {
                       return DropdownMenuItem(
                         value: item,
@@ -200,6 +241,42 @@ class _addAdvertState extends State {
     return Padding(
       padding: const EdgeInsets.only(left: 14, bottom: 5),
       child: Text(data, style: const TextStyle(fontSize: 16)),
+    );
+  }
+
+   Widget Image() {
+    return Stack(
+      children: [
+        Center(
+            child:Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14),
+              child: Container(
+                height: MediaQuery.of(context).size.height/3,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
+                  image:DecorationImage(
+                    image:NetworkImage(
+                      "https://avatars.githubusercontent.com/u/42716195?v=4",
+                    ),
+                    fit:BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.topRight,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: IconButton(
+                icon:const Icon(Icons.edit),
+                iconSize: 35,
+                color:const Color(0xffe83c5f),
+                onPressed: () {}
+              ),
+            ),
+          ),
+      ]
     );
   }
 }

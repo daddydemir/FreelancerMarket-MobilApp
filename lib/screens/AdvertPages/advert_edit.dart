@@ -32,7 +32,7 @@ class _advertEdit extends State{
             TopBar(),
             //Title(),
             const SizedBox(height:10),
-            Image(context),
+            Image(),
             const SizedBox(height:10,),
             textData("Başlık"),
             Padding(
@@ -122,7 +122,7 @@ class _advertEdit extends State{
           );
   }
 
-  Widget Image(BuildContext context) {
+  Widget Image() {
     return Stack(
       children: [
         Center(

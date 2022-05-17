@@ -5,6 +5,7 @@ import 'package:freelancer_market/screens/AdvertPages/advert_detail.dart';
 import 'package:freelancer_market/screens/Components/loading.dart';
 
 import '../../service/advert/advertService.dart';
+import '../../service/user/favoriteService.dart';
 import '../../service/user/freelancerService.dart';
 import '../Components/TopBar.dart';
 
@@ -15,9 +16,7 @@ class SubCategoryIdForAdvertPage extends StatefulWidget {
 
   @override
   // ignore: no_logic_in_create_state
-  State<StatefulWidget> createState() =>
-      // ignore: no_logic_in_create_state
-      _subCategoryIdForAdvertPageState(index);
+  State<StatefulWidget> createState() => _subCategoryIdForAdvertPageState(index);
 }
 
 // ignore: camel_case_types
@@ -28,8 +27,10 @@ class _subCategoryIdForAdvertPageState extends State {
 
   var advertService = AdvertService();
   var freelancerService = FreelancerService();
+  var favoriService = FavoriteService();
   var adverts = <Advert>[];
   var freelancers = <Freelancer>[];
+  Map favMap = {};
   
 
   Color fav = Colors.white; //Color(0xffe83c5f);
@@ -37,6 +38,10 @@ class _subCategoryIdForAdvertPageState extends State {
   Future<void> _veriGetir() async {
     adverts = await advertService.getBySubCategoryId(index);
     freelancers = await freelancerService.getAllFreelancers();
+    for(var i=0;i<adverts.length; i++){
+      favMap[adverts[i].id.toString()] = "0xffffffff";
+      // beyaz rengi ekledim
+    }
     setState(() {});
   }
 
@@ -61,13 +66,7 @@ class _subCategoryIdForAdvertPageState extends State {
                       return InkWell(
                         onTap: () {
                           print("Detay : " + adverts[index].id.toString());
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  AdvertDetailPage(advert: adverts[index]),
-                            ),
-                          );
+                          Navigator.push(context,MaterialPageRoute(builder: (context) =>AdvertDetailPage(advert: adverts[index]),),);
                           // bu kısımda detay sayfasına gidecek . . .
                         },
                         child: item(freelancers[index], adverts[index]),
@@ -138,13 +137,15 @@ class _subCategoryIdForAdvertPageState extends State {
                   child: IconButton(
                       icon: const Icon(Icons.favorite),
                       iconSize: 32,
-                      color: fav,
+                      color: Color(int.parse(favMap[advert.id.toString()])),
                       onPressed: () {
                         setState(() {
-                          if (fav != const Color(0xffe83c5f)) {
-                            fav = const Color(0xffe83c5f);
+                          if (favMap[advert.id.toString()] != "0xffe83c5f") {
+                            favoriService.add(advert.id);
+                            favMap[advert.id.toString()] = "0xffe83c5f";
                           } else {
-                            fav = Colors.white;
+                            favoriService.delete(advert.id);
+                            favMap[advert.id.toString()] = "0xffffffff";
                           }
                         });
                       }),
