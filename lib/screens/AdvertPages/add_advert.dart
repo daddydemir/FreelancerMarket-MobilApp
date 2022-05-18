@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, camel_case_types, use_key_in_widget_constructors, unused_local_variable
+// ignore_for_file: prefer_const_constructors, camel_case_types, use_key_in_widget_constructors, unused_local_variable, must_call_super, avoid_print, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 

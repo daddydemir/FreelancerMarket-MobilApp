@@ -1,10 +1,9 @@
-// ignore_for_file: camel_case_types
+// ignore_for_file: camel_case_types, must_call_super
 
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:freelancer_market/api/Advert-comment.dart';
-import 'package:freelancer_market/api/advert_api.dart';
 import 'package:freelancer_market/models/advert.dart';
 import 'package:freelancer_market/models/comments.dart';
 

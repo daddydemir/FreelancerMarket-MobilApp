@@ -1,4 +1,4 @@
-// ignore_for_file: use_key_in_widget_constructors, camel_case_types
+// ignore_for_file: use_key_in_widget_constructors, camel_case_types, must_call_super, avoid_print
 
 import 'dart:convert';
 

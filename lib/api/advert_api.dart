@@ -1,10 +1,9 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, unused_local_variable
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:freelancer_market/models/advert.dart';
 import 'package:freelancer_market/models/sql_user.dart';
-import 'package:freelancer_market/models/user.dart';
 import 'package:http/http.dart' as http;
 class AdvertApi{
 

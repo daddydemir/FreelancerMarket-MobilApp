@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 import 'package:freelancer_market/screens/Components/TopBar.dart';
 import 'package:freelancer_market/screens/Components/loading.dart';
@@ -8,6 +10,7 @@ import 'package:freelancer_market/screens/user/wallet_page.dart';
 import '../../models/_User.dart';
 import '../../service/auth/logoutService.dart';
 import '../../service/user/userService.dart';
+import '../AdvertPages/favori_adverts.dart';
 import 'employer_edit.dart';
 import 'myAdverts.dart';
 
@@ -92,6 +95,7 @@ class _userPageState extends State {
                               ),
                             ),
                             pro(u),
+                            favorilerim(),
                             u.role != "ROLE_FREELANCER"
                                 ? const Center()
                                 : ilanlarim(),
@@ -109,6 +113,37 @@ class _userPageState extends State {
     );
   }
 
+  InkWell favorilerim() {
+    return InkWell(
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context) => FavoriAdverts(user:u)));
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          children: const [
+             Expanded(
+              child: Icon(
+                Icons.favorite,
+                size: 35,
+                color:Color(0xffe83c5f),
+              ),
+            ),
+             Expanded(
+              child: Text("Favorilerim",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            ),
+             Expanded(
+                child: Icon(
+              Icons.arrow_forward_ios,
+              size: 35,
+            )),
+          ],
+        ),
+      ),
+    );
+  }
+
   InkWell ilanlarim() {
     return InkWell(
       onTap: (){
@@ -122,6 +157,7 @@ class _userPageState extends State {
               child: Icon(
                 Icons.task_sharp,
                 size: 35,
+                color:Colors.orange
               ),
             ),
              Expanded(
@@ -169,6 +205,7 @@ class _userPageState extends State {
               child: Icon(
                 Icons.logout,
                 size: 35,
+                color: Colors.red
               ),
             ),
             Expanded(
@@ -198,6 +235,7 @@ class _userPageState extends State {
               child: Icon(
                 Icons.shopping_basket,
                 size: 35,
+                color: Colors.grey
               ),
             ),
             Expanded(
@@ -235,6 +273,7 @@ class _userPageState extends State {
                 child: Icon(
                   Icons.person_sharp,
                   size: 35,
+                  color:Colors.blueAccent
                 ),
               ),
               const Expanded(
@@ -267,6 +306,7 @@ class _userPageState extends State {
                 child: Icon(
                   Icons.attach_money_sharp,
                   size: 35,
+                  color:Colors.green,
                 ),
               ),
               const Expanded(

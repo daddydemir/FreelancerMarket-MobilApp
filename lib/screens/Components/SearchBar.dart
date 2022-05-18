@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, use_key_in_widget_constructors, camel_case_types, avoid_print
+
 import 'package:flutter/material.dart';
 
 class SearchBar extends StatefulWidget {

@@ -1,10 +1,11 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:freelancer_market/models/sub_category.dart';
 import 'package:freelancer_market/screens/AdvertPages/sub_category_id_for_advert.dart';
 
 import '../../service/category/subCategoryService.dart';
 import '../Components/TopBar.dart';
-import 'package:freelancer_market/screens/Components/myBottomBar.dart';
 
 class SubCategoryPage extends StatefulWidget {
   const SubCategoryPage({Key? key, required this.index}) : super(key: key);

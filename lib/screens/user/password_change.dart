@@ -1,11 +1,5 @@
 // ignore_for_file: camel_case_types, non_constant_identifier_names, unused_element, deprecated_member_use, unused_local_variable, prefer_const_constructors
-
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:freelancer_market/api/auth_api.dart';
-import 'package:freelancer_market/data/dbHelper.dart';
-
 import '../../service/auth/loginService.dart';
 
 class PasswordChangePage extends StatefulWidget {

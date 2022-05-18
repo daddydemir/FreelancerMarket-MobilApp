@@ -110,7 +110,6 @@ class _test13 extends State {
   void _dbDelete() {
     var sil1 = db.delete(23);
     var sil2 = db.delete(21);
-    var sil3 = db.delete(29);
     sil1.then((data) {
       Fluttertoast.showToast(
           msg: "23 " + data.toString(),

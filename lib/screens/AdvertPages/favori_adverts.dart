@@ -1,94 +1,78 @@
-// ignore_for_file: unrelated_type_equality_checks, avoid_print
+// ignore_for_file: camel_case_types, use_key_in_widget_constructors, no_logic_in_create_state, prefer_const_constructors, must_call_super, unused_element, avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:freelancer_market/models/advert.dart';
-import 'package:freelancer_market/models/freelancer.dart';
 import 'package:freelancer_market/screens/AdvertPages/advert_detail.dart';
-import 'package:freelancer_market/screens/Components/loading.dart';
 
-import '../../service/advert/advertService.dart';
+import '../../models/_User.dart';
+import '../../models/advert.dart';
+import '../../models/freelancer.dart';
 import '../../service/user/favoriteService.dart';
 import '../../service/user/freelancerService.dart';
 import '../Components/TopBar.dart';
+import '../Components/loading.dart';
 
-class SubCategoryIdForAdvertPage extends StatefulWidget {
-  const SubCategoryIdForAdvertPage({Key? key, required this.index}): super(key: key);
-
-  final int index;
-
+class FavoriAdverts extends StatefulWidget{
+  const FavoriAdverts({Key? key, required this.user}): super(key: key);
+  final Users user;
   @override
-  // ignore: no_logic_in_create_state
-  State<StatefulWidget> createState() => _subCategoryIdForAdvertPageState(index);
+  State<StatefulWidget> createState() => _favoriAdverts(user);
 }
 
-// ignore: camel_case_types
-class _subCategoryIdForAdvertPageState extends State {
-  _subCategoryIdForAdvertPageState(this.index);
+class _favoriAdverts extends State{
+  _favoriAdverts(this.user);
 
-  final int index;
-
-  var advertService = AdvertService();
-  var freelancerService = FreelancerService();
-  var favoriService = FavoriteService();
-  var adverts = <Advert>[];
-  var freelancers = <Freelancer>[];
-  var favoridekiler = <Advert>[];
-  Map favMap = {};
+  final Users user;
   
+  var serviceFavori = FavoriteService();
+  var serviceFreelancer = FreelancerService();
 
-  Color fav = Colors.white; //Color(0xffe83c5f);
 
-  Future<void> _veriGetir() async {
-    adverts = await advertService.getBySubCategoryId(index);
-    freelancers = await freelancerService.getAllFreelancers();
-    favoridekiler = await favoriService.getAll();
-    for(var i=0;i<adverts.length; i++){
-      favMap[adverts[i].id.toString()] = "0xffffffff";
-      for(var k=0;k<favoridekiler.length;k++){
-      if(favoridekiler[k].id == adverts[i].id){
-        favMap[adverts[i].id.toString()] = "0xffe83c5f";
-      }    
-    }
-      // beyaz rengi ekledim
-    }
-    setState(() {});
-  }
+  var favoridekiler = <Advert>[];
+  var freelancers = <Freelancer>[];
+
+  Map favMap = {};
 
   @override
-  void initState() {
+  initState() {
     _veriGetir();
-    super.initState();
+  }
+
+  Future<void> _veriGetir() async {
+    freelancers = await serviceFreelancer.getAllFreelancers();
+    favoridekiler = await serviceFavori.getAll();
+    for (var i = 0; i <favoridekiler.length; i++){
+      favMap[favoridekiler[i].id.toString()] = "0xffe83c5f";
+    }
+    setState((){});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: freelancers.isEmpty
-          ? Center(child: LoadAnim())
-          : Column(
-            children: [
-              TopBar(),
-              Expanded(
+      body: favoridekiler.isEmpty
+      ? Center(child:LoadAnim())
+      : Column(
+        children: [
+          TopBar(),
+          Expanded(
                 child: ListView.builder(
-                    itemCount: adverts.length,
+                    itemCount: favoridekiler.length,
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(
                         onTap: () {
-                          print("Detay : " + adverts[index].id.toString());
-                          Navigator.push(context,MaterialPageRoute(builder: (context) =>AdvertDetailPage(advert: adverts[index]),),);
+                          Navigator.push(context,MaterialPageRoute(builder: (context) =>AdvertDetailPage(advert: favoridekiler[index]),),);
                           // bu kısımda detay sayfasına gidecek . . .
                         },
-                        child: item(freelancers[index], adverts[index]),
+                        child: item(freelancers[index], favoridekiler[index]),
                       );
                     },
                   ),
               ),
-            ],
-          ),
+        ],
+      ),
     );
   }
-
-  Card kart(Freelancer user) {
+    Card kart(Freelancer user) {
     return Card(
       color: const Color(0xffe83c5f),
       shape: RoundedRectangleBorder(
@@ -148,14 +132,13 @@ class _subCategoryIdForAdvertPageState extends State {
                       iconSize: 32,
                       color: Color(int.parse(favMap[advert.id.toString()])),
                       onPressed: () async{
-
                         if (favMap[advert.id.toString()] != "0xffe83c5f") {
-                            var status =  await favoriService.add(advert.id);
+                            var status =  await serviceFavori.add(advert.id);
                             if(status == true){
                               favMap[advert.id.toString()] = "0xffe83c5f";
                             }
                           } else {
-                            var status = await favoriService.delete(advert.id);
+                            var status = await serviceFavori.delete(advert.id);
                             if(status == true){
                             favMap[advert.id.toString()] = "0xffffffff";
                             }
@@ -171,26 +154,7 @@ class _subCategoryIdForAdvertPageState extends State {
       ),
     );
   }
-
-  Padding altBar(Advert advert) {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 4,
-            child: Text(advert.info),
-          ),
-          Expanded(
-            flex: 1,
-            child: Text(advert.price.toString() + " TL",
-                style: const TextStyle(color: Colors.green, fontSize: 18)),
-          ),
-        ],
-      ),
-    );
-  }
-
+  
   Padding satir(Freelancer user) {
     return Padding(
       padding: const EdgeInsets.only(
@@ -242,4 +206,25 @@ class _subCategoryIdForAdvertPageState extends State {
       ]),
     );
   }
+
+  Padding altBar(Advert advert) {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 4,
+            child: Text(advert.info),
+          ),
+          Expanded(
+            flex: 1,
+            child: Text(advert.price.toString() + " TL",
+                style: const TextStyle(color: Colors.green, fontSize: 18)),
+          ),
+        ],
+      ),
+    );
+  }
+
+
 }

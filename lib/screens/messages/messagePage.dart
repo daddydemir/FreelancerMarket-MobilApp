@@ -1,4 +1,4 @@
-
+// ignore_for_file: file_names, camel_case_types, no_logic_in_create_state, must_call_super, prefer_const_constructors, unnecessary_string_interpolations, unnecessary_brace_in_string_interps
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

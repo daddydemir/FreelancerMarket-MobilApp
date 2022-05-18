@@ -1,4 +1,6 @@
 
+// ignore_for_file: unnecessary_const
+
 import 'package:flutter/material.dart';
 import 'package:freelancer_market/data/dbHelper.dart';
 

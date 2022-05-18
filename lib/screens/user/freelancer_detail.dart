@@ -1,4 +1,4 @@
-// ignore_for_file: empty_constructor_bodies
+// ignore_for_file: empty_constructor_bodies, must_call_super, unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
 import 'package:freelancer_market/models/freelancer.dart';

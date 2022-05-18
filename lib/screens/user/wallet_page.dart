@@ -1,4 +1,4 @@
-// ignore_for_file: camel_case_types, no_logic_in_create_state, unused_import
+// ignore_for_file: camel_case_types, no_logic_in_create_state, unused_import, prefer_typing_uninitialized_variables, must_call_super, avoid_print
 
 import 'dart:convert';
 

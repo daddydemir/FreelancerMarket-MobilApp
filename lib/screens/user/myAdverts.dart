@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, file_names, must_be_immutable, prefer_typing_uninitialized_variables, no_logic_in_create_state, camel_case_types, must_call_super
 
 import 'package:flutter/material.dart';
 

@@ -1,3 +1,4 @@
+// ignore_for_file: file_names
 
 import '../../data/databaseHelper.dart';
 import '../../models/_User.dart';

@@ -13,7 +13,7 @@ import 'package:freelancer_market/screens/user/freelancer_detail.dart';
 import '../../service/advert/advertService.dart';
 import '../../service/category/subCategoryService.dart';
 import '../../service/user/freelancerService.dart';
-import '../Components/MyBottomBar.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

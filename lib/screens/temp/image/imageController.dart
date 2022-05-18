@@ -1,3 +1,4 @@
+// ignore_for_file: file_names, deprecated_member_use
 
 import 'package:freelancer_market/screens/temp/image/imageService.dart';
 import 'package:get/get.dart';

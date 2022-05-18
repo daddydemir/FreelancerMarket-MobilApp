@@ -1,4 +1,4 @@
-import 'dart:convert';
+// ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:freelancer_market/api/top_category_api.dart';
@@ -6,7 +6,6 @@ import 'package:freelancer_market/screens/Components/loading.dart';
 import 'package:freelancer_market/screens/home/sub_category.dart';
 
 import '../service/category/topCategoryService.dart';
-import 'Components/MyBottomBar.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);

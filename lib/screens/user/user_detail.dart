@@ -1,4 +1,4 @@
-// ignore_for_file: camel_case_types, use_key_in_widget_constructors
+// ignore_for_file: camel_case_types, use_key_in_widget_constructors, unused_element, avoid_unnecessary_containers, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 
@@ -18,7 +18,7 @@ class _userDetailWidget extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfff4f5f7),
+      backgroundColor: const Color(0xfff4f5f7),
       body: Container(
         child: Column(
           children: [
@@ -33,6 +33,7 @@ class _userDetailWidget extends State {
                 ),
               ),
             ),
+            // ignore: prefer_const_literals_to_create_immutables
             Row(children: [
               const Expanded(
                   child: Padding(

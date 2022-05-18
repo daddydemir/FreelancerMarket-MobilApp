@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:freelancer_market/models/advert.dart';
 import '../../models/_User.dart';
 import 'package:http/http.dart' as http;
 class FavoriteApi{
@@ -10,6 +9,7 @@ class FavoriteApi{
     return await http.post(
       url,
       headers:{
+        "Content-Type": "application/json; charset=UTF-8",
         HttpHeaders.authorizationHeader:"Bearer "+user.token,
       },
       body: jsonEncode(<String,String>{
@@ -20,6 +20,7 @@ class FavoriteApi{
   }
 
   Future delete(int advertId,Users user) async{
+    //print(advertId.toString() + " : " + user.id.toString());
     var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/favorities/delete?advertId="+advertId.toString() +"&userId="+user.id.toString());
     return await http.delete(
       url,

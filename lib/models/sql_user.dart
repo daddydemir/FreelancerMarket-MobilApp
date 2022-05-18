@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_if_null_operators
+
 class SqlUser{
   int? id;
   late String username;

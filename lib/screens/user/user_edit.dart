@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, non_constant_identifier_names, prefer_typing_uninitialized_variables, no_logic_in_create_state, duplicate_ignore
+
 import 'package:flutter/material.dart';
 import 'package:freelancer_market/screens/Components/loading.dart';
 import 'package:freelancer_market/screens/user/password_change.dart';

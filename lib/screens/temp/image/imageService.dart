@@ -1,5 +1,4 @@
-// ignore_for_file: unused_import
-
+// ignore_for_file: unused_import, file_names, prefer_adjacent_string_concatenation
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
 

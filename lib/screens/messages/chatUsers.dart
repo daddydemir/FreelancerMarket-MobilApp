@@ -1,10 +1,8 @@
-
-
+// ignore_for_file: use_key_in_widget_constructors, camel_case_types, file_names, must_call_super
 import 'package:flutter/material.dart';
 
 import '../../service/firebaseService.dart';
 import '../../service/user/userService.dart';
-import '../Components/MyBottomBar.dart';
 import 'messagePage.dart';
 
 class ChatPage extends StatefulWidget{
