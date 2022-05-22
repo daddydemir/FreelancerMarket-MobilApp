@@ -6,9 +6,9 @@ import 'package:freelancer_market/screens/StatusPage/server_error.dart';
 import 'package:freelancer_market/screens/login.dart';
 import 'package:freelancer_market/screens/temp/yorum_test.dart';
 
-import '../Components/MyBottomBar.dart';
 import 'advert_test.dart';
 import 'image/imageUpload.dart';
+import 'image_test.dart';
 
 class Test13 extends StatefulWidget {
   const Test13({Key? key}) : super(key: key);
@@ -87,9 +87,9 @@ class _test13 extends State {
                 ElevatedButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MyBottomBar()));
+                      MaterialPageRoute(builder: (context) => ImageTest()));
                 },
-                child: const Text("My Bottom Bar"))
+                child: const Text("Resim Yükleme"))
           ],
         ),
       ),

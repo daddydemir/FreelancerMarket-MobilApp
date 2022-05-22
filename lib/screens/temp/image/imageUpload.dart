@@ -33,7 +33,7 @@ class _imageUpload extends State {
           width: 115,
           child: Stack(
             fit: StackFit.expand,
-            overflow: Overflow.visible,
+            //overflow: Overflow.visible,
             children: [
               Obx(() {
                 if (controller.isLoading.value) {
