@@ -1,73 +1,75 @@
-// ignore_for_file: camel_case_types, use_key_in_widget_constructors, no_logic_in_create_state, prefer_const_constructors, must_call_super, unused_element, avoid_print
+// ignore_for_file: use_key_in_widget_constructors, camel_case_types, prefer_const_constructors, must_be_immutable, no_logic_in_create_state, avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:freelancer_market/screens/AdvertPages/advert_detail.dart';
-
-import '../../models/_User.dart';
 import '../../models/advert.dart';
 import '../../models/freelancer.dart';
 import '../../service/user/favoriteService.dart';
 import '../../service/user/freelancerService.dart';
 import '../Components/TopBar.dart';
 import '../Components/loading.dart';
+import 'advert_detail.dart';
 
-class FavoriAdverts extends StatefulWidget{
-  const FavoriAdverts({Key? key, required this.user}): super(key: key);
-  final Users user;
+class Search extends StatefulWidget{
+  Search({Key? key  , required this.liste}): super(key:key);
+  var liste = <Advert>[];
   @override
-  State<StatefulWidget> createState() => _favoriAdverts(user);
+  State<StatefulWidget> createState() => _search(liste);
+
 }
 
-class _favoriAdverts extends State{
-  _favoriAdverts(this.user);
-
-  final Users user;
+class _search extends State{
+  _search(this.liste);
   
-  var serviceFavori = FavoriteService();
-  var serviceFreelancer = FreelancerService();
-
-
-  var favoridekiler = <Advert>[];
+  var freelancerService = FreelancerService();
+  var favoriService = FavoriteService();
+  var liste = <Advert>[];
   var freelancers = <Freelancer>[];
-
+  var favoridekiler = <Advert>[];
   Map favMap = {};
 
-  @override
-  initState() {
-    _veriGetir();
+  Future<void> _veriGetir() async {
+    freelancers = await freelancerService.getAllFreelancers();
+    favoridekiler = await favoriService.getAll();
+    for(var i=0;i<liste.length; i++){
+      favMap[liste[i].id.toString()] = "0xffffffff";
+      for(var k=0;k<favoridekiler.length;k++){
+      if(favoridekiler[k].id == liste[i].id){
+        favMap[liste[i].id.toString()] = "0xffe83c5f";
+      }    
+    }
+    }
+    setState(() {});
   }
 
-  Future<void> _veriGetir() async {
-    freelancers = await serviceFreelancer.getAllFreelancers();
-    favoridekiler = await serviceFavori.getAll();
-    for (var i = 0; i <favoridekiler.length; i++){
-      favMap[favoridekiler[i].id.toString()] = "0xffe83c5f";
-    }
-    setState((){});
+  @override
+  void initState() {
+    _veriGetir();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: favoridekiler.isEmpty
-      ? Center(child:LoadAnim())
-      : Column(
-        children: [
+      body:freelancers.isEmpty
+          ? Center(child: LoadAnim())
+          : Column(
+        children:[
           TopBar(),
           Expanded(
-                child: ListView.builder(
-                    itemCount: favoridekiler.length,
+            child:ListView.builder(
+                    itemCount: liste.length,
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(
                         onTap: () {
-                          Navigator.push(context,MaterialPageRoute(builder: (context) =>AdvertDetailPage(advert: favoridekiler[index]),),);
+                          print("Detay : " + liste[index].id.toString());
+                          Navigator.push(context,MaterialPageRoute(builder: (context) =>AdvertDetailPage(advert: liste[index]),),);
                           // bu kısımda detay sayfasına gidecek . . .
                         },
-                        child: item(freelancers[index], favoridekiler[index]),
+                        child: item(freelancers[index], liste[index]),
                       );
                     },
                   ),
-              ),
+          ),
         ],
       ),
     );
@@ -132,13 +134,14 @@ class _favoriAdverts extends State{
                       iconSize: 32,
                       color: Color(int.parse(favMap[advert.id.toString()])),
                       onPressed: () async{
+
                         if (favMap[advert.id.toString()] != "0xffe83c5f") {
-                            var status =  await serviceFavori.add(advert.id);
+                            var status =  await favoriService.add(advert.id);
                             if(status == true){
                               favMap[advert.id.toString()] = "0xffe83c5f";
                             }
                           } else {
-                            var status = await serviceFavori.delete(advert.id);
+                            var status = await favoriService.delete(advert.id);
                             if(status == true){
                             favMap[advert.id.toString()] = "0xffffffff";
                             }
@@ -154,7 +157,26 @@ class _favoriAdverts extends State{
       ),
     );
   }
-  
+
+  Padding altBar(Advert advert) {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 4,
+            child: Text(advert.title),
+          ),
+          Expanded(
+            flex: 1,
+            child: Text(advert.price.toString() + " TL",
+                style: const TextStyle(color: Colors.green, fontSize: 18)),
+          ),
+        ],
+      ),
+    );
+  }
+
   Padding satir(Freelancer user) {
     return Padding(
       padding: const EdgeInsets.only(
@@ -206,25 +228,5 @@ class _favoriAdverts extends State{
       ]),
     );
   }
-
-  Padding altBar(Advert advert) {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 4,
-            child: Text(advert.title),
-          ),
-          Expanded(
-            flex: 1,
-            child: Text(advert.price.toString() + " TL",
-                style: const TextStyle(color: Colors.green, fontSize: 18)),
-          ),
-        ],
-      ),
-    );
-  }
-
 
 }

@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, avoid_print
 
 import 'dart:convert';
 
@@ -49,6 +49,21 @@ class AdvertService {
       }
       return liste;
     }else{
+      return [];
+    }
+  }
+  Future<List<Advert>> getByFilter(String data) async {
+    var liste = <Advert>[];
+    var r = await api.getByFilter(data);
+    if (r.statusCode == 200) {
+      var data = json.decode(utf8.decode(r.bodyBytes));
+      data = data['data'];
+      for (var i in data) {
+        liste.add(Advert.fromJson(i));
+      }
+      return liste;
+    }else{
+      print(json.decode(utf8.decode(r.bodyBytes)));
       return [];
     }
   }

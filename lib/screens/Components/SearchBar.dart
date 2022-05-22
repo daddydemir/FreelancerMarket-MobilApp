@@ -2,6 +2,10 @@
 
 import 'package:flutter/material.dart';
 
+import '../../models/advert.dart';
+import '../../service/advert/advertService.dart';
+import '../AdvertPages/search.dart';
+
 class SearchBar extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -11,8 +15,18 @@ class SearchBar extends StatefulWidget {
 }
 
 class _searchBarState extends State {
+  var text = TextEditingController();
+  var service = AdvertService();
+  var liste = <Advert>[];
+  search() async{
+    liste = await service.getByFilter(text.text);
+    print(liste.length.toString());
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Search(liste:liste)));
+  }
+
   @override
   Widget build(BuildContext context) {
+    
     return Center(
       child: Padding(
           padding: const EdgeInsets.only(
@@ -23,6 +37,11 @@ class _searchBarState extends State {
             elevation: 20,
             shadowColor: Colors.black,
             child: TextField(
+              controller: text,
+              textInputAction: TextInputAction.search,
+              onSubmitted: (value){
+                search();
+              },
               autofocus: false,
               decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
@@ -40,7 +59,7 @@ class _searchBarState extends State {
                   filled: true,
                   suffixIcon: IconButton(
                     onPressed: () {
-                      print("Ara bakalım");
+                      search();
                     },
                     icon: const Icon(Icons.search),
                     color: Colors.black,

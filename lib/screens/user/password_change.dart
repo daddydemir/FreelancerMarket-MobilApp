@@ -121,7 +121,7 @@ class _passwordChangePageState extends State {
   }
 
   void alertKutu(BuildContext context,var mesaj,bool status) {
-    Widget okButton = FlatButton(
+    Widget okButton = TextButton(
         child: const Text("Tamam"),
         onPressed: () {
           Navigator.pop(context);

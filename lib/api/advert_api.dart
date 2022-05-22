@@ -5,6 +5,8 @@ import 'dart:io';
 import 'package:freelancer_market/models/advert.dart';
 import 'package:freelancer_market/models/sql_user.dart';
 import 'package:http/http.dart' as http;
+
+import '../models/_User.dart';
 class AdvertApi{
 
   // resim olduğu için sona bırakıyorum
@@ -65,5 +67,18 @@ class AdvertApi{
   Future getMostPopularAdverts() async{
     var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/adverts/getMostPopularJobAdverts");
     return await http.get(url);
+  }
+
+  Future getByFilter(String term) async{
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/adverts/getBySearchFilter");
+    return await http.post(
+      url,
+      headers:{
+        "Content-Type": "application/json",
+      },
+      body:jsonEncode(<String, String>{
+        "term":term
+      })
+    );
   }
 }

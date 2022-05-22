@@ -25,12 +25,7 @@ class _advertDetailPageState extends State {
   _advertDetailPageState(this.advert);
 
   final Advert advert;
-  /* ilan detay sayfasında ilan , ilan sahibi , user'in diğer ilanları, ilana yapılan yorumlar olacak.
-   * 
-   * 
-   *
-   */
-
+  
   List<Comments> yorumlar = [];
   List<User> yorumYapanlar = [];
   List<Advert> ilanlar = [];
