@@ -1,9 +1,10 @@
 
-// ignore_for_file: unnecessary_const
+// ignore_for_file: unnecessary_const, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:freelancer_market/data/dbHelper.dart';
 
+import '../main.dart';
 import '../service/auth/loginService.dart';
 
 class LoginPage extends StatefulWidget {
@@ -105,8 +106,13 @@ class _loginState extends State {
   }
 
   // ignore: non_constant_identifier_names
-  f_login() {
+  f_login() async{
     var service = LoginService();
-    service.login(username.text , password.text);
+    var isSuccess = await service.login(username.text , password.text);
+    if(isSuccess){
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HttpApp()));
+    }else{
+      print("Hata - Oturum açma başarısız");
+    }
   }
 }

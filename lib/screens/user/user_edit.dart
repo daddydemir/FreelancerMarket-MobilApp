@@ -1,8 +1,11 @@
-// ignore_for_file: must_be_immutable, non_constant_identifier_names, prefer_typing_uninitialized_variables, no_logic_in_create_state, duplicate_ignore
+// ignore_for_file: must_be_immutable, non_constant_identifier_names, prefer_typing_uninitialized_variables, no_logic_in_create_state, duplicate_ignore, camel_case_types, prefer_final_fields, unused_field, unnecessary_null_comparison, dead_code, avoid_print
+
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:freelancer_market/screens/Components/loading.dart';
 import 'package:freelancer_market/screens/user/password_change.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../service/user/freelancerService.dart';
 
@@ -16,13 +19,27 @@ class UserEdit extends StatefulWidget {
   State<StatefulWidget> createState() => _userEditState(UserId);
 }
 
-// ignore: camel_case_types
+
 class _userEditState extends State {
   _userEditState(this.index);
   var index;
+
   var service = FreelancerService();
-  
+  var _picker = ImagePicker();
+  File file = File("");
   var user;
+
+  uploadImage() async {
+    await service.imageUpdate(file);
+  }
+
+  getImage() async {
+    final XFile? selectedFile = await _picker.pickImage(source:ImageSource.gallery);
+    file = File(selectedFile!.path);
+    user.imagePath = file.path;
+    uploadImage();
+    setState((){});
+  }
 
   Future<void> _veriGetir() async {
     user = await service.getUser(index);
@@ -30,7 +47,6 @@ class _userEditState extends State {
   }
 
   @override
-  // ignore: must_call_super
   initState() {
     _veriGetir();
     super.initState();
@@ -83,7 +99,7 @@ class _userEditState extends State {
     );
   }
 
-  // ignore: non_constant_identifier_names
+  
   Center Kaydet() {
     return Center(
       child: Padding(
@@ -128,7 +144,7 @@ class _userEditState extends State {
     );
   }
 
-  // ignore: non_constant_identifier_names
+  
   Padding Yazi(var name) {
     return Padding(
         padding: const EdgeInsets.only(left: 20, top: 15),
@@ -141,7 +157,7 @@ class _userEditState extends State {
         ));
   }
 
-  // ignore: non_constant_identifier_names
+
   Padding Parola() {
     return Padding(
         padding: const EdgeInsets.only(left: 10, top: 10),
@@ -275,7 +291,38 @@ class _userEditState extends State {
   }
 
   Center resim(String pr) {
-    return Center(
+    if(file.path != ""){
+      return Center(
+        child:Stack(
+          children:[
+            Align(
+              child:ClipOval(child: SizedBox.fromSize(
+              size: const Size.fromRadius(70),
+              child: Image.file(
+                file,
+                fit: BoxFit.cover,
+              ),
+            ),),
+            ),
+             Padding(
+          padding: const EdgeInsets.only(left:110),
+          child:Align(
+            alignment:Alignment.topCenter,
+            child:IconButton(
+              icon:const Icon(Icons.add_a_photo_outlined),
+              iconSize:40,
+              color: const Color(0xffe83c5f),
+              onPressed:(){
+                getImage();
+              }
+            ),
+          ),
+        ),
+          ],
+        ),
+      );
+    }else{
+      return Center(
       child: Stack(children: [
         
         Align(
@@ -297,12 +344,16 @@ class _userEditState extends State {
               icon:const Icon(Icons.add_a_photo_outlined),
               iconSize:40,
               color: const Color(0xffe83c5f),
-              onPressed:(){}
+              onPressed:(){
+                getImage();
+              }
             ),
           ),
         ),
       ]),
     );
+    }
+    
   }
 
 

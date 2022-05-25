@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import, unnecessary_new, unused_local_variable, prefer_collection_literals
+// ignore_for_file: unused_import, unnecessary_new, unused_local_variable, prefer_collection_literals, avoid_print
 
 import 'dart:convert';
 import 'dart:io';
@@ -7,6 +7,7 @@ import 'package:freelancer_market/models/_User.dart';
 import 'package:freelancer_market/models/sql_user.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
 
 class FreelancerApi {
   Future getAll() async {
@@ -28,29 +29,19 @@ class FreelancerApi {
     return await http.get(url);
   }
 
-  // eksik
+  
   Future imageUpdate(File file, Users user) async {
     
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/freelancers/imageUpdate?id=" +user.id.toString());
-    var request = http.MultipartRequest("POST",url);
-
-    
-    request.headers["Authorization"] = "Bearer " + user.token;
-    
-    //var picture = http.MultipartFile.fromBytes("file", "");
-
-    //request.files.add(picture);
-
-    return await http.post(
-      url,
-      headers: {
-        "Content-Type": "multipart/form-data",
-        HttpHeaders.authorizationHeader: "Bearer " + user.token,
-      },
-      body:{
-        "file": "imageBytes"
-      }
+    var request = http.MultipartRequest('POST',Uri.parse("https://freelancermarket-backend.herokuapp.com/api/freelancers/imageUpdate?id="+user.id.toString()));
+    request.files.add(
+      http.MultipartFile.fromBytes(
+        "file",File(file.path).readAsBytesSync(),filename: file.path,contentType: MediaType("image","jpg")
+      )
     );
+    request.headers["Authorization"] = "Bearer " + user.token;
+    var r = await request.send();
+    var response = await http.Response.fromStream(r);
+    return response;
   }
 
   // eksik

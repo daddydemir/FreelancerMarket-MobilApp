@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
-import '../../service/Image/imageSelector.dart';
+
+import '../../service/user/userService.dart';
 
 class ImageTest extends StatefulWidget {
   @override
@@ -15,6 +16,7 @@ class ImageTest extends StatefulWidget {
 
 class _imageTest extends State {
   //
+  var service = UserService();
   late File file;
   String data = "hata";
 
@@ -44,7 +46,9 @@ class _imageTest extends State {
     request.files.add(http.MultipartFile.fromBytes(
         "file", File(file.path).readAsBytesSync(),filename: file.path , contentType:MediaType("image","jpg")));
     print("Filename:" + file.path);
-    request.headers["Authorization"] = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZW1pciIsImV4cCI6MTY1MzIzODA4MCwiaWF0IjoxNjUzMjIwMDgwfQ.SuN15-OeH4FwX9NreEkjxiPDEkmBJ3n39qDSw4LVF9pA2EJqA5Xsb-EROcV5u1GAgF_eHaaMXrX944pvehPLtQ";
+    var user = await service.getUser();
+    print("TOKEN : " + user.token);
+    request.headers["authorization"] = "Bearer " + user.token;
     var res = await request.send();
     var response = await http.Response.fromStream(res);
     print("KOD : " +res.statusCode.toString() +json.decode(utf8.decode(response.bodyBytes)).toString());

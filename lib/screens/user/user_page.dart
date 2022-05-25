@@ -239,7 +239,7 @@ class _userPageState extends State {
               ),
             ),
             Expanded(
-              child: Text("Sepetim",
+              child: Text("Siparişlerim",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ),
             Expanded(

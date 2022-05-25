@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:freelancer_market/models/advert.dart';
 import 'package:freelancer_market/models/sql_user.dart';
 import 'package:http/http.dart' as http;
+
+import '../models/_User.dart';
 class OrderApi{
 
   static Future add(Advert advert,SqlUser user) async{
@@ -51,7 +53,7 @@ class OrderApi{
   }
 
   // 
-  static Future getByUserId(SqlUser user) async{
+  static Future getByUserId(Users user) async{
     var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/orders/getByUserId?id="+user.id.toString());
     return await http.get(
       url,

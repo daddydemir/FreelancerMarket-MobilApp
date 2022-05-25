@@ -1,12 +1,16 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, avoid_print
 
 import 'dart:convert';
+import 'dart:io';
 
 import '../../api/freelancer_api.dart';
+import '../../models/_User.dart';
 import '../../models/freelancer.dart';
+import 'userService.dart';
 
 class FreelancerService {
   var api = FreelancerApi();
+  var user = UserService();
 
   Future<Freelancer> getUser(int id) async {
     var r = await api.getById(id);
@@ -46,6 +50,16 @@ class FreelancerService {
       return liste;
     } else {
       return [];
+    }
+  }
+
+  Future<void> imageUpdate(File file) async {
+    Users u = await user.getUser();
+    var r = await api.imageUpdate(file ,u);
+    if(r.statusCode == 200){
+      print("Tmm");
+    }else{
+      print("Hata");
     }
   }
 }

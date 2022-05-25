@@ -8,6 +8,11 @@ class UserService{
   Future<Users> getUser() async{
     var db = DatabaseHelper();
     var list =  await db.getUsers();
-    return list[0];
+    if(list.isEmpty){
+      return Users.empty();
+    }
+    else{
+      return list[0];
+    }
   }
 }
