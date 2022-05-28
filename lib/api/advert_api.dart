@@ -5,8 +5,11 @@ import 'dart:io';
 import 'package:freelancer_market/models/advert.dart';
 import 'package:freelancer_market/models/sql_user.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 
 import '../models/_User.dart';
+
+
 class AdvertApi{
 
   // resim olduğu için sona bırakıyorum
@@ -34,10 +37,26 @@ class AdvertApi{
     var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/adverts/getById?id="+advert.id.toString());
     return await http.get(url);
   }
-  // [resim olduğu için patlar ]
-  static Future Update(Advert advert, SqlUser user)async{
+  
+  Future Update(Advert advert, File file, Users user)async{
     var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/adverts/update");
-    return await http.post(
+    var request = http.MultipartRequest("POST",url);
+    request.files.add(
+      http.MultipartFile.fromBytes("file",File(file.path).readAsBytesSync(),filename:file.path,contentType:MediaType("image","jpg"))
+    );
+    request.headers["Authorization"] = "Bearer " + user.token;
+    request.fields["freelancerId"] = user.id.toString();
+    request.fields["id"] = advert.id.toString();
+    request.fields["info"] = advert.info;
+    request.fields["price"] = advert.price.toString();
+    request.fields["subCategoryId"] = advert.sub_category_id.toString();
+    request.fields["title"] = advert.title;
+
+    var r = await request.send();
+    var response = await http.Response.fromStream(r);
+    return response;
+    
+    /* return await http.post(
       url,
       headers:{
         HttpHeaders.authorizationHeader: "Bearer "+ user.token,
@@ -51,7 +70,7 @@ class AdvertApi{
         "subCategoryId": advert.sub_category_id.toString(),
         "title":advert.title,
       }),
-    );
+    ); */
   }
 
   static Future getAllAdverts() async{

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:freelancer_market/screens/Test/temp_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'screens/first.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -21,7 +23,7 @@ class HttpApp extends StatelessWidget{
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home:TempPage(),
+      home:First(),
       //TempPage(),
     );
   }

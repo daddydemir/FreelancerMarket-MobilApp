@@ -1,7 +1,7 @@
 
 // ignore_for_file: use_key_in_widget_constructors, camel_case_types, prefer_const_constructors, must_call_super
-
 import 'package:flutter/material.dart';
+import 'package:freelancer_market/screens/Test/temp_page.dart';
 
 import '../main.dart';
 import '../models/_User.dart';
@@ -14,7 +14,7 @@ class First extends StatefulWidget{
 
 }
 
-class _first extends State{
+class _first extends State<First>{
 
   var service = UserService();
   var user = Users.empty();
@@ -23,9 +23,10 @@ class _first extends State{
   check() async {
     user = await service.getUser();
     
+    await Future.delayed(Duration(seconds: 2));
     if(user.name != "empty"){
       // kullanici var demek bu sebeple ana sayfaya atarim 
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HttpApp()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TempPage()));
       return "";
     }
     
@@ -36,6 +37,7 @@ class _first extends State{
 
   @override
   void initState() {
+    super.initState();
     check();
   }
 

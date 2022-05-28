@@ -1,10 +1,9 @@
 
-// ignore_for_file: unnecessary_const, avoid_print
+// ignore_for_file: unnecessary_const, avoid_print, non_constant_identifier_names, prefer_const_constructors, unused_local_variable, duplicate_ignore
 
 import 'package:flutter/material.dart';
 import 'package:freelancer_market/data/dbHelper.dart';
-
-import '../main.dart';
+import 'package:freelancer_market/screens/Test/temp_page.dart';
 import '../service/auth/loginService.dart';
 
 class LoginPage extends StatefulWidget {
@@ -110,9 +109,36 @@ class _loginState extends State {
     var service = LoginService();
     var isSuccess = await service.login(username.text , password.text);
     if(isSuccess){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HttpApp()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TempPage()));
     }else{
+      ShowAlertDialog();
       print("Hata - Oturum açma başarısız");
     }
   }
+
+  ShowAlertDialog(){
+
+    Widget okButton = TextButton(
+      child:Text("Tamam"),
+      onPressed: () {
+        Navigator.of(context, rootNavigator: true).pop();
+      }
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: Text("Oturum açma başarısız"),
+      content: Text("Kullanıcı adı ve Prolayı kontrol edip tekrar dene."),
+      actions:[
+        okButton
+      ]
+    );
+
+    showDialog(
+      context: context,
+      builder:(BuildContext context){
+        return alert;
+      }
+    );
+  }
 }
+

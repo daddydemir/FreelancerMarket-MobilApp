@@ -18,7 +18,7 @@ class SubCategory{
     id = json["id"];
     top_category_id = json["topCategoryId"];
     name = json["name"];
-    image = json["imagePath"];
+    image = json["imagePath"]?? "https://raw.githubusercontent.com/daddydemir/images/main/freelancer-market/PNG-4x/acik-zemin%404x.png";
   }
 
 // post 
