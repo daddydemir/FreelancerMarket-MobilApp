@@ -35,9 +35,18 @@ class Freelancer {
     surname = map["surName"];
     username = map["userName"];
     email = map["email"];
-    appellation = map["appellation"] ?? "nobody";
+    appellation = map["appellation"] ?? "vasıfsız";
     imagePath = map["imagePath"];
-    about = map["about"] ?? " null ";
+    about = map["about"] ?? "null";
     average = map["averageScore"];
+    String temp = average.toString();
+    String tut = "";
+    for (int i = 0; i < temp.length; i++) {
+      tut += temp[i];
+      if(i > 0 && temp[i-1] == "."){
+        break;
+      }
+    }
+    average = double.parse(tut);
   }
 }

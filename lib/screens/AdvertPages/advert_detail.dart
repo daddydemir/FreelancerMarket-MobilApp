@@ -44,8 +44,8 @@ class _advertDetailPageState extends State {
       var data = gelen["data"];
       for (var i in data) {
         yorumlar.add(Comments.fromJson(i));
-        setState(() {});
       }
+      setState(() {});
     }
     var api = FreelancerApi();
 
@@ -72,7 +72,7 @@ class _advertDetailPageState extends State {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ilanlar.isEmpty ? Center(child:Text("Hello World")) :Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: SingleChildScrollView(
@@ -316,11 +316,11 @@ class _advertDetailPageState extends State {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(children: [
-                const Expanded(
+                Expanded(
                   child: Padding(
                     padding: EdgeInsets.all(8.0),
                     child:
-                        Text("Metehan Özalp", style: TextStyle(fontSize: 20)),
+                        Text(comment.userId.toString(),style: TextStyle(fontSize: 20)),
                   ),
                 ),
                 Expanded(

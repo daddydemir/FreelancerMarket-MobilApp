@@ -68,6 +68,7 @@ class _subCategoryIdForAdvertPageState extends State {
           : Column(
             children: [
               TopBar(),
+              Text("Kategori İsmi",style:TextStyle(fontSize:20)),
               Expanded(
                 child: ListView.builder(
                     itemCount: adverts.length,

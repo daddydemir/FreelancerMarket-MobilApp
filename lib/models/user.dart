@@ -25,7 +25,7 @@ class User{
    id = jsn["id"];
    username = jsn["userName"];
    image = jsn["imagePath"];
-   appellation = jsn["appellation"];
+   appellation = jsn["appellation"] ?? "vasıfsız";
  }
   
 }

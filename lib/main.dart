@@ -24,7 +24,6 @@ class HttpApp extends StatelessWidget{
       ),
       debugShowCheckedModeBanner: false,
       home:First(),
-      //TempPage(),
     );
   }
 
