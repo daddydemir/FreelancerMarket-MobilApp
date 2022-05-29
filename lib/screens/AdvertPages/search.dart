@@ -7,6 +7,7 @@ import '../../service/user/favoriteService.dart';
 import '../../service/user/freelancerService.dart';
 import '../Components/TopBar.dart';
 import '../Components/loading.dart';
+import '../user/freelancer_detail.dart';
 import 'advert_detail.dart';
 
 class Search extends StatefulWidget{
@@ -91,6 +92,11 @@ class _search extends State{
   }
 
   Card item(Freelancer user, Advert advert) {
+    for(int i=0;i<freelancers.length; i++){
+      if(freelancers[i].id == advert.freelancer_id){
+        user = freelancers[i];
+      }
+    }
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(
@@ -122,7 +128,7 @@ class _search extends State{
                 ),
                 child: InkWell(
                     onTap: () {
-                      print("user detail page");
+                       Navigator.push(context,MaterialPageRoute(builder: (context) => FreelancerDetailPage(user: user),),);
                     },
                     child: kart(user)),
               ),

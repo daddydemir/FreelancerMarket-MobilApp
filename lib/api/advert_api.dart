@@ -13,16 +13,21 @@ class AdvertApi{
 
   
   Future Add(Users user , Advert advert , File file) async{
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/adverts/add?freelancerId="+user.id.toString()+"&info="+ advert.info +"&price="+ advert.price.toString() +"&subCategoryId="+ advert.sub_category_id.toString()+ "&title="+ advert.title);
+    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/adverts/add");
     var request = http.MultipartRequest('POST', url);
     request.files.add(
       http.MultipartFile.fromBytes(
-        "file",
+        "imagePath",
         File(file.path).readAsBytesSync(),
         filename:file.path,
         contentType: MediaType("image","jpg")
       )
     );
+    request.fields["freelancerId"] = user.id.toString(); 
+    request.fields["info"] = advert.info;
+    request.fields["price"] = advert.price.toString();
+    request.fields["subCategoryId"] = advert.sub_category_id.toString();
+    request.fields["title"] = advert.title.toString();
     request.headers["Authorization"] = "Bearer " + user.token;
     var r = await request.send();
     return await http.Response.fromStream(r);

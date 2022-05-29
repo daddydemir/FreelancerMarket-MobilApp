@@ -10,6 +10,7 @@ import '../../service/advert/advertService.dart';
 import '../../service/user/favoriteService.dart';
 import '../../service/user/freelancerService.dart';
 import '../Components/TopBar.dart';
+import '../user/freelancer_detail.dart';
 
 class SubCategoryIdForAdvertPage extends StatefulWidget {
   const SubCategoryIdForAdvertPage({Key? key, required this.index}): super(key: key);
@@ -49,7 +50,6 @@ class _subCategoryIdForAdvertPageState extends State {
         favMap[adverts[i].id.toString()] = "0xffe83c5f";
       }    
     }
-      // beyaz rengi ekledim
     }
     setState(() {});
   }
@@ -68,11 +68,18 @@ class _subCategoryIdForAdvertPageState extends State {
           : Column(
             children: [
               TopBar(),
-              Text("Kategori İsmi",style:TextStyle(fontSize:20)),
+              const Text("Kategori İsmi",style:TextStyle(fontSize:20)),
               Expanded(
                 child: ListView.builder(
                     itemCount: adverts.length,
                     itemBuilder: (BuildContext context, int index) {
+                      for(int i = 0;i<adverts.length; i++){
+                        for(int k = 0;k<freelancers.length; k++){
+                          if(adverts[i].freelancer_id == freelancers[k].id){
+                            //return 
+                          }
+                        }
+                      }
                       return InkWell(
                         onTap: () {
                           print("Detay : " + adverts[index].id.toString());
@@ -105,6 +112,11 @@ class _subCategoryIdForAdvertPageState extends State {
   }
 
   Card item(Freelancer user, Advert advert) {
+    for(int i=0;i<freelancers.length; i++){
+      if(advert.freelancer_id == freelancers[i].id){
+        user = freelancers[i];
+      }
+    }
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(
@@ -136,7 +148,7 @@ class _subCategoryIdForAdvertPageState extends State {
                 ),
                 child: InkWell(
                     onTap: () {
-                      print("user detail page");
+                      Navigator.push(context,MaterialPageRoute(builder: (context) => FreelancerDetailPage(user: user),),);
                     },
                     child: kart(user)),
               ),
