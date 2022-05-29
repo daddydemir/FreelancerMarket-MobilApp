@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:freelancer_market/models/advert.dart';
-import 'package:freelancer_market/models/sql_user.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
@@ -12,13 +11,25 @@ import '../models/_User.dart';
 
 class AdvertApi{
 
-  // resim olduğu için sona bırakıyorum
-  static Future Add() async{
-    var url = Uri.parse("");
+  
+  Future Add(Users user , Advert advert , File file) async{
+    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/adverts/add?freelancerId="+user.id.toString()+"&info="+ advert.info +"&price="+ advert.price.toString() +"&subCategoryId="+ advert.sub_category_id.toString()+ "&title="+ advert.title);
+    var request = http.MultipartRequest('POST', url);
+    request.files.add(
+      http.MultipartFile.fromBytes(
+        "file",
+        File(file.path).readAsBytesSync(),
+        filename:file.path,
+        contentType: MediaType("image","jpg")
+      )
+    );
+    request.headers["Authorization"] = "Bearer " + user.token;
+    var r = await request.send();
+    return await http.Response.fromStream(r);
   }
 
   // [x]
-  static Future Delete(Advert advert, SqlUser user) async {
+  static Future Delete(Advert advert, Users user) async {
     var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/adverts/delete?advertId="+advert.id.toString());
     return await http.delete(
       url,
@@ -55,22 +66,6 @@ class AdvertApi{
     var r = await request.send();
     var response = await http.Response.fromStream(r);
     return response;
-    
-    /* return await http.post(
-      url,
-      headers:{
-        HttpHeaders.authorizationHeader: "Bearer "+ user.token,
-      },
-      body:jsonEncode(<String, String>{
-        "freelancerId":user.id.toString(),
-        "id": advert.id.toString(),
-        "imagePath": advert.image_path,
-        "info": advert.info,
-        "price": advert.price.toString(),
-        "subCategoryId": advert.sub_category_id.toString(),
-        "title":advert.title,
-      }),
-    ); */
   }
 
   static Future getAllAdverts() async{

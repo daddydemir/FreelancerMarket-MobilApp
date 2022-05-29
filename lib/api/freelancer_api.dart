@@ -9,6 +9,8 @@ import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 
+import '../models/freelancer.dart';
+
 class FreelancerApi {
   Future getAll() async {
     var url = Uri.parse(
@@ -44,22 +46,22 @@ class FreelancerApi {
     return response;
   }
 
-  // eksik
-  static Future update(SqlUser user) async {
+  Future update(Users user , Freelancer freelancer) async {
     var url = Uri.parse(
         "https://freelancermarket-backend.herokuapp.com/api/freelancers/update");
     return await http.post(
       url,
       headers: {
+        "Content-Type": "application/json; charset=UTF-8",
         HttpHeaders.authorizationHeader: "Bearer " + user.token,
       },
-      body: jsonEncode(<String, String>{
-        "about": "",
-        "appellation": "",
-        "email": "",
-        "id": "",
-        "name": "",
-        "surName": "",
+      body: jsonEncode(<String, dynamic>{
+        "about": freelancer.about,
+        "appellation": freelancer.appellation,
+        "email": freelancer.email,
+        "id": user.id,
+        "name": freelancer.name,
+        "surName": freelancer.surname,
       }),
     );
   }

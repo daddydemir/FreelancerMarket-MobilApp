@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:freelancer_market/data/dbHelper.dart';
-import 'package:freelancer_market/screens/AdvertPages/all_adverts.dart';
 import 'package:freelancer_market/screens/StatusPage/server_error.dart';
 import 'package:freelancer_market/screens/login.dart';
 import 'package:freelancer_market/screens/temp/yorum_test.dart';
 
 import '../first.dart';
-import 'advert_test.dart';
 import 'image/imageUpload.dart';
 import 'image_test.dart';
 
@@ -67,12 +65,12 @@ class _test13 extends State {
                 child: const Text("Error Page")),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
+                  /* Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const AdvertTest()));
+                          builder: (context) => const AdvertTest())); */
                 },
-                child: const Text("Advert Controller")),
+                child: const Text("YENI OLUR")),
             ElevatedButton(
                 onPressed: () {
                   Navigator.push(context,

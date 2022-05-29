@@ -62,4 +62,14 @@ class FreelancerService {
       print("Hata");
     }
   }
+
+  Future<bool> updateUser(Freelancer freelancer) async {
+    var r = await api.update(await user.getUser(), freelancer);
+    if(r.statusCode == 200){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
 }

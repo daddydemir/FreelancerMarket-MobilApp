@@ -50,7 +50,8 @@ class _search extends State{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:freelancers.isEmpty
+      body: liste.isEmpty ?  Container(child: Center(child:Text("Eşleşme bulunamadı")),) :
+      freelancers.isEmpty
           ? Center(child: LoadAnim())
           : Column(
         children:[

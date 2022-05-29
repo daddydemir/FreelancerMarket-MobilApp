@@ -10,6 +10,8 @@ class Advert{
   late String image_path;
   late DateTime date;
 
+  Advert.empty();
+
   Advert(this.id, this.freelancer_id, this.sub_category_id, this.title, this.price, this.info, this.image_path ,this.date);
 
   // json ile gelen verileri parse edip advert create ermek icin kullanılacak

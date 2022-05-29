@@ -72,6 +72,19 @@ class AdvertService {
     }
   }
 
+  Future<bool> Add(File file , Advert advert) async {
+    var r = await api.Add(await user.getUser(), advert, file);
+    if(r.statusCode == 200){
+      print("Ekleme başarılı");
+      print(json.decode(utf8.decode(r.bodyBytes)));
+      return true;
+    }else{
+      print("Ekleme başarısız");
+      print(json.decode(utf8.decode(r.bodyBytes)));
+      return false;
+    }
+  }
+
   Future<void> update(Advert advert, File file) async {
     Users u = await user.getUser();
     var r = await api.Update(advert, file, u);

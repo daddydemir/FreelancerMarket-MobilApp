@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, non_constant_identifier_names, prefer_typing_uninitialized_variables, no_logic_in_create_state, duplicate_ignore, camel_case_types, prefer_final_fields, unused_field, unnecessary_null_comparison, dead_code, avoid_print
+// ignore_for_file: must_be_immutable, non_constant_identifier_names, prefer_typing_uninitialized_variables, no_logic_in_create_state, duplicate_ignore, camel_case_types, prefer_final_fields, unused_field, unnecessary_null_comparison, dead_code, avoid_print, prefer_const_constructors
 
 import 'dart:io';
 
@@ -7,6 +7,7 @@ import 'package:freelancer_market/screens/Components/loading.dart';
 import 'package:freelancer_market/screens/user/password_change.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../models/freelancer.dart';
 import '../../service/user/freelancerService.dart';
 
 
@@ -23,6 +24,12 @@ class UserEdit extends StatefulWidget {
 class _userEditState extends State {
   _userEditState(this.index);
   var index;
+
+  var isim = TextEditingController();
+  var soyisim = TextEditingController();
+  var about = TextEditingController();
+  var email = TextEditingController();
+  var appellation = TextEditingController();
 
   var service = FreelancerService();
   var _picker = ImagePicker();
@@ -110,7 +117,27 @@ class _userEditState extends State {
             backgroundColor:
                 MaterialStateProperty.all<Color>(const Color(0xff201a3d)),
           ),
-          onPressed: () {},
+          onPressed: () async {
+            Freelancer freelancer = Freelancer.empty();
+            isim.text.isNotEmpty ? freelancer.name = isim.text : freelancer.name = user.name;
+            soyisim.text.isNotEmpty ? freelancer.surname = soyisim.text : freelancer.surname = user.surname; 
+            email.text.isNotEmpty ? freelancer.email = email.text : freelancer.email = user.email;
+            appellation.text.isNotEmpty ? freelancer.appellation = appellation.text : freelancer.appellation = user.appellation;
+            about.text.isNotEmpty ? freelancer.about = about.text : freelancer.about = user.about;
+            
+            var response = await service.updateUser(freelancer);
+            final snackbar;
+            if(response){
+               snackbar = SnackBar(
+                backgroundColor: Colors.greenAccent,
+                content:Text("Başarıyla güncellendi."),
+              );
+            }
+            else{
+              snackbar = SnackBar(content:Text("Güncelleme başarısız oldu."), backgroundColor: Colors.redAccent,);
+            }
+            ScaffoldMessenger.of(context).showSnackBar(snackbar);
+          },
           child: const Text('KAYDET',
               style: TextStyle(
                 fontSize: 20,
@@ -124,6 +151,7 @@ class _userEditState extends State {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
       child: TextField(
+        controller: about,
         textInputAction: TextInputAction.next,
         maxLines: null,
         minLines: 5,
@@ -194,6 +222,7 @@ class _userEditState extends State {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: TextField(
+      controller:appellation,
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
@@ -216,6 +245,7 @@ class _userEditState extends State {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: TextField(
+        controller:email,
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
@@ -238,6 +268,7 @@ class _userEditState extends State {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: TextField(
+        controller:soyisim,
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
@@ -260,6 +291,7 @@ class _userEditState extends State {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: TextField(
+        controller:isim,
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
@@ -353,7 +385,6 @@ class _userEditState extends State {
       ]),
     );
     }
-    
   }
 
 }
