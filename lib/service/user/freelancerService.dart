@@ -53,13 +53,13 @@ class FreelancerService {
     }
   }
 
-  Future<void> imageUpdate(File file) async {
+  Future<bool> imageUpdate(File file) async {
     Users u = await user.getUser();
     var r = await api.imageUpdate(file ,u);
     if(r.statusCode == 200){
-      print("Tmm");
+      return true;
     }else{
-      print("Hata");
+      return false;
     }
   }
 

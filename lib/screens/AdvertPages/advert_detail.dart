@@ -3,14 +3,17 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:freelancer_market/api/Advert-comment.dart';
-import 'package:freelancer_market/api/advert_api.dart';
-import 'package:freelancer_market/api/freelancer_api.dart';
 import 'package:freelancer_market/models/advert.dart';
 import 'package:freelancer_market/models/comments.dart';
-import 'package:freelancer_market/models/user.dart';
 import 'package:freelancer_market/screens/Components/TopBar.dart';
 import 'package:freelancer_market/screens/Components/loading.dart';
+
+import '../../models/_User.dart';
+import '../../models/freelancer.dart';
+import '../../models/user.dart';
+import '../../service/advert/advertService.dart';
+import '../../service/commentService.dart';
+import '../../service/user/freelancerService.dart';
 
 class AdvertDetailPage extends StatefulWidget {
   AdvertDetailPage({Key? key, required this.advert}) : super(key: key);
@@ -25,54 +28,48 @@ class _advertDetailPageState extends State {
   _advertDetailPageState(this.advert);
 
   final Advert advert;
+
+  var as = AdvertService();
+  var cs = CommentService();
+  var fs = FreelancerService();
   
   List<Comments> yorumlar = [];
   List<User> yorumYapanlar = [];
   List<Advert> ilanlar = [];
-  User owner = User.empyt();
+  List temp = [];
+  Freelancer owner = Freelancer.empty();
   
   @override
   initState() {
     _veriGetir();
   }
 
-  Future<void> _veriGetir() async {
-    int idDeger = 0;
-    var commentResp = await AdvertCommentApi.getByAdvertId(advert);
-    if (commentResp.statusCode == 200) {
-      var gelen = json.decode(utf8.decode(commentResp.bodyBytes));
-      var data = gelen["data"];
-      for (var i in data) {
-        yorumlar.add(Comments.fromJson(i));
-      }
-      setState(() {});
-    }
-    var api = FreelancerApi();
+  ilanGetir() async {
+    ilanlar = await as.getAdvertByUserId(owner.id);
+    setState((){});
+  }
 
-    var freelancerResp = await api.getById(advert.freelancer_id);
-    if (freelancerResp.statusCode == 200) {
-      var cevap = json.decode(utf8.decode(freelancerResp.bodyBytes));
-      var veri = cevap["data"];
-      owner = User.forFreelancerFromJson(veri);
-      idDeger = owner.id!;
-      setState(() {});
-    }
-    var napi = AdvertApi();
-    var advertResp = await napi.getByFreelancerId(idDeger);
-    if (advertResp.statusCode == 200) {
-      var cevap = json.decode(utf8.decode(advertResp.bodyBytes));
+  ownerGetir() async {
+    owner = await fs.getUser(advert.freelancer_id);
+    setState(() {});
+  }
 
-      var veri = cevap["data"];
-      for (var i in veri) {
-        ilanlar.add(Advert.fromJson(i));
-        setState(() {});
-      }
-    }
+  yorumGetir() async {
+    temp = await cs.getByAdvertId(advert);
+    yorumlar = temp[0];
+    yorumYapanlar = temp[1];
+    setState((){});
+  }
+
+  void _veriGetir() async {
+    await ownerGetir();
+    await ilanGetir();
+    await yorumGetir();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ilanlar.isEmpty ? Center(child:Text("Hello World")) :Scaffold(
+    return ilanlar.isEmpty ? Center(child:LoadAnim()) :Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: SingleChildScrollView(
@@ -199,7 +196,7 @@ class _advertDetailPageState extends State {
     );
   }
 
-  Card userInfo(User user) {
+  Card userInfo(Freelancer user) {
     return Card(
       color: const Color(0xffe83c5f),
       shape: RoundedRectangleBorder(
@@ -219,7 +216,7 @@ class _advertDetailPageState extends State {
               child: SizedBox.fromSize(
                 size: const Size.fromRadius(30),
                 child: Image.network(
-                  user.image,
+                  user.imagePath,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -302,12 +299,17 @@ class _advertDetailPageState extends State {
   }
 
   Padding yorumAlani(Comments comment) {
+    User yorumyapan = User.empyt();
+    for(int i = 0; i<yorumYapanlar.length; i++){
+      if(comment.userId == yorumYapanlar[i].id){
+        yorumyapan = yorumYapanlar[i];
+      }
+    }
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: 5),
       child: SizedBox(
-        height: 250,
         child: Card(
-          color: Colors.amber[50],
+          color: Colors.white,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           shadowColor: Colors.black,
@@ -317,13 +319,30 @@ class _advertDetailPageState extends State {
             children: [
               Row(children: [
                 Expanded(
+                  flex:1,
                   child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child:
-                        Text(comment.userId.toString(),style: TextStyle(fontSize: 20)),
+                    padding: const EdgeInsets.only(top:8,left:8,right:8),
+                    child:ClipOval(
+                      child:SizedBox.fromSize(
+                        size:const Size.fromRadius(30),
+                        child:Image.network(
+                          yorumyapan.image,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                        //Text(yorumyapan.username,style: const TextStyle(fontSize: 20)),
                   ),
                 ),
                 Expanded(
+                  flex:2,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top:8,left:8,right:8),
+                    child:Text(yorumyapan.username , style:const TextStyle(fontSize:18, fontWeight: FontWeight.bold),),
+                  ),
+                ),
+                Expanded(
+                  flex:2,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
@@ -331,12 +350,13 @@ class _advertDetailPageState extends State {
                       child: Align(
                         alignment: Alignment.topRight,
                         child: Card(
-                          color: Colors.yellow,
+                          color: Colors.black,
                           child: Padding(
                             padding: const EdgeInsets.only(
                                 top: 8, left: 8, bottom: 8, right: 8),
                             child: Text(
                               comment.date.toString(),
+                              style: const TextStyle(color: Colors.white)
                             ),
                           ),
                         ),
@@ -345,10 +365,14 @@ class _advertDetailPageState extends State {
                   ),
                 ),
               ]),
+              Divider(
+                color: Colors.black,
+              ),
               Padding(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.only(left:15,top:15,bottom:10,right:10),
                 child: Text(
                   comment.content,
+                  style: const TextStyle(fontSize:15)
                   //overflow: TextOverflow.ellipsis,
                 ),
               ),

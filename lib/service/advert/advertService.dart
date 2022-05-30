@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, avoid_print
+// ignore_for_file: file_names, avoid_print, non_constant_identifier_names
 
 import 'dart:convert';
 import 'dart:io';

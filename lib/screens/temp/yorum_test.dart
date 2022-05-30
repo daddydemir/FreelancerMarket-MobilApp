@@ -33,7 +33,8 @@ class _yorumState extends State {
   Future<void> _veriGetir() async {
     yorumlar.clear();
     // 6. ilana yapılan yorumlar gelecek
-    var ilanResp = await AdvertCommentApi.getByAdvertId(a);
+    var api = AdvertCommentApi();
+    var ilanResp =  await api.getByAdvertId(a);
     
     if (ilanResp.statusCode == 200) {
       var gelen = json.decode(utf8.decode(ilanResp.bodyBytes));

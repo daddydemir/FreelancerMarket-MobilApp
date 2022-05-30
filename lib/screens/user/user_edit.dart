@@ -10,16 +10,13 @@ import 'package:image_picker/image_picker.dart';
 import '../../models/freelancer.dart';
 import '../../service/user/freelancerService.dart';
 
-
-
 class UserEdit extends StatefulWidget {
-  UserEdit({Key? key , required this.UserId}) : super(key: key);
+  UserEdit({Key? key, required this.UserId}) : super(key: key);
 
   var UserId;
   @override
   State<StatefulWidget> createState() => _userEditState(UserId);
 }
-
 
 class _userEditState extends State {
   _userEditState(this.index);
@@ -37,15 +34,30 @@ class _userEditState extends State {
   var user;
 
   uploadImage() async {
-    await service.imageUpdate(file);
+    var response = false;
+    response = await service.imageUpdate(file);
+    final snackbar;
+    if (response) {
+      snackbar = SnackBar(
+        backgroundColor: Colors.greenAccent,
+        content: Text("Profil resmi güncellendi."),
+      );
+    } else {
+      snackbar = SnackBar(
+        content: Text("Güncelleme başarısız oldu."),
+        backgroundColor: Colors.redAccent,
+      );
+    }
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
 
   getImage() async {
-    final XFile? selectedFile = await _picker.pickImage(source:ImageSource.gallery);
+    final XFile? selectedFile =
+        await _picker.pickImage(source: ImageSource.gallery);
     file = File(selectedFile!.path);
     user.imagePath = file.path;
     uploadImage();
-    setState((){});
+    setState(() {});
   }
 
   Future<void> _veriGetir() async {
@@ -63,7 +75,7 @@ class _userEditState extends State {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xfff4f5f7),
-      body: user == null 
+      body: user == null
           ? Center(child: LoadAnim())
           : Padding(
               padding: const EdgeInsets.all(16),
@@ -106,7 +118,6 @@ class _userEditState extends State {
     );
   }
 
-  
   Center Kaydet() {
     return Center(
       child: Padding(
@@ -119,22 +130,34 @@ class _userEditState extends State {
           ),
           onPressed: () async {
             Freelancer freelancer = Freelancer.empty();
-            isim.text.isNotEmpty ? freelancer.name = isim.text : freelancer.name = user.name;
-            soyisim.text.isNotEmpty ? freelancer.surname = soyisim.text : freelancer.surname = user.surname; 
-            email.text.isNotEmpty ? freelancer.email = email.text : freelancer.email = user.email;
-            appellation.text.isNotEmpty ? freelancer.appellation = appellation.text : freelancer.appellation = user.appellation;
-            about.text.isNotEmpty ? freelancer.about = about.text : freelancer.about = user.about;
-            
+            isim.text.isNotEmpty
+                ? freelancer.name = isim.text
+                : freelancer.name = user.name;
+            soyisim.text.isNotEmpty
+                ? freelancer.surname = soyisim.text
+                : freelancer.surname = user.surname;
+            email.text.isNotEmpty
+                ? freelancer.email = email.text
+                : freelancer.email = user.email;
+            appellation.text.isNotEmpty
+                ? freelancer.appellation = appellation.text
+                : freelancer.appellation = user.appellation;
+            about.text.isNotEmpty
+                ? freelancer.about = about.text
+                : freelancer.about = user.about;
+
             var response = await service.updateUser(freelancer);
             final snackbar;
-            if(response){
-               snackbar = SnackBar(
+            if (response) {
+              snackbar = SnackBar(
                 backgroundColor: Colors.greenAccent,
-                content:Text("Başarıyla güncellendi."),
+                content: Text("Başarıyla güncellendi."),
               );
-            }
-            else{
-              snackbar = SnackBar(content:Text("Güncelleme başarısız oldu."), backgroundColor: Colors.redAccent,);
+            } else {
+              snackbar = SnackBar(
+                content: Text("Güncelleme başarısız oldu."),
+                backgroundColor: Colors.redAccent,
+              );
             }
             ScaffoldMessenger.of(context).showSnackBar(snackbar);
           },
@@ -172,7 +195,6 @@ class _userEditState extends State {
     );
   }
 
-  
   Padding Yazi(var name) {
     return Padding(
         padding: const EdgeInsets.only(left: 20, top: 15),
@@ -184,7 +206,6 @@ class _userEditState extends State {
           ),
         ));
   }
-
 
   Padding Parola() {
     return Padding(
@@ -222,7 +243,7 @@ class _userEditState extends State {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: TextField(
-      controller:appellation,
+        controller: appellation,
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
@@ -245,7 +266,7 @@ class _userEditState extends State {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: TextField(
-        controller:email,
+        controller: email,
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
@@ -268,7 +289,7 @@ class _userEditState extends State {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: TextField(
-        controller:soyisim,
+        controller: soyisim,
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
@@ -291,7 +312,7 @@ class _userEditState extends State {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: TextField(
-        controller:isim,
+        controller: isim,
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
@@ -323,68 +344,66 @@ class _userEditState extends State {
   }
 
   Center resim(String pr) {
-    if(file.path != ""){
+    if (file.path != "") {
       return Center(
-        child:Stack(
-          children:[
+        child: Stack(
+          children: [
             Align(
-              child:ClipOval(child: SizedBox.fromSize(
-              size: const Size.fromRadius(70),
-              child: Image.file(
-                file,
-                fit: BoxFit.cover,
+              child: ClipOval(
+                child: SizedBox.fromSize(
+                  size: const Size.fromRadius(70),
+                  child: Image.file(
+                    file,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
-            ),),
             ),
-             Padding(
-          padding: const EdgeInsets.only(left:110),
-          child:Align(
-            alignment:Alignment.topCenter,
-            child:IconButton(
-              icon:const Icon(Icons.add_a_photo_outlined),
-              iconSize:40,
-              color: const Color(0xffe83c5f),
-              onPressed:(){
-                getImage();
-              }
+            Padding(
+              padding: const EdgeInsets.only(left: 110),
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: IconButton(
+                    icon: const Icon(Icons.add_a_photo_outlined),
+                    iconSize: 40,
+                    color: const Color(0xffe83c5f),
+                    onPressed: () {
+                      getImage();
+                    }),
+              ),
             ),
-          ),
-        ),
           ],
         ),
       );
-    }else{
+    } else {
       return Center(
-      child: Stack(children: [
-        
-        Align(
-          child: ClipOval(
-            child: SizedBox.fromSize(
-              size: const Size.fromRadius(70),
-              child: Image.network(
-                pr,
-                fit: BoxFit.cover,
+        child: Stack(children: [
+          Align(
+            child: ClipOval(
+              child: SizedBox.fromSize(
+                size: const Size.fromRadius(70),
+                child: Image.network(
+                  pr,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left:110),
-          child:Align(
-            alignment:Alignment.topCenter,
-            child:IconButton(
-              icon:const Icon(Icons.add_a_photo_outlined),
-              iconSize:40,
-              color: const Color(0xffe83c5f),
-              onPressed:(){
-                getImage();
-              }
+          Padding(
+            padding: const EdgeInsets.only(left: 110),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: IconButton(
+                  icon: const Icon(Icons.add_a_photo_outlined),
+                  iconSize: 40,
+                  color: const Color(0xffe83c5f),
+                  onPressed: () {
+                    getImage();
+                  }),
             ),
           ),
-        ),
-      ]),
-    );
+        ]),
+      );
     }
   }
-
 }
