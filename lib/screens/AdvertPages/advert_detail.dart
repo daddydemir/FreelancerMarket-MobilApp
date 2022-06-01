@@ -1,4 +1,4 @@
-// ignore_for_file: camel_case_types, use_key_in_widget_constructors, slash_for_doc_comments, no_logic_in_create_state, prefer_const_constructors_in_immutables, must_call_super, unnecessary_null_comparison
+// ignore_for_file: camel_case_types, use_key_in_widget_constructors, slash_for_doc_comments, no_logic_in_create_state, prefer_const_constructors_in_immutables, must_call_super, unnecessary_null_comparison, avoid_print, prefer_is_empty
 
 import 'dart:convert';
 
@@ -9,11 +9,13 @@ import 'package:freelancer_market/screens/Components/TopBar.dart';
 import 'package:freelancer_market/screens/Components/loading.dart';
 
 import '../../models/_User.dart';
+import '../../models/commentResponse.dart';
 import '../../models/freelancer.dart';
 import '../../models/user.dart';
 import '../../service/advert/advertService.dart';
 import '../../service/commentService.dart';
 import '../../service/user/freelancerService.dart';
+import '../../service/user/userService.dart';
 
 class AdvertDetailPage extends StatefulWidget {
   AdvertDetailPage({Key? key, required this.advert}) : super(key: key);
@@ -32,10 +34,13 @@ class _advertDetailPageState extends State {
   var as = AdvertService();
   var cs = CommentService();
   var fs = FreelancerService();
+  var us = UserService();
   
+  List<CommentResponse> yorumyanitlar = [];
   List<Comments> yorumlar = [];
   List<User> yorumYapanlar = [];
   List<Advert> ilanlar = [];
+  Users authUser = Users.empty();
   List temp = [];
   Freelancer owner = Freelancer.empty();
   
@@ -50,6 +55,7 @@ class _advertDetailPageState extends State {
   }
 
   ownerGetir() async {
+    authUser = await us.getUser();
     owner = await fs.getUser(advert.freelancer_id);
     setState(() {});
   }
@@ -58,6 +64,7 @@ class _advertDetailPageState extends State {
     temp = await cs.getByAdvertId(advert);
     yorumlar = temp[0];
     yorumYapanlar = temp[1];
+    yorumyanitlar = temp[2];
     setState((){});
   }
 
@@ -79,6 +86,7 @@ class _advertDetailPageState extends State {
               TopBar(),
               kutu(advert),
               information(advert),
+              siparisVer(),
               owner == null ? Center(child: LoadAnim()) : userInfo(owner),
               const Padding(
                 padding: EdgeInsets.all(8.0),
@@ -120,7 +128,13 @@ class _advertDetailPageState extends State {
                             scrollDirection: Axis.vertical,
                             itemCount: yorumlar.length,
                             itemBuilder: (BuildContext context, int index) {
-                              return yorumAlani(yorumlar[index]);
+                              List<CommentResponse> temp = <CommentResponse>[];
+                              for(int i =0;i<yorumyanitlar.length; i++){
+                                if(yorumlar[index].id == yorumyanitlar[i].advertCommentId){
+                                  temp.add(yorumyanitlar[i]);
+                                }
+                              }
+                              return yorumAlani(yorumlar[index] , temp);
                             }),
                       ),
                     ),
@@ -129,6 +143,26 @@ class _advertDetailPageState extends State {
         ),
       ),
     );
+  }
+
+  Widget siparisVer() {
+    if(advert.freelancer_id == authUser.id){
+      // kişi kendi ilanını sipariş veremez . . .
+      return const SizedBox();
+    }else{
+      return Card(
+        color:Colors.transparent,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      elevation: 20,
+      shadowColor: Colors.black,
+      child:ElevatedButton(
+        onPressed: () {},
+        child:const Center(child: Text("Sipariş ver")),
+      ),
+    );
+    }
   }
 
   Card kutu(Advert ilan) {
@@ -298,87 +332,181 @@ class _advertDetailPageState extends State {
     );
   }
 
-  Padding yorumAlani(Comments comment) {
+  Padding yorumAlani(Comments comment , List<CommentResponse> liste) {
     User yorumyapan = User.empyt();
     for(int i = 0; i<yorumYapanlar.length; i++){
       if(comment.userId == yorumYapanlar[i].id){
         yorumyapan = yorumYapanlar[i];
       }
     }
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 5),
-      child: SizedBox(
-        child: Card(
-          color: Colors.white,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          shadowColor: Colors.black,
-          elevation: 20,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(children: [
-                Expanded(
-                  flex:1,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top:8,left:8,right:8),
-                    child:ClipOval(
-                      child:SizedBox.fromSize(
-                        size:const Size.fromRadius(30),
-                        child:Image.network(
-                          yorumyapan.image,
-                          fit: BoxFit.cover,
+    List<Widget> g = [];
+    if(liste.length > 0){
+      for(int i=0;i<liste.length;i++){
+        g.add(
+          Padding(
+            padding:const EdgeInsets.only(bottom:5,left:15,right:15),
+            child:SizedBox(
+              child:Card(
+                color:Colors.transparent,
+                shape:RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                shadowColor: Colors.black,
+                elevation:20,
+                child:Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children:[
+                    Row(
+                      children:[
+                        Expanded(
+                          flex:1,
+                          child:Padding(
+                            padding:const EdgeInsets.only(top:8,left:8,right:8),
+                            child:ClipOval(
+                              child:SizedBox.fromSize(
+                                size:const Size.fromRadius(30),
+                                child:Image.network(
+                                  liste[i].userId == yorumyapan.id ? yorumyapan.image : owner.imagePath,
+                                  fit:BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
+                        Expanded(
+                          flex:2,
+                          child:Padding(
+                            padding:const EdgeInsets.only(top:8,left:8,right:8),
+                            child:Text(
+                              liste[i].userId == yorumyapan.id ? yorumyapan.username : owner.username,
+                              style:const TextStyle(fontSize:18,fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex:2,
+                          child:Padding(
+                            padding:const EdgeInsets.all(8),
+                            child:SizedBox(
+                              height: 50,
+                              child:Align(
+                                alignment: Alignment.topRight,
+                                child:Card(
+                                  color:Colors.black,
+                                  child:Padding(
+                                    padding:const EdgeInsets.all(8),
+                                    child:Text(
+                                      liste[i].date,
+                                      style:const TextStyle(color:Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ]
+                    ),
+                    const Divider(color:Colors.black,),
+                    Padding(
+                      padding:const EdgeInsets.only(left:15,top:15,bottom:10,right:10),
+                      child:Text(
+                        liste[i].content,
+                        style:const TextStyle(fontSize:15),
                       ),
                     ),
-                        //Text(yorumyapan.username,style: const TextStyle(fontSize: 20)),
-                  ),
+                  ],
                 ),
-                Expanded(
-                  flex:2,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top:8,left:8,right:8),
-                    child:Text(yorumyapan.username , style:const TextStyle(fontSize:18, fontWeight: FontWeight.bold),),
-                  ),
-                ),
-                Expanded(
-                  flex:2,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      height: 50,
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: Card(
-                          color: Colors.black,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 8, left: 8, bottom: 8, right: 8),
-                            child: Text(
-                              comment.date.toString(),
-                              style: const TextStyle(color: Colors.white)
+              ),
+            ),
+          ),
+        );
+      }
+    }
+    Column gonder = Column(
+      children:g,
+    );
+
+    
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 5),
+      child: Column(
+        children: [
+          SizedBox(
+            child: Card(
+              color: Colors.white,
+              shape:
+                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              shadowColor: Colors.black,
+              elevation: 20,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(children: [
+                    Expanded(
+                      flex:1,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top:8,left:8,right:8),
+                        child:ClipOval(
+                          child:SizedBox.fromSize(
+                            size:const Size.fromRadius(30),
+                            child:Image.network(
+                              yorumyapan.image,
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
                       ),
                     ),
+                    Expanded(
+                      flex:2,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top:8,left:8,right:8),
+                        child:Text(yorumyapan.username , style:const TextStyle(fontSize:18, fontWeight: FontWeight.bold),),
+                      ),
+                    ),
+                    Expanded(
+                      flex:2,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          height: 50,
+                          child: Align(
+                            alignment: Alignment.topRight,
+                            child: Card(
+                              color: Colors.black,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 8, left: 8, bottom: 8, right: 8),
+                                child: Text(
+                                  comment.date.toString(),
+                                  style: const TextStyle(color: Colors.white)
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ]),
+                  Divider(
+                    color: Colors.black,
                   ),
-                ),
-              ]),
-              Divider(
-                color: Colors.black,
+                  Padding(
+                    padding: const EdgeInsets.only(left:15,top:15,bottom:10,right:10),
+                    child: Text(
+                      comment.content,
+                      style: const TextStyle(fontSize:15)
+                      //overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(left:15,top:15,bottom:10,right:10),
-                child: Text(
-                  comment.content,
-                  style: const TextStyle(fontSize:15)
-                  //overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+          
+          gonder,
+        ],
       ),
     );
   }

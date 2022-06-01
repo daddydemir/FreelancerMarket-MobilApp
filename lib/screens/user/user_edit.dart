@@ -77,44 +77,45 @@ class _userEditState extends State {
       backgroundColor: const Color(0xfff4f5f7),
       body: user == null
           ? Center(child: LoadAnim())
-          : Padding(
-              padding: const EdgeInsets.all(16),
-              child: Expanded(
-                  child: Padding(
-                padding: const EdgeInsets.only(left: 7, top: 7, right: 7),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+          : SizedBox(
+            height:MediaQuery.of(context).size.height,
+            child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Expanded(
+                    child: Padding(
+                  padding: const EdgeInsets.only(left: 7, top: 7, right: 7),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    color: Colors.white,
+                    shadowColor: Colors.black,
+                    elevation: 20,
+                    child: SingleChildScrollView(
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            resim(user.imagePath),
+                            kullaniciIsmi(user.username),
+                            Yazi("Ad"),
+                            _isim(user.name),
+                            Yazi("Soyad"),
+                            _soyisim(user.surname),
+                            Yazi("Mail"),
+                            _mail(user.email),
+                            Yazi("Unvan"),
+                            _unvan(user.appellation),
+                            Yazi("Hakkımda"),
+                            _hakkimda(user.about),
+                            Parola(),
+                            Kaydet(),
+                          ]),
+                    ),
                   ),
-                  color: Colors.white,
-                  shadowColor: Colors.black,
-                  elevation: 20,
-                  child: SizedBox(
-                      height: MediaQuery.of(context).size.height,
-                      child: SingleChildScrollView(
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              resim(user.imagePath),
-                              kullaniciIsmi(user.username),
-                              Yazi("Ad"),
-                              _isim(user.name),
-                              Yazi("Soyad"),
-                              _soyisim(user.surname),
-                              Yazi("Mail"),
-                              _mail(user.email),
-                              Yazi("Unvan"),
-                              _unvan(user.appellation),
-                              Yazi("Hakkımda"),
-                              _hakkimda(user.about),
-                              Parola(),
-                              Kaydet(),
-                            ]),
-                      )),
-                ),
-              )),
-            ),
+                )),
+              ),
+          ),
     );
   }
 

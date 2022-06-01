@@ -32,7 +32,7 @@ class AdvertCommentApi {
 
   Future getByAdvertId(Advert advert) async {
     var url = Uri.parse(
-        "https://freelancermarket-backend.herokuapp.com/api/advertComments/getByAdvertId?advertCommentId=" +
+        "https://freelancer-market-backend.herokuapp.com/api/advertComments/getByAdvertId?advertId=" +
             advert.id.toString());
     return await http.get(url);
   }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import '../api/Advert-comment.dart';
 import '../models/advert.dart';
+import '../models/commentResponse.dart';
 import '../models/comments.dart';
 import '../models/user.dart';
 
@@ -11,6 +12,7 @@ class CommentService{
 
  Future<List> getByAdvertId(Advert advert) async {
    var list = <Comments>[];
+   var responselist = <CommentResponse>[];
    var userlist = <User>[];
 
    var r = await api.getByAdvertId(advert);
@@ -20,10 +22,16 @@ class CommentService{
       for(var i in data){
         list.add(Comments.fromJson(i));
         userlist.add(User.forCommentsFromJson(i["user"]));
+        if(i["advertCommentResponses"] != null){
+          for(var m in i["advertCommentResponses"]){
+          responselist.add(CommentResponse.fromJson(m));
+        }
+        }
       }
-      return [list , userlist];
+      return [list , userlist , responselist];
    }else{
-     return [list , userlist];
+     print(r.statusCode.toString());
+     return [list , userlist, responselist];
    }
  }
 }
