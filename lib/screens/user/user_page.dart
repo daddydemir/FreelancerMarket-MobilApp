@@ -11,6 +11,7 @@ import '../../models/_User.dart';
 import '../../service/auth/logoutService.dart';
 import '../../service/user/userService.dart';
 import '../AdvertPages/favori_adverts.dart';
+import '../OrderPage/myOrders.dart';
 import 'employer_edit.dart';
 import 'myAdverts.dart';
 
@@ -226,7 +227,9 @@ class _userPageState extends State {
 
   Widget sepetim() {
     return InkWell(
-      onTap: (){},
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>  MyOrders()));
+      },
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Row(

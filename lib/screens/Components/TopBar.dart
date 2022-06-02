@@ -16,7 +16,7 @@ class _topBarState extends State{
     return Padding(
       padding: const EdgeInsets.only(
         left: 10.0,
-        top: 20,
+        top: 30,
       ),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         const Image(

@@ -7,6 +7,7 @@ import 'package:freelancer_market/screens/home/sub_category.dart';
 
 import '../service/category/topCategoryService.dart';
 import 'Components/SearchBar.dart';
+import 'Components/TopBar.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -56,7 +57,8 @@ class _mainPageState extends State {
     //  bottomNavigationBar: MyBottomBar(),
       backgroundColor: const Color(0xfff4f5f7),
       body: Column(children: [
-        topMenu(),
+        TopBar(),
+        //topMenu(),
         SearchBar(),
         Expanded(
           child: SizedBox(

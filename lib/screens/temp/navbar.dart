@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freelancer_market/screens/home/home_page.dart';
 import 'package:freelancer_market/screens/main_page.dart';
-import 'package:freelancer_market/screens/temp/test2.dart';
 import 'package:freelancer_market/screens/user/user_page.dart';
 
 import '../messages/chatUsers.dart';
@@ -32,9 +31,9 @@ class _navBarState extends State {
     else if(_selectedIndex == 3){
       return UserPage();
     }
-    else if(_selectedIndex == 4){
+    /* else if(_selectedIndex == 4){
       return const Test13();
-    }
+    } */
   }
   void _onItemTapped(int index) {
     setState(() {
@@ -61,15 +60,11 @@ class _navBarState extends State {
   List<BottomNavigationBarItem> get metod1 {
     return [
       const BottomNavigationBarItem(
-        icon: Icon(Icons.burst_mode_outlined),
-        label: "Categories",
-      ),
-      const BottomNavigationBarItem(
-        icon: Icon(Icons.home), label: 'Home',
-      ),
-      const BottomNavigationBarItem(icon: Icon(Icons.message), label: 'Messages'),
-      const BottomNavigationBarItem(icon: Icon(Icons.people_rounded), label: 'User '),
-      const BottomNavigationBarItem(icon: Icon(Icons.text_snippet_rounded), label:'Test'),
+        icon: Icon(Icons.home),label: "Keşfet",),
+      const BottomNavigationBarItem(icon: Icon(Icons.grid_view_rounded), label: 'Kategoriler',),
+      const BottomNavigationBarItem(icon: Icon(Icons.message), label: 'Mesajlar'),
+      const BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: 'Profil'),
+      //const BottomNavigationBarItem(icon: Icon(Icons.text_snippet_rounded), label:'Test'),
     ];
   }
   

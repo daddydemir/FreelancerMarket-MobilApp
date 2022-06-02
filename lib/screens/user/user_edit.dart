@@ -348,6 +348,7 @@ class _userEditState extends State {
     if (file.path != "") {
       return Center(
         child: Stack(
+          fit: StackFit.expand,
           children: [
             Align(
               child: ClipOval(
@@ -378,7 +379,9 @@ class _userEditState extends State {
       );
     } else {
       return Center(
-        child: Stack(children: [
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
           Align(
             child: ClipOval(
               child: SizedBox.fromSize(

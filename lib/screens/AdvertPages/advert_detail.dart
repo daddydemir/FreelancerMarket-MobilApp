@@ -14,6 +14,7 @@ import '../../models/freelancer.dart';
 import '../../models/user.dart';
 import '../../service/advert/advertService.dart';
 import '../../service/commentService.dart';
+import '../../service/orderService.dart';
 import '../../service/user/freelancerService.dart';
 import '../../service/user/userService.dart';
 
@@ -35,6 +36,9 @@ class _advertDetailPageState extends State {
   var cs = CommentService();
   var fs = FreelancerService();
   var us = UserService();
+  var os = OrderService();
+
+  bool buttonDisable = false;
   
   List<CommentResponse> yorumyanitlar = [];
   List<Comments> yorumlar = [];
@@ -47,6 +51,18 @@ class _advertDetailPageState extends State {
   @override
   initState() {
     _veriGetir();
+  }
+  
+  siparisVerme() async {
+    var status = await os.orderAdd(advert);
+    if(status){
+      print("Sipariş verildi, onay bekleniyor.");
+      buttonDisable = true;
+      setState(() {});
+    }
+    else{
+      print("Hata");
+    }
   }
 
   ilanGetir() async {
@@ -158,7 +174,9 @@ class _advertDetailPageState extends State {
       elevation: 20,
       shadowColor: Colors.black,
       child:ElevatedButton(
-        onPressed: () {},
+        onPressed: buttonDisable ? null : () {
+          siparisVerme();
+        },
         child:const Center(child: Text("Sipariş ver")),
       ),
     );
@@ -344,10 +362,10 @@ class _advertDetailPageState extends State {
       for(int i=0;i<liste.length;i++){
         g.add(
           Padding(
-            padding:const EdgeInsets.only(bottom:5,left:15,right:15),
+            padding:const EdgeInsets.only(bottom:0,left:15),
             child:SizedBox(
               child:Card(
-                color:Colors.transparent,
+                color:Colors.white,
                 shape:RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
