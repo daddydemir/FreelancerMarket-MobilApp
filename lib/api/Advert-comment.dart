@@ -7,7 +7,12 @@ import 'package:freelancer_market/models/advert.dart';
 import 'package:freelancer_market/models/sql_user.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/_User.dart';
+import '../models/comments.dart';
+
 class AdvertCommentApi {
+
+
   static Future add(SqlUser user) async {
     var url = Uri.parse(
         "https://freelancermarket-backend.herokuapp.com/api/advertComments/add");
@@ -35,5 +40,21 @@ class AdvertCommentApi {
         "https://freelancer-market-backend.herokuapp.com/api/advertComments/getByAdvertId?advertId=" +
             advert.id.toString());
     return await http.get(url);
+  }
+
+  Future commentResponseAdd(Comments comment , Users user , String yorum) async {
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/advertCommentResponses/add");
+    return await http.post(
+      url,
+      headers:{
+        'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader:"Bearer "+user.token,
+      },
+      body: jsonEncode(<dynamic , dynamic>{
+        "advertCommentId": comment.id,
+        "userId": user.id,
+        "content": yorum
+      }),
+    );
   }
 }

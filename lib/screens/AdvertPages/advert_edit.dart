@@ -1,5 +1,5 @@
 
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, must_be_immutable, camel_case_types, no_logic_in_create_state, prefer_final_fields, non_constant_identifier_names
 
 import 'dart:io';
 

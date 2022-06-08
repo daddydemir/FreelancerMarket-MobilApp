@@ -42,7 +42,7 @@ class _messagePageState extends State{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffFFF5CC),
+      backgroundColor: Colors.red[100], //Color(0xffFFF5CC),
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
@@ -121,7 +121,9 @@ class _messagePageState extends State{
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(20)
+                              bottomRight: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                              bottomLeft: Radius.circular(20)
                             ),
                           ),
                           color: (data["from"] != from

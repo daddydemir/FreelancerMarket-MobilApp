@@ -239,7 +239,7 @@ class _homePageState extends State with TickerProviderStateMixin {
             Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SubCategoryIdForAdvertPage(index: category.id),
+                        builder: (context) => SubCategoryIdForAdvertPage(index: category.id, ilanIsmi: category.name),
                       ),
                     );
           },

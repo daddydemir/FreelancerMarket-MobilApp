@@ -4,6 +4,7 @@ import 'package:freelancer_market/models/advert.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/_User.dart';
+import '../models/order.dart';
 class OrderApi{
 
   // yeni backend çalışmıyor.
@@ -23,8 +24,10 @@ class OrderApi{
   }
 
   // eksik -> neyin id'sini istiyor emin değilim. : orderId sanırım.
-  static Future confirm(Users user) async{
-    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/orders/confirm?id=");
+  // onaylama işlemi sipariş veren kişiye hizmet edildiği takdirde ödeme yapan kişi onaylar ve para freelancera geçer
+  // bunu neden bu kadar geç anladım ben yaa 
+  Future confirm(Users user, Order order) async{
+    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/orders/confirm?id="+order.id.toString());
     return await http.post(
       url,
       headers:{
@@ -38,23 +41,20 @@ class OrderApi{
     return await http.get(
       url,
       headers:{
-        HttpHeaders.authorizationHeader:"Bearer "+user.token,
+        //HttpHeaders.authorizationHeader:"Bearer "+user.token,
       }
     );
   }
   
-  static Future getByFreelancerId(Users user) async{
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/orders/getByFreelancerId?id="+user.id.toString());
+  Future getByFreelancerId(Users user) async{
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/orders/getByFreelancerId?id=" + user.id.toString());
     return await http.get(
       url,
-      headers:{
-        HttpHeaders.authorizationHeader:"Bearer "+user.token,
-      }
     );
   }
 
   // 
-  static Future getByUserId(Users user) async{
+  Future getByUserId(Users user) async{
     var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/orders/getByUserId?id="+user.id.toString());
     return await http.get(
       url,

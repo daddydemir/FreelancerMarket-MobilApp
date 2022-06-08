@@ -116,7 +116,7 @@ class _chatPage extends State {
                         backgroundImage: AssetImage("lib/assets/nouser.png"),
                       ),
                       title:Text(liste[index]),
-                      subtitle: const Text("Selam aga nasılsın"),
+                      subtitle: const Text("iyi günler dilerim."),
                     ),
                   );
                 },

@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:freelancer_market/screens/Test/temp_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'screens/first.dart';

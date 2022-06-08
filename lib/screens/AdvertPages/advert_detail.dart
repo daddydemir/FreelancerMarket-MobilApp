@@ -1,6 +1,5 @@
-// ignore_for_file: camel_case_types, use_key_in_widget_constructors, slash_for_doc_comments, no_logic_in_create_state, prefer_const_constructors_in_immutables, must_call_super, unnecessary_null_comparison, avoid_print, prefer_is_empty
+// ignore_for_file: camel_case_types, use_key_in_widget_constructors, slash_for_doc_comments, no_logic_in_create_state, prefer_const_constructors_in_immutables, must_call_super, unnecessary_null_comparison, avoid_print, prefer_is_empty, prefer_typing_uninitialized_variables, prefer_const_constructors
 
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:freelancer_market/models/advert.dart';
@@ -26,7 +25,7 @@ class AdvertDetailPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _advertDetailPageState(advert);
 }
-
+ // #TODO eğer bu adam sipariş vermişsse yorum yapabilecek onu kontrol etmem lazım.=> mesajgonderme = true; 
 class _advertDetailPageState extends State {
   _advertDetailPageState(this.advert);
 
@@ -39,7 +38,10 @@ class _advertDetailPageState extends State {
   var os = OrderService();
 
   bool buttonDisable = false;
-  
+  var yorum = TextEditingController();
+  var focusnode = FocusNode();
+  bool mesajgonderme = false;
+
   List<CommentResponse> yorumyanitlar = [];
   List<Comments> yorumlar = [];
   List<User> yorumYapanlar = [];
@@ -47,27 +49,36 @@ class _advertDetailPageState extends State {
   Users authUser = Users.empty();
   List temp = [];
   Freelancer owner = Freelancer.empty();
-  
+
   @override
   initState() {
     _veriGetir();
   }
-  
+
+  yorumYapma() async {}
+
   siparisVerme() async {
+    final snackbar;
     var status = await os.orderAdd(advert);
-    if(status){
-      print("Sipariş verildi, onay bekleniyor.");
+    if (status) {
+      snackbar = const SnackBar(
+          backgroundColor: Colors.greenAccent,
+          content: Text("Sipariş verildi, onay bekleniyor."));
       buttonDisable = true;
       setState(() {});
+    } else {
+      snackbar = const SnackBar(
+        content: Text("Beklenmedik bir hata oldu, daha sonra tekrar deneyin."),
+        backgroundColor: Colors.redAccent,
+      );
     }
-    else{
-      print("Hata");
-    }
+
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
 
   ilanGetir() async {
     ilanlar = await as.getAdvertByUserId(owner.id);
-    setState((){});
+    setState(() {});
   }
 
   ownerGetir() async {
@@ -81,7 +92,7 @@ class _advertDetailPageState extends State {
     yorumlar = temp[0];
     yorumYapanlar = temp[1];
     yorumyanitlar = temp[2];
-    setState((){});
+    setState(() {});
   }
 
   void _veriGetir() async {
@@ -92,94 +103,148 @@ class _advertDetailPageState extends State {
 
   @override
   Widget build(BuildContext context) {
-    return ilanlar.isEmpty ? Center(child:LoadAnim()) :Scaffold(
+    return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TopBar(),
-              kutu(advert),
-              information(advert),
-              siparisVer(),
-              owner == null ? Center(child: LoadAnim()) : userInfo(owner),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text("Freelancer'ın diğer ilanları",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-              ),
-              ilanlar.isEmpty
-                  ? Center(
-                      child: Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: LoadAnim(),
-                    ))
-                  : Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: SizedBox(
-                        height: 260,
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: ilanlar.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return ilanItem(ilanlar[index]);
-                            }),
-                      ),
+          child: ilanlar.isEmpty
+              ? Center(child: LoadAnim())
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TopBar(),
+                    kutu(advert),
+                    information(advert),
+                    siparisVer(),
+                    owner == null ? Center(child: LoadAnim()) : userInfo(owner),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text("Freelancer'ın diğer ilanları",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20)),
                     ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text("Yorumlar",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-              ),
-              yorumlar.isEmpty
-                  ? Center(child: LoadAnim())
-                  : Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: SizedBox(
-                        height: 500,
-                        child: ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            itemCount: yorumlar.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              List<CommentResponse> temp = <CommentResponse>[];
-                              for(int i =0;i<yorumyanitlar.length; i++){
-                                if(yorumlar[index].id == yorumyanitlar[i].advertCommentId){
-                                  temp.add(yorumyanitlar[i]);
-                                }
-                              }
-                              return yorumAlani(yorumlar[index] , temp);
-                            }),
-                      ),
+                    ilanlar.isEmpty
+                        ? Center(
+                            child: Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: LoadAnim(),
+                          ))
+                        : Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: SizedBox(
+                              height: 260,
+                              child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: ilanlar.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return ilanItem(ilanlar[index]);
+                                  }),
+                            ),
+                          ),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text("Yorumlar",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20)),
                     ),
-            ],
-          ),
+                    yorumlar.isEmpty
+                        ? Center(child: LoadAnim())
+                        : Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: SizedBox(
+                              height: 500,
+                              child: ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  itemCount: yorumlar.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    List<CommentResponse> temp =
+                                        <CommentResponse>[];
+                                    for (int i = 0;
+                                        i < yorumyanitlar.length;
+                                        i++) {
+                                      if (yorumlar[index].id ==
+                                          yorumyanitlar[i].advertCommentId) {
+                                        temp.add(yorumyanitlar[i]);
+                                      }
+                                    }
+                                    return yorumAlani(yorumlar[index], temp);
+                                  }),
+                            ),
+                          ),
+                          Visibility(
+                            visible:mesajgonderme,
+                            child: Stack(
+                              children:[
+                                Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child:Container(
+                                    padding: const EdgeInsets.only(left: 10, bottom: 10, right: 10),
+                                    height: 60,
+                                    width: double.infinity,
+                                    color: Colors.white,
+                                    child:Row(
+                                      children:[
+                                        Expanded(
+                                          child:TextField(
+                                            focusNode: focusnode,
+                                            controller:yorum,
+                                            decoration:InputDecoration(
+                                              hintText: "görüşlerinizi belirtin . . .",
+                                              hintStyle: TextStyle(color:Colors.black54),
+                                              border:InputBorder.none,
+                                            ),
+                                          ),
+                                        ),
+                                        FloatingActionButton(
+                                          onPressed: (){
+                                            print(yorum.text);
+                                            yorum.clear();
+                                          },
+                                          child: Icon(
+                                            Icons.send,
+                                            color:Colors.white,
+                                            size:18
+                                          ),
+                                          backgroundColor: Colors.blue,
+                                          elevation:0
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                  ],
+                ),
         ),
       ),
     );
   }
 
   Widget siparisVer() {
-    if(advert.freelancer_id == authUser.id){
+    if (advert.freelancer_id == authUser.id) {
       // kişi kendi ilanını sipariş veremez . . .
       return const SizedBox();
-    }else{
+    } else {
       return Card(
-        color:Colors.transparent,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      elevation: 20,
-      shadowColor: Colors.black,
-      child:ElevatedButton(
-        onPressed: buttonDisable ? null : () {
-          siparisVerme();
-        },
-        child:const Center(child: Text("Sipariş ver")),
-      ),
-    );
+        color: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        elevation: 20,
+        shadowColor: Colors.black,
+        child: ElevatedButton(
+          onPressed: buttonDisable
+              ? null
+              : () {
+                  siparisVerme();
+                },
+          child: const Center(child: Text("Sipariş ver")),
+        ),
+      );
     }
   }
 
@@ -336,7 +401,9 @@ class _advertDetailPageState extends State {
                           icon: const Icon(Icons.favorite),
                           iconSize: 32,
                           color: const Color(0xffe83c5f),
-                          onPressed: () {}),
+                          onPressed: () {
+                            
+                          }),
                     ),
                   ),
                 ],
@@ -350,102 +417,126 @@ class _advertDetailPageState extends State {
     );
   }
 
-  Padding yorumAlani(Comments comment , List<CommentResponse> liste) {
+  Widget yorumAlani(Comments comment, List<CommentResponse> liste) {
     User yorumyapan = User.empyt();
-    for(int i = 0; i<yorumYapanlar.length; i++){
-      if(comment.userId == yorumYapanlar[i].id){
+    for (int i = 0; i < yorumYapanlar.length; i++) {
+      if (comment.userId == yorumYapanlar[i].id) {
         yorumyapan = yorumYapanlar[i];
       }
     }
     List<Widget> g = [];
-    if(liste.length > 0){
-      for(int i=0;i<liste.length;i++){
+    if (liste.length > 0) {
+      for (int i = 0; i < liste.length; i++) {
         g.add(
-          Padding(
-            padding:const EdgeInsets.only(bottom:0,left:15),
-            child:SizedBox(
-              child:Card(
-                color:Colors.white,
-                shape:RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                shadowColor: Colors.black,
-                elevation:20,
-                child:Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children:[
-                    Row(
-                      children:[
-                        Expanded(
-                          flex:1,
-                          child:Padding(
-                            padding:const EdgeInsets.only(top:8,left:8,right:8),
-                            child:ClipOval(
-                              child:SizedBox.fromSize(
-                                size:const Size.fromRadius(30),
-                                child:Image.network(
-                                  liste[i].userId == yorumyapan.id ? yorumyapan.image : owner.imagePath,
-                                  fit:BoxFit.cover,
+          Row(children: [
+            Expanded(
+              flex:1,
+              child: IconButton(
+                onPressed: () {
+                  FocusScope.of(context).requestFocus(focusnode);
+                },
+                icon: Icon(Icons.redo_outlined),
+                iconSize: 35,
+                color:Colors.red,
+              ),
+            ),
+            Expanded(
+              flex:5,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 0, left:0),
+                child: SizedBox(
+                  child: Card(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    shadowColor: Colors.black,
+                    elevation: 20,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(children: [
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 8, left: 8, right: 8),
+                              child: ClipOval(
+                                child: SizedBox.fromSize(
+                                  size: const Size.fromRadius(25),
+                                  child: Image.network(
+                                    liste[i].userId == yorumyapan.id
+                                        ? yorumyapan.image
+                                        : owner.imagePath,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          flex:2,
-                          child:Padding(
-                            padding:const EdgeInsets.only(top:8,left:8,right:8),
-                            child:Text(
-                              liste[i].userId == yorumyapan.id ? yorumyapan.username : owner.username,
-                              style:const TextStyle(fontSize:18,fontWeight: FontWeight.bold),
+                          Expanded(
+                            flex: 2,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 8, left: 8, right: 8),
+                              child: Text(
+                                liste[i].userId == yorumyapan.id
+                                    ? yorumyapan.username
+                                    : owner.username,
+                                style: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          flex:2,
-                          child:Padding(
-                            padding:const EdgeInsets.all(8),
-                            child:SizedBox(
-                              height: 50,
-                              child:Align(
-                                alignment: Alignment.topRight,
-                                child:Card(
-                                  color:Colors.black,
-                                  child:Padding(
-                                    padding:const EdgeInsets.all(8),
-                                    child:Text(
-                                      liste[i].date,
-                                      style:const TextStyle(color:Colors.white),
+                          Expanded(
+                            flex: 2,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: SizedBox(
+                                height: 50,
+                                child: Align(
+                                  alignment: Alignment.topRight,
+                                  child: Card(
+                                    color: Colors.black,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8),
+                                      child: Text(
+                                        liste[i].date,
+                                        style:
+                                            const TextStyle(color: Colors.white),
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
+                        ]),
+                        const Divider(
+                          color: Colors.black,
                         ),
-                      ]
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15, top: 15, bottom: 10, right: 10),
+                          child: Text(
+                            liste[i].content,
+                            style: const TextStyle(fontSize: 15),
+                          ),
+                        ),
+                      ],
                     ),
-                    const Divider(color:Colors.black,),
-                    Padding(
-                      padding:const EdgeInsets.only(left:15,top:15,bottom:10,right:10),
-                      child:Text(
-                        liste[i].content,
-                        style:const TextStyle(fontSize:15),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
+          ]),
         );
       }
     }
     Column gonder = Column(
-      children:g,
+      children: g,
     );
 
-    
     return Padding(
       padding: const EdgeInsets.only(bottom: 5),
       child: Column(
@@ -453,8 +544,8 @@ class _advertDetailPageState extends State {
           SizedBox(
             child: Card(
               color: Colors.white,
-              shape:
-                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
               shadowColor: Colors.black,
               elevation: 20,
               child: Column(
@@ -462,13 +553,14 @@ class _advertDetailPageState extends State {
                 children: [
                   Row(children: [
                     Expanded(
-                      flex:1,
+                      flex: 1,
                       child: Padding(
-                        padding: const EdgeInsets.only(top:8,left:8,right:8),
-                        child:ClipOval(
-                          child:SizedBox.fromSize(
-                            size:const Size.fromRadius(30),
-                            child:Image.network(
+                        padding:
+                            const EdgeInsets.only(top: 8, left: 8, right: 8),
+                        child: ClipOval(
+                          child: SizedBox.fromSize(
+                            size: const Size.fromRadius(30),
+                            child: Image.network(
                               yorumyapan.image,
                               fit: BoxFit.cover,
                             ),
@@ -477,14 +569,19 @@ class _advertDetailPageState extends State {
                       ),
                     ),
                     Expanded(
-                      flex:2,
+                      flex: 2,
                       child: Padding(
-                        padding: const EdgeInsets.only(top:8,left:8,right:8),
-                        child:Text(yorumyapan.username , style:const TextStyle(fontSize:18, fontWeight: FontWeight.bold),),
+                        padding:
+                            const EdgeInsets.only(top: 8, left: 8, right: 8),
+                        child: Text(
+                          yorumyapan.username,
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
                     Expanded(
-                      flex:2,
+                      flex: 2,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: SizedBox(
@@ -496,10 +593,9 @@ class _advertDetailPageState extends State {
                               child: Padding(
                                 padding: const EdgeInsets.only(
                                     top: 8, left: 8, bottom: 8, right: 8),
-                                child: Text(
-                                  comment.date.toString(),
-                                  style: const TextStyle(color: Colors.white)
-                                ),
+                                child: Text(comment.date.toString(),
+                                    style:
+                                        const TextStyle(color: Colors.white)),
                               ),
                             ),
                           ),
@@ -507,22 +603,21 @@ class _advertDetailPageState extends State {
                       ),
                     ),
                   ]),
-                  Divider(
+                  const Divider(
                     color: Colors.black,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left:15,top:15,bottom:10,right:10),
-                    child: Text(
-                      comment.content,
-                      style: const TextStyle(fontSize:15)
-                      //overflow: TextOverflow.ellipsis,
-                    ),
+                    padding: const EdgeInsets.only(
+                        left: 15, top: 15, bottom: 10, right: 10),
+                    child: Text(comment.content,
+                        style: const TextStyle(fontSize: 15)
+                        //overflow: TextOverflow.ellipsis,
+                        ),
                   ),
                 ],
               ),
             ),
           ),
-          
           gonder,
         ],
       ),

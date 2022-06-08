@@ -71,12 +71,11 @@ class _subCategoryPageState extends State {
         elevation: 20,
         child: InkWell(
           onTap: () {
-            print("Sub Category : " + data.name);
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) =>
-                    SubCategoryIdForAdvertPage(index: data.id),
+                    SubCategoryIdForAdvertPage(index: data.id, ilanIsmi: data.name),
               ),
             );
           },

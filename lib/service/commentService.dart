@@ -1,4 +1,8 @@
+// ignore_for_file: avoid_print, file_names
+
 import 'dart:convert';
+
+import 'package:freelancer_market/service/user/userService.dart';
 
 import '../api/Advert-comment.dart';
 import '../models/advert.dart';
@@ -9,6 +13,18 @@ import '../models/user.dart';
 class CommentService{
 
  var api = AdvertCommentApi(); 
+ var us = UserService();
+
+ Future<bool> yorumYanitlama(String yorum, Comments comment) async {
+   var r = await api.commentResponseAdd(comment, await us.getUser(), yorum);
+   if(r.statusCode == 200){
+     print("Eklendi");
+     return true;
+   }else{
+     print("Hata");
+     return false;
+   }
+ }
 
  Future<List> getByAdvertId(Advert advert) async {
    var list = <Comments>[];

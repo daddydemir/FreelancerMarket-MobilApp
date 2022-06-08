@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, non_constant_identifier_names, prefer_typing_uninitialized_variables, no_logic_in_create_state, duplicate_ignore, camel_case_types, prefer_final_fields, unused_field, unnecessary_null_comparison, dead_code, avoid_print, prefer_const_constructors
+// ignore_for_file: must_be_immutable, non_constant_identifier_names, prefer_typing_uninitialized_variables, no_logic_in_create_state, duplicate_ignore, camel_case_types, prefer_final_fields, unused_field, unnecessary_null_comparison, dead_code, avoid_print, prefer_const_constructors, avoid_unnecessary_containers
 
 import 'dart:io';
 
@@ -348,7 +348,6 @@ class _userEditState extends State {
     if (file.path != "") {
       return Center(
         child: Stack(
-          fit: StackFit.expand,
           children: [
             Align(
               child: ClipOval(
@@ -382,7 +381,21 @@ class _userEditState extends State {
         child: Stack(
           fit: StackFit.expand,
           children: [
-          Align(
+            Center(
+              child:Container(
+                child:ClipOval(
+              child: SizedBox.fromSize(
+                size: const Size.fromRadius(70),
+                child: Image.network(
+                  pr,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+              ),
+            )
+            ,
+        /*   Align(
             child: ClipOval(
               child: SizedBox.fromSize(
                 size: const Size.fromRadius(70),
@@ -392,7 +405,7 @@ class _userEditState extends State {
                 ),
               ),
             ),
-          ),
+          ), */
           Padding(
             padding: const EdgeInsets.only(left: 110),
             child: Align(

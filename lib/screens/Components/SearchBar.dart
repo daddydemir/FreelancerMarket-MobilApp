@@ -21,8 +21,7 @@ class _searchBarState extends State {
   
   search() async{
     liste = await service.getByFilter(text.text);
-    print(liste.length.toString());
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Search(liste:liste)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Search(liste:liste, kelime:text.text)));
   }
 
   @override

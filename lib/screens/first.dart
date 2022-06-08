@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:freelancer_market/screens/Test/temp_page.dart';
 
-import '../main.dart';
 import '../models/_User.dart';
 import '../service/user/userService.dart';
 import 'login.dart';

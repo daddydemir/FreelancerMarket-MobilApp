@@ -356,13 +356,11 @@ class _employerEdit extends State {
 
     final snackbar;
     if (response) {
-      print("Güncelleme başarılı");
       snackbar = SnackBar(
         content: Text("Başarıyla güncellendi."),
         backgroundColor: Colors.greenAccent,
       );
     } else {
-      print("Güncelleme başarısız");
       snackbar = SnackBar(
         content: Text("Güncelleme başarısız oldu."),
         backgroundColor: Colors.redAccent,

@@ -36,7 +36,11 @@ class Users {
   }
 
   Users.fromJson(Map m) {
-    token = m['jwtToken'];
+    if(null != m['jwtToken']){
+      token = m['jwtToken'];
+    }
+    print("AMK \n" + m.toString());
+    print("FİYAT : \n" + m['user'].toString());
     m = m["user"];
     id = m["id"];
     username = m["userName"];

@@ -1,4 +1,4 @@
-// ignore_for_file: unrelated_type_equality_checks, avoid_print
+// ignore_for_file: unrelated_type_equality_checks, avoid_print, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:freelancer_market/models/advert.dart';
@@ -13,20 +13,22 @@ import '../Components/TopBar.dart';
 import '../user/freelancer_detail.dart';
 
 class SubCategoryIdForAdvertPage extends StatefulWidget {
-  const SubCategoryIdForAdvertPage({Key? key, required this.index}): super(key: key);
+  SubCategoryIdForAdvertPage({Key? key, required this.index, required this.ilanIsmi}): super(key: key);
 
   final int index;
+  var ilanIsmi= "";
 
   @override
   // ignore: no_logic_in_create_state
-  State<StatefulWidget> createState() => _subCategoryIdForAdvertPageState(index);
+  State<StatefulWidget> createState() => _subCategoryIdForAdvertPageState(index,ilanIsmi);
 }
 
 // ignore: camel_case_types
 class _subCategoryIdForAdvertPageState extends State {
-  _subCategoryIdForAdvertPageState(this.index);
+  _subCategoryIdForAdvertPageState(this.index, this.ilanismi);
 
   final int index;
+  var ilanismi = "";
 
   var advertService = AdvertService();
   var freelancerService = FreelancerService();
@@ -68,7 +70,7 @@ class _subCategoryIdForAdvertPageState extends State {
           : Column(
             children: [
               TopBar(),
-              const Text("Kategori İsmi",style:TextStyle(fontSize:20)),
+              Text(ilanismi,style:const TextStyle(fontSize:20)),
               Expanded(
                 child: ListView.builder(
                     itemCount: adverts.length,
