@@ -79,4 +79,21 @@ class OrderService{
       return [];
     }
   }
+
+  Future<List<Order>> getByUserId() async {
+    List<Order> orders = [];
+    var r = await api.getByUserId(await user.getUser());
+    print(json.decode(utf8.decode(r.bodyBytes)));
+    if(r.statusCode == 200){
+      var data = json.decode(utf8.decode(r.bodyBytes));
+      for(var i in data['data']){
+        orders.add(Order.fromJson(i));
+      }
+      return orders;
+    }else{
+      print('HATA');
+      return [];
+    }
+  }
+
 }

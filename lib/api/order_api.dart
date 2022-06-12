@@ -53,13 +53,13 @@ class OrderApi{
     );
   }
 
-  // 
+  // eski backend çalışıyor sadece
   Future getByUserId(Users user) async{
     var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/orders/getByUserId?id="+user.id.toString());
     return await http.get(
       url,
       headers:{
-        HttpHeaders.authorizationHeader:"Bearer "+user.token,
+        //HttpHeaders.authorizationHeader:"Bearer "+user.token,
       }
     );
   }

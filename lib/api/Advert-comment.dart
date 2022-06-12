@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:freelancer_market/models/advert.dart';
-import 'package:freelancer_market/models/sql_user.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/_User.dart';
@@ -13,18 +12,19 @@ import '../models/comments.dart';
 class AdvertCommentApi {
 
 
-  static Future add(SqlUser user) async {
-    var url = Uri.parse(
-        "https://freelancermarket-backend.herokuapp.com/api/advertComments/add");
+  Future add(Users user , Advert advert , String comment) async {
+    
+    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/advertComments/add");
     return await http.post(url,
-        headers: <String, String>{
-          HttpHeaders.authorizationHeader: user.token,
+        headers: {
+          HttpHeaders.authorizationHeader: "Bearer " + user.token,
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, String>{
-          "advertId": "password",
-          "content": "username",
-          "userId": user.id.toString(),
+        body: jsonEncode(<String, dynamic>{
+          "advertId": advert.id,
+          "content": comment,
+          "userId": user.id,
+          "score":3
         },));
   }
 

@@ -50,4 +50,20 @@ class CommentService{
      return [list , userlist, responselist];
    }
  }
+
+ Future<bool> yorumYap(Advert advert , String comment) async {
+   var r = await api.add(await us.getUser(), advert , comment);
+   if(r.statusCode == 200){
+     return true;
+   }
+   else if(r.statusCode == 401){
+     // çıkış yapacak ve giriş yapma sayfasına atacak.
+     print("401");
+     return false;
+   }
+   else{
+     print('hata');
+     return false;
+   }
+ }
 }
