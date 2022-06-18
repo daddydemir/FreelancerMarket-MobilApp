@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 class WalletApi{
 
   Future getByUserId(Users user) async{
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/wallets/getByUserId?userId="+user.id.toString());
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/wallets/getByUserId?userId="+user.id.toString());
     return await http.get(
       url,
       headers: {
@@ -14,7 +14,7 @@ class WalletApi{
   }
 
   Future walletTransactionsGetByUserId(Users user) async{
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/walletTransactions/getByUserId?userId="+user.id.toString());
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/walletTransactions/getByUserId?userId="+user.id.toString());
     return await http.get(
       url,
       headers: {

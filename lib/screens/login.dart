@@ -63,6 +63,7 @@ class _loginState extends State {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: TextField(
               controller:password,
+              obscureText: true,
               decoration: const InputDecoration(
                 focusedBorder: OutlineInputBorder(
                   borderSide: const BorderSide(color: Color(0xfffefefe), width: 2),
@@ -88,7 +89,7 @@ class _loginState extends State {
                 foregroundColor:
                     MaterialStateProperty.all<Color>(Colors.white),
                 backgroundColor:
-                    MaterialStateProperty.all<Color>(const Color(0xff3a65aa)),
+                    MaterialStateProperty.all<Color>(const Color(0xff201a3d)),
               ),
               onPressed: (){
                 f_login();

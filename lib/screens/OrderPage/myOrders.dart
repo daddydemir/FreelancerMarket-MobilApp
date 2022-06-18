@@ -38,11 +38,12 @@ class _myOrders extends State {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xfff4f5f7),
-      body: Column(
+      body: adverts.isEmpty ? Center(child:LoadAnim()) 
+      : Column(
         children: [
           TopBar(),
           SearchBar(),
-          adverts.isEmpty ? LoadAnim() : liste(),
+          liste(),
         ],
       ),
     );
@@ -80,7 +81,7 @@ class _myOrders extends State {
                   child:Column(
                     children:[
                       IconButton(
-                        icon: const Icon(Icons.verified_outlined),
+                        icon: const Icon(Icons.verified_user),
                         color: orders[index].status ? Colors.green : Colors.red,
                         iconSize:40,
                         onPressed: () async {
@@ -91,24 +92,16 @@ class _myOrders extends State {
                               // sipariş ok
                               orders[index].status = true;
                             }else{
-                              print("Lan oğlum neden olmadı amk ya.");
+                              print("Elbet bir sebebi vardır.");
                             }
                           }
                         }
                       ),
                       Text(users[index].username),
-                     /*  ClipOval(
-                        child:SizedBox.fromSize(
-                          size: const Size.fromRadius(30),
-                          child:Image.network(
-                            users[index].image,
-                            fit:BoxFit.cover,
-                          ),
-                        ),
-                      ), */
+                     
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(adverts[index].title, overflow: TextOverflow.ellipsis,),
+                        child: Text(adverts[index].price.toString()+ " TL", overflow: TextOverflow.ellipsis,),
                       )
                     ],
                   ),

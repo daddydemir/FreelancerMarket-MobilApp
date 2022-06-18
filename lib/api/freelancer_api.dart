@@ -14,20 +14,20 @@ import '../models/freelancer.dart';
 class FreelancerApi {
   Future getAll() async {
     var url = Uri.parse(
-        "https://freelancermarket-backend.herokuapp.com/api/freelancers/getAll");
+        "https://freelancer-market-backend.herokuapp.com/api/freelancers/getAll");
     return await http.get(url);
   }
 
   Future getById(int index) async {
     var url = Uri.parse(
-        "https://freelancermarket-backend.herokuapp.com/api/freelancers/getById?id=" +
+        "https://freelancer-market-backend.herokuapp.com/api/freelancers/getById?id=" +
             index.toString());
     return await http.get(url);
   }
 
   Future getMostPopularFreelancers() async {
     var url = Uri.parse(
-        "https://freelancermarket-backend.herokuapp.com/api/freelancers/getMostPopularFreelancers");
+        "https://freelancer-market-backend.herokuapp.com/api/freelancers/getMostPopularFreelancers");
     return await http.get(url);
   }
 
@@ -48,7 +48,7 @@ class FreelancerApi {
 
   Future update(Users user , Freelancer freelancer) async {
     var url = Uri.parse(
-        "https://freelancermarket-backend.herokuapp.com/api/freelancers/update");
+        "https://freelancer-market-backend.herokuapp.com/api/freelancers/update");
     return await http.post(
       url,
       headers: {

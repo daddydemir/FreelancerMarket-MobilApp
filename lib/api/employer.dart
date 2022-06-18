@@ -19,7 +19,7 @@ class EmployerApi{
   }
 
   Future update(Users user, Employer employer) async {
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/employers/update");
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/employers/update");
     return await http.post(
       url,
       headers:{
@@ -37,7 +37,7 @@ class EmployerApi{
   }
 
   Future imageUpdate(File file, Users user) async {
-    var request = http.MultipartRequest("POST" , Uri.parse("https://freelancermarket-backend.herokuapp.com/api/employers/imageUpdate?id=" + user.id.toString()));
+    var request = http.MultipartRequest("POST" , Uri.parse("https://freelancer-market-backend.herokuapp.com/api/employers/imageUpdate?id=" + user.id.toString()));
     request.files.add(
       http.MultipartFile.fromBytes(
         "file", 

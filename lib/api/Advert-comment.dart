@@ -14,7 +14,7 @@ class AdvertCommentApi {
 
   Future add(Users user , Advert advert , String comment) async {
     
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/advertComments/add");
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/advertComments/add");
     return await http.post(url,
         headers: {
           HttpHeaders.authorizationHeader: "Bearer " + user.token,
@@ -30,7 +30,7 @@ class AdvertCommentApi {
 
   static Future delete(var s) async {
     var url = Uri.parse(
-        "https://freelancermarket-backend.herokuapp.com/api/advertComments/delete?advertCommentId" +
+        "https://freelancer-market-backend.herokuapp.com/api/advertComments/delete?advertCommentId" +
             s);
     return await http.delete(url);
   }

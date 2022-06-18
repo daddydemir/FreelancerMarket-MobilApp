@@ -104,12 +104,13 @@ class _advertDetailPageState extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
+      body:
+      ilanlar.isEmpty 
+      ? Center(child: LoadAnim())
+      : Padding(
         padding: const EdgeInsets.all(10),
         child: SingleChildScrollView(
-          child: ilanlar.isEmpty
-              ? Center(child: LoadAnim())
-              : Column(
+          child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TopBar(),
@@ -174,7 +175,7 @@ class _advertDetailPageState extends State {
                             ),
                           ),
                           Visibility(
-                            visible:mesajgonderme,
+                            visible:true,
                             child: Stack(
                               children:[
                                 Align(
@@ -293,7 +294,7 @@ class _advertDetailPageState extends State {
       padding: const EdgeInsets.all(0),
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
-        height: 100,
+        //height: 100,
         child: Card(
           color: Colors.white,
           shape: RoundedRectangleBorder(
@@ -302,7 +303,7 @@ class _advertDetailPageState extends State {
           shadowColor: Colors.black,
           elevation: 20,
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(10),
             child: Text(ilan.info,
                 style: const TextStyle(
                   fontSize: 15,
@@ -533,6 +534,7 @@ class _advertDetailPageState extends State {
         );
       }
     }
+    
     Column gonder = Column(
       children: g,
     );

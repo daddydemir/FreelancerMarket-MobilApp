@@ -6,7 +6,7 @@ class TopCategoryApi{
 
   // bunda da auth yok
   static Future add(SqlUser user, var categoryName) async{
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/topCategories/add");
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/topCategories/add");
     return await http.post(
       url,
       headers:{
@@ -19,7 +19,7 @@ class TopCategoryApi{
   }
 
   static Future delete(SqlUser user, var index) async{
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/topCategories/delete?id="+index.toString());
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/topCategories/delete?id="+index.toString());
     return await http.delete(
       url,
       headers:{
@@ -29,7 +29,7 @@ class TopCategoryApi{
   }
 
   Future getAll() async {
-    var url = Uri.parse("http://freelancermarket-backend.herokuapp.com/api/topCategories/getAll");
+    var url = Uri.parse("http://freelancer-market-backend.herokuapp.com/api/topCategories/getAll");
     return await http.get(url);
   }
 }

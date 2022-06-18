@@ -6,7 +6,7 @@ import '../models/_User.dart';
 class AuthApi{
 
   Future changePassword(Users user, var oldPass, var n1, var n2) async{
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/auth/changePassword");
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/auth/changePassword");
     return await http.post(
       url,
       headers:{
@@ -23,7 +23,7 @@ class AuthApi{
   }
 
   Future login(var username , var password) async{
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/auth/login");
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/auth/login");
     return await http.post(
       url,
       headers:{

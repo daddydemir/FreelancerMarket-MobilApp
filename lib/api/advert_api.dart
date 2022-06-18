@@ -13,7 +13,7 @@ class AdvertApi{
 
   
   Future Add(Users user , Advert advert , File file) async{
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/adverts/add");
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/adverts/add");
     var request = http.MultipartRequest('POST', url);
     request.files.add(
       http.MultipartFile.fromBytes(
@@ -35,7 +35,7 @@ class AdvertApi{
 
   // [x]
   static Future Delete(Advert advert, Users user) async {
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/adverts/delete?advertId="+advert.id.toString());
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/adverts/delete?advertId="+advert.id.toString());
     return await http.delete(
       url,
       headers:{
@@ -45,17 +45,17 @@ class AdvertApi{
   }
 
   Future getByFreelancerId(int user) async{
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/adverts/getByFreelancerId?freelancerId="+user.toString());
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/adverts/getByFreelancerId?freelancerId="+user.toString());
     return await http.get(url);
   }
 
   static  Future getById(Advert advert) async{
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/adverts/getById?id="+advert.id.toString());
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/adverts/getById?id="+advert.id.toString());
     return await http.get(url);
   }
   
   Future Update(Advert advert, File file, Users user)async{
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/adverts/update");
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/adverts/update");
     var request = http.MultipartRequest("POST",url);
     request.files.add(
       http.MultipartFile.fromBytes("file",File(file.path).readAsBytesSync(),filename:file.path,contentType:MediaType("image","jpg"))
@@ -74,17 +74,17 @@ class AdvertApi{
   }
 
   static Future getAllAdverts() async{
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/adverts/getAll");
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/adverts/getAll");
     return await http.get(url);
   }
 
   Future getBySubCategoryId(int index) async {
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/adverts/getBySubCategoryId?subCategoryId="+ index.toString());
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/adverts/getBySubCategoryId?subCategoryId="+ index.toString());
     return await http.get(url);
   }
 
   Future getMostPopularAdverts() async{
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/adverts/getMostPopularJobAdverts");
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/adverts/getMostPopularJobAdverts");
     return await http.get(url);
   }
 

@@ -6,7 +6,7 @@ class FreelancerCommentApi{
 
   // eksik
   static Future add(SqlUser user) async{
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/freelancerComments/add");
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/freelancerComments/add");
     return await http.post(
       url,
       headers:{
@@ -22,7 +22,7 @@ class FreelancerCommentApi{
 
   // eksik
   static Future delete(SqlUser user) async{
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/freelancerComments/delete");
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/freelancerComments/delete");
     return await http.delete(
       url,
       headers:{
@@ -32,7 +32,7 @@ class FreelancerCommentApi{
   }
 
   static Future getByFreelancerId(SqlUser user) async{
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/freelancerComments/getByFreelancerId?id="+ user.id.toString());
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/freelancerComments/getByFreelancerId?id="+ user.id.toString());
     return await http.get(url);
   }
 }

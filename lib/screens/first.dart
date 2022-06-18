@@ -57,7 +57,7 @@ class _first extends State<First>{
           Expanded(
             flex: 2,
             child:Center(
-              child:Text("Freelancer Market")
+              child:Text("Freelancer Market" , style:TextStyle(color: Color(0xff201a3d) , fontSize:20))
             )
           ),
         ],

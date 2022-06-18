@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 class SkillApi{
 
   static Future add(SqlUser user, var skillname) async{
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/skills/add");
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/skills/add");
     return await http.post(
       url,
       headers:{
@@ -20,7 +20,7 @@ class SkillApi{
 
   // eksik galiba skill id yi istiyor
   static Future delete(SqlUser user) async{
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/skills/delete?id=");
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/skills/delete?id=");
     return await http.delete(
       url,
       headers:{
@@ -30,7 +30,7 @@ class SkillApi{
   }
 
   static Future getByFreelancerId(var index) async{
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/skills/getByFreelancerId?id="+ index.toString());
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/skills/getByFreelancerId?id="+ index.toString());
     return await http.get(
       url,
     );

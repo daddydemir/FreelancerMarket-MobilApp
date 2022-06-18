@@ -9,7 +9,7 @@ class OrderApi{
 
   // yeni backend çalışmıyor.
   Future add(Advert advert,Users user) async{
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/orders/add");
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/orders/add");
     return await http.post(
       url,
       headers:{
@@ -27,7 +27,7 @@ class OrderApi{
   // onaylama işlemi sipariş veren kişiye hizmet edildiği takdirde ödeme yapan kişi onaylar ve para freelancera geçer
   // bunu neden bu kadar geç anladım ben yaa 
   Future confirm(Users user, Order order) async{
-    var url = Uri.parse("https://freelancermarket-backend.herokuapp.com/api/orders/confirm?id="+order.id.toString());
+    var url = Uri.parse("https://freelancer-market-backend.herokuapp.com/api/orders/confirm?id="+order.id.toString());
     return await http.post(
       url,
       headers:{
